@@ -1,0 +1,110 @@
+F14 - Load
+Setelah mengambil waktu istirahat untuk membeli ayam geprek takol, agent purry ingin melanjutkan pekerjaan yang dia tinggalkan sebelum istirahat.
+
+Prosedur ini akan memuat data yang sesuai dengan struktur data eksternal. Prosedur ini akan dijalankan sekali ketika pengguna memulai program. Cara menjalankan prosedur ini adalah dengan memberikan nama folder yang berisi file penyimpanan.
+
+Untuk prosedur ini, asumsikan bahwa seluruh file penyimpanan dalam suatu folder :
+1.	Terjamin ada
+2.	Memiliki nama yang fixed
+3.	Memiliki format yang sesuai dengan struktur data eksternal. Akan, tetapi bentuk struktur data pada program dibebaskan, silakan definisikan sendiri struktur data terbaik yang dapat digunakan pada program.
+Namun, prosedur tetap harus melakukan validasi apakah folder tersebut ada atau tidak.
+Hint: Gunakan argparse untuk menerima argumen saat menjalankan file python.
+Tutorial argparse.
+
+# DISCLAIMER: Tampilan/ interface dibebaskan, berikut hanya contoh saja
+~$ python main.py nama_folder
+# parent folder dari nama_folder akan sama seperti dalam fungsi save
+
+Loading...
+# panggil prosedur load data
+Selamat datang di program OWCA!
+# meminta perintah berikutnya… (cth : register, login, dll)
+# user tidak memberikan nama folder
+~$ python main.py
+
+Tidak ada nama folder yang diberikan!
+Usage : python main.py <nama_folder>
+# program keluar
+# user memberikan folder yang tidak ada
+~$ python main.py folder_palsu
+
+Folder “folder_palsu” tidak ditemukan.
+# program keluar
+
+
+
+
+
+
+
+
+
+
+
+
+F15 - Save
+Prosedur ini digunakan untuk menyimpan data ke dalam file yang sesuai dengan struktur data eksternal. Dalam prosedur ini, program akan meminta nama folder yang akan digunakan sebagai tempat penyimpanan file. Berikut adalah ketentuannya:
+1.	Jika nama folder tidak ditemukan, program akan membuat folder sesuai dengan masukan dan memberikan pesan bahwa ia membuat folder baru dan berhasil menyimpan data di folder tersebut.
+2.	Jika nama folder ditemukan namun belum ada file pada folder tersebut maka program akan menaruh file baru pada folder tersebut
+3.	Jika nama folder dan file sudah ada, program akan mengganti file pada folder tersebut dengan yang lebih baru dan tidak perlu memberikan pesan tambahan. (overwrite/replace)
+Note :
+1.	Tidak perlu meng-handle path ‘../’ atau ‘~/’
+2.	Boleh menentukan folder parent save, misalnya untuk contoh di bawah “./data”
+
+# nama folder tidak ditemukan, folder belum dibuat
+>>> SAVE
+
+Masukkan nama folder: 09-03-2024
+# Folder 09-03-2024 belum ada
+
+Saving…
+
+Membuat folder data/09-03-2024...
+Berhasil menyimpan data di folder data/09-03-2024!
+# nama folder ditemukan
+>>> SAVE
+
+Masukkan nama folder: 09-03-2024
+# Folder 09-03-2024 sudah ada
+
+Saving...
+
+Berhasil menyimpan data di folder data/09-03-2024!
+# apabila program melakukan overwrite/replace, tidak diperlukan pesan tambahan
+>>> SAVE
+
+Masukkan nama folder: 09-03-2024
+# Folder ./save belum ada
+
+Saving...
+
+Membuat folder data...
+Membuat folder data/09-03-2024...
+Berhasil menyimpan data di folder data/09-03-2024!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+F16 - Exit
+Agent dan Admin tidak dapat terus melakukan perjalanan mereka. Mereka merasa lelah. Pada suatu saat, Agent memutuskan untuk menyerah saja. The Mighty God mendengarkan permintaan mereka dan menyediakan suatu command lagi, yaitu exit. Namun, The Mighty God masih memberikan kesempatan bagi para Agent dan Admin jika masih ingin melanjutkan petualangan mereka. Agent dan Admin diarahkan untuk melakukan save terlebih dahulu sebelum keluar dari petualangan mereka.
+
+>>> EXIT
+Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) n
+# Keluar program
+>>> EXIT
+# Contoh input tidak valid
+Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) a
+Apakah Anda mau melakukan penyimpanan file yang sudah diubah? (y/n) Y
+# Menjalankan prosedur save (F15) dan keluar program
+
