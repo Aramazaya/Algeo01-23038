@@ -1,4 +1,26 @@
 public  class MatrixFunction {
+    public static void printMatrix(double[][] matrix){
+        int row = matrix.length;
+        int col = matrix[0].length;
+        for (int i = 0 ; i < row ; i++){
+            for(int j = 0 ; j < col ; j++){
+                System.out.printf("%.2f ", matrix[i][j]);
+            }
+            System.out.printf("\n");
+        }
+        System.out.printf("\n");
+    }
+
+    public static void printArray(double[] array){
+        int length = array.length;
+
+        for (int i = 0; i<length; i++){
+            System.out.printf("%.2f\n", array[i]);
+        }
+        System.out.printf("\n");
+
+    }
+
     // Mencari baris yang memiliki semua nilainya nol
     public static boolean rowZero (double[][] matrix, int rowIndex){
         int col;
@@ -10,10 +32,13 @@ public  class MatrixFunction {
         return true;
     }
     
-    public static boolean colZero (double[][] matrix, int colIndex){
-        int row;
-        for(row = 0; row < matrix[colIndex].length ; row++ ){
-            if(matrix[row][colIndex] != 0){
+    public static boolean colZero(double[][] matrix, int colIndex) {
+        if (colIndex < 0 || colIndex >= matrix[0].length) {
+            throw new IllegalArgumentException("Column index is out of bounds.");
+        }
+        
+        for (int row = 0; row < matrix.length; row++) {
+            if (matrix[row][colIndex] != 0) {
                 return false;
             }
         }
@@ -51,7 +76,14 @@ public  class MatrixFunction {
         if(maxRow != currRow){
             swapRow(matrix, maxRow, currRow);
         }
-
     }
+
+    public static void setColumnElement(double[][] matrix, int colIndex, double[] values) {
+        int row = matrix.length;
+        for (int i = 0; i < row; i++) {
+            matrix[i][colIndex] = values[i]; 
+        }
+    }
+    
     
 }

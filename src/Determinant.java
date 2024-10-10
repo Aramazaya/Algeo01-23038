@@ -6,6 +6,10 @@ public class Determinant {
         boolean swapped;
         row = matrix.length;
 
+        if (row == 0 || matrix[0].length != row) {
+            throw new IllegalArgumentException("Matrix harus kotak (n x n).");
+        }
+
         // Mengecek kasus determinan nol
         for (i = 0; i<row; i++){
             if (MatrixFunction.rowZero(matrix, i)){
