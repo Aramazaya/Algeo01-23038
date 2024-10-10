@@ -1,3 +1,5 @@
+package Algeo.Primitive;
+
 public  class MatrixFunction {
     public static void printMatrix(double[][] matrix){
         int row = matrix.length;

@@ -1,4 +1,4 @@
-
+package Algeo.Primitive;
 public class Determinant {
     public static double rowReductionDeterminant(double[][] matrix){
         int i, j, k, row;

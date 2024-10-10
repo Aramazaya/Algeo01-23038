@@ -1,3 +1,5 @@
+package Algeo.Primitive;
+
 public class Cramer {
     public static double[] CramerSolver (double[][] matrix){
         // Prekondisi matriks harus n x n
