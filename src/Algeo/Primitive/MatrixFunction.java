@@ -86,6 +86,23 @@ public  class MatrixFunction {
             matrix[i][colIndex] = values[i]; 
         }
     }
+    public static void setColumnOneElement(double[][] matrix, int colIndex, double values) {
+        int row = matrix.length;
+        for (int i = 0; i < row; i++) {
+            matrix[i][colIndex] = values; 
+        }
+    }
+
+    public static double[] stripMatrix(double[][] matrix, int colIndex){
+        int row = matrix.length;
+
+        double[] resultArray = new double[row];
+        for (int i = 0; i < row; i++){
+            resultArray[i] = matrix[i][colIndex];
+        }
+
+        return resultArray;
+    }
     
     
 }

@@ -40,7 +40,7 @@ public class Cramer {
     }
 
     // Mengekstrak matriks hasil atau matriks B pada persamaan Ax = B
-    private static double[] stripVectorB(double[][] matrix){
+    public static double[] stripVectorB(double[][] matrix){
         int row = matrix.length;
         int col = matrix[0].length;
 
