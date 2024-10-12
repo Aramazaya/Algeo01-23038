@@ -2,13 +2,13 @@ package Algeo.Primitive;
 
 public class BasicFunction {
 
-    public static double[][] inputMatrix() throws Exception{
+    public static double[][] inputMatrix(){
         int n,m;
         n = m = 0;
         boolean validInput = false;
         while (!validInput){
             System.out.print("Masukan Jumlah Baris : ");
-            String input = readInput().trim();
+            try{String input = readInput().trim();
             try {
                 n=Integer.parseInt(input);
                 if (n>0) {
@@ -16,12 +16,14 @@ public class BasicFunction {
                 } else {System.out.println("Yang Bener Kontol");}
             } catch (NumberFormatException e){
                 System.out.println("Angka Goblog");
-            }
-        }
+            }} catch (Exception e){
+                System.out.println("An Error Occured. Please Try Again.");
+        }}
         validInput = false;
         while (!validInput){
             System.out.print("Masukan Jumlah Kolom : ");
-            String input = readInput().trim();
+            try{
+                String input = readInput().trim();
             try {
                 m=Integer.parseInt(input);
                 if (m>0) {
@@ -29,6 +31,8 @@ public class BasicFunction {
                 } else {System.out.println("Yang Bener Kontol");}
             } catch (NumberFormatException e){
                 System.out.println("Angka Goblog");
+            }} catch (Exception e){
+                System.out.println("An Error Occured. Please Try Again.");
             }
         }
         double[][] matrix = new double[n][m];
@@ -36,18 +40,23 @@ public class BasicFunction {
         for (int i = 0; i < n; i++){
             while (true) {
                 validInput = true;
-                String[] elements = BasicFunction.readInput().trim().split("\\s+");
-                if (elements.length != m){
-                    System.out.println("Yang bener aja la kontol, Row nya kurang.");
-                    validInput = false;
-                }
-                for (int j = 0; j < m; j++) {
-                    try {
-                        matrix[i][j] = Double.parseDouble(elements[j]);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Woi Goblok. Yang lu masukin bukan angka tolol.");
+                try{
+                    String[] elements = readInput().trim().split("\\s+");
+                    if (elements.length != m){
+                        System.out.println("Yang bener aja la kontol, Row nya kurang.");
                         validInput = false;
                     }
+                    for (int j = 0; j < m; j++) {
+                        try {
+                            matrix[i][j] = Double.parseDouble(elements[j]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Woi Goblok. Yang lu masukin bukan angka tolol.");
+                            validInput = false;
+                        }
+                    }
+                } catch (Exception e){
+                    System.out.println("Yang bener aja la kontol, Row nya kurang.");
+                    validInput = false;
                 }
                 if (validInput) {break;}
             }   
@@ -58,6 +67,20 @@ public class BasicFunction {
         for (int i = 0; i < matrix.length; i++){
             matrix_out[i] = matrix[i].clone();
         }
+    }
+
+    public static double[][] getIdentity(int n){
+        double[][] matrix = new double[n][n];
+        for (int i=0;i<n;i++){
+            for (int j=0;j<n;j++){
+                if (i==j){
+                    matrix[i][j] = 1;
+                } else {
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+        return matrix;
     }
 
     /*public static double[][] inputMatrix() throws Exception{

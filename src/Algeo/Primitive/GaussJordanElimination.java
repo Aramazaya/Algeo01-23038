@@ -48,7 +48,7 @@ public class GaussJordanElimination {
     }
 
     // Memeriksa apakah sebuah baris adalah baris nol
-    private static boolean isRowZero(double[] row) {
+    public static boolean isRowZero(double[] row) {
         for (int i = 0; i < row.length - 1; i++) { 
             if (row[i] != 0) {
                 return false;

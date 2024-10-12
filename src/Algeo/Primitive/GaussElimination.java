@@ -1,6 +1,6 @@
 package Algeo.Primitive;
 
-public class GaussEliminationInput {
+public class GaussElimination {
     public static String readInput() throws Exception {
         StringBuilder inputBuilder = new StringBuilder();
         int character;
