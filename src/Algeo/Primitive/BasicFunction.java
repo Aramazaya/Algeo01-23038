@@ -82,57 +82,32 @@ public class BasicFunction {
         }
         return matrix;
     }
-
-    /*public static double[][] inputMatrix() throws Exception{
-        int n = 0;
-        boolean validInput = false;
-        while (!validInput) {
-            System.out.print("Masukkan jumlah baris: ");
-            String input = readInput().trim();
-            try {
-                n = Integer.parseInt(input);
-                if (n > 0) {
-                    validInput = true;
-                } else {
-                    System.out.println("Jumlah baris harus lebih dari 0. Silakan coba lagi.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Input tidak valid. Masukkan angka yang benar.");
+    public static boolean rowZero (double[][] matrix, int rowIndex){
+        int col;
+        for(col = 0; col < matrix[rowIndex].length ; col++ ){
+            if(matrix[rowIndex][col] != 0){
+                return false;
             }
         }
-
-        // Buat Matrix n x (n+1)
-        double[][] matrix = new double[n][n + 1];
-        while (true) {
-        	System.out.println("Masukkan Matrix baris demi baris dengan spasi setiap bilangan di 1 baris:");
-            boolean correctInput = true;
-            for (int i = 0; i < n; i++) {
-                String[] elements = readInput().trim().split("\\s+");
-                if (elements.length != n + 1) {
-                    System.out.println("Jumlah elemen pada baris tidak sesuai. Silakan masukkan ulang seluruh matriks.");
-                    correctInput = false;
-                    break;
-                }
-                for (int j = 0; j < n + 1; j++) {
-                    try {
-                        matrix[i][j] = Double.parseDouble(elements[j]);
-                    } catch (NumberFormatException e) {
-                        System.out.println("Input tidak valid. Masukkan ulang seluruh matriks.");
-                        correctInput = false;
-                        break;
-                    }
-                }
-                if (!correctInput) {
-                    break;
-                }
-            }
-            if (correctInput) {
-                break;
-            }
-        }
-        return matrix;
+        return true;
     }
-    /* */
+    public static boolean colZero(double[][] matrix, int colIndex) {
+        if (colIndex < 0 || colIndex >= matrix[0].length) {
+            throw new IllegalArgumentException("Column index is out of bounds.");
+        }
+        
+        for (int row = 0; row < matrix.length; row++) {
+            if (matrix[row][colIndex] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public static void scaleVector (double[][] matrix, int rowIndex ,int scale){
+        for(int col = 0; col < matrix[rowIndex].length ; col++){
+            matrix[rowIndex][col] *= scale;
+        }
+    }
     public static double[][] transpose(double[][] Matrix){
         double[][] transpose = new double[Matrix.length][Matrix.length];
         for (int i=0;i < Matrix.length; i++){
