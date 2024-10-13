@@ -3,7 +3,7 @@ import Algeo.Primitive.Cramer;
 import Algeo.Primitive.MatrixFunction;
 
 public class PolinomialInterpolation{
-        public static double polinomialInterpolation(double[][] matrix, int n, double x){
+        public static double polinomialInterpolation(double[][] matrix, int n, double x) throws IllegalArgumentException{
         if (n < 1) {
             throw new IllegalArgumentException("Jumlah titik harus lebih besar dari 0.");
         }

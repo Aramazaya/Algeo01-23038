@@ -1,6 +1,6 @@
 package Algeo.Primitive;
 public class Determinant {
-    public static double rowReductionDeterminant(double[][] matrix){
+    public static double rowReductionDeterminant(double[][] matrix)throws IllegalArgumentException{
         int i, j, k, row;
         double det = 1;
         boolean swapped;
