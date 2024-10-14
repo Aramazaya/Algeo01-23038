@@ -6,7 +6,7 @@ public  class MatrixFunction {
         int col = matrix[0].length;
         for (int i = 0 ; i < row ; i++){
             for(int j = 0 ; j < col ; j++){
-                System.out.printf("%.2f ", matrix[i][j]);
+                System.out.printf("%.4f ", matrix[i][j]);
             }
             System.out.printf("\n");
         }
@@ -17,7 +17,7 @@ public  class MatrixFunction {
         int length = array.length;
 
         for (int i = 0; i<length; i++){
-            System.out.printf("%.2f\n", array[i]);
+            System.out.printf("%.4f\n", array[i]);
         }
         System.out.printf("\n");
 

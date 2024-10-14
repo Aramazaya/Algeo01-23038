@@ -4,7 +4,7 @@ public class Cramer {
     public static double[] CramerSolver (double[][] matrix) throws IllegalArgumentException{
         // Prekondisi matriks harus n x (n+1)
 
-        if (matrix == null || matrix.length == 0 || matrix.length != matrix[0].length + 1){
+        if (matrix == null || matrix.length == 0 || matrix.length + 1 != matrix[0].length){
             throw new IllegalArgumentException("Matriks harus berukuran n x (n+1)");
         }
 
