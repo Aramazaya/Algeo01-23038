@@ -69,6 +69,12 @@ public class InputOutput {
         printWriter.close(); 
     }
 
+    // Function to check if file path exist
+    public static boolean checkFilePath(String outputPath) throws IOException{
+        File file = new File(outputPath);
+        return file.exists();
+    }
+
     public static void main(String[] args) throws IOException { // tester
         try {
             double[][] matrix = readMatrixFile("test/3a.txt");
