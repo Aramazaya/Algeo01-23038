@@ -1,6 +1,7 @@
 package Algeo.Interpolance;
+
+import Algeo.Primitive.BasicFunction;
 import Algeo.Primitive.Cramer;
-import Algeo.Primitive.MatrixFunction;
 
 public class PolinomialInterpolation{
         public static double polinomialInterpolation(double[][] matrix, int n, double x) throws IllegalArgumentException{
@@ -11,7 +12,7 @@ public class PolinomialInterpolation{
             // Matriks akan berukuran n x 2 karena akan mengandung titik (x,y)
             // Harus ditambahkan nilai 1 pada kolom pertama agar a0 terpenuhi persamaan a0 + a1x0 + ... = y0 
             double[][] matrixEquation = new double[n][n+1]; // n + 1 karena akan menampung vektor hasil di akhir kolom
-            MatrixFunction.setColumnOneElement(matrixEquation, 0, 1); // Memasukkan nilai 1 pada awal kolom
+            BasicFunction.setColumnOneElement(matrixEquation, 0, 1); // Memasukkan nilai 1 pada awal kolom
             int col = matrixEquation[0].length;
 
             for (int i = 0; i < n; i++){             

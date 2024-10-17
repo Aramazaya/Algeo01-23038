@@ -79,10 +79,10 @@ public class InputOutput {
         try {
             double[][] matrix = readMatrixFile("test/3a.txt");
 
-            MatrixFunction.printMatrix(matrix);
+            BasicFunction.printMatrix(matrix);
 
             double[] result = Cramer.CramerSolver(matrix);
-            MatrixFunction.printArray(result);
+            BasicFunction.printArray(result);
             writeArrayFile(result,"test/test.txt");
             // writeMatrixFile(matrix,"test/test.txt");
 
