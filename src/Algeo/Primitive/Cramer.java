@@ -30,7 +30,7 @@ public class Cramer {
                 for (int r=0 ; r < row ; r++){
                     System.arraycopy(variableMatrix[r], 0, tempMatrix[r], 0, row);
                 }                
-                MatrixFunction.setColumnElement(tempMatrix, i, resultArray); // Mengubah 1 kolom dari tempMatrix menjadi array hasil 
+                BasicFunction.setColumnElement(tempMatrix, i, resultArray); // Mengubah 1 kolom dari tempMatrix menjadi array hasil 
                 tempDet[i] = Determinant.rowReductionDeterminant(tempMatrix); // Menampung determinan variasi tersebut
             }
 
