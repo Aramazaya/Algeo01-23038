@@ -1,6 +1,8 @@
 package Algeo.Primitive;
 
+
 public class GaussJordanElimination {
+       
     public static String readInput() throws Exception {
         StringBuilder inputBuilder = new StringBuilder();
         int character;
@@ -12,39 +14,72 @@ public class GaussJordanElimination {
 
     public static String gaussJordanElimination(double[][] matrix) {
         int n = matrix.length;
+        int m = matrix[0].length;
+        boolean hasFreeVariable = false;
+        int idxPivot = 0;
+        
         for (int i = 0; i < n; i++) {
-            if (matrix[i][i] == 0) {
+            while (idxPivot < m - 1 && Math.abs(matrix[i][idxPivot]) < 1e-9) {
                 if (!switchRow(matrix, i)) {
-                    continue;
+                    hasFreeVariable = true; // Jika terdapat solusi banyak maka penukaran pivot akan dilewati dan ditandai solusi parametrik
+                    idxPivot++;
+                    if (idxPivot == m - 2) break;
                 }
             }
-            double diagonalValue = matrix[i][i];
-            for (int j = 0; j < n + 1; j++) {
-                matrix[i][j] /= diagonalValue;
+            
+            if (idxPivot == m - 2) break; // Mencegah akses indekx kolumn di luar batasan 
+            
+            // Normalisasi pivot
+            double pivot = matrix[i][idxPivot];
+            if (Math.abs(pivot) > 1e-9){
+                for(int k = idxPivot; k < m; k++){
+                    matrix[i][k] /= pivot;
+                }
             }
-            for (int j = 0; j < n; j++) {
-                if (j != i && matrix[j][i] != 0) {
-                    double factor = matrix[j][i];
-                    for (int k = 0; k < n + 1; k++) {
+
+            // Eliminasi Gauss (Baris bawah)
+            for (int j = i + 1; j < n; j++) {
+                if (Math.abs(matrix[j][idxPivot]) > 1e-9) {
+                    double factor = matrix[j][idxPivot] / matrix[i][idxPivot];
+                    for (int k = idxPivot; k < m; k++) {
+                        matrix[j][k] -= factor * matrix[i][k];
+                    } 
+                }
+
+            }
+
+            // Eliminasi Gauss (Baris atas)
+            for(int j = i -1 ; j>= 0; j--){
+                if(Math.abs(matrix[j][idxPivot]) > 1e-9){ // Jika element di atas baris pivot bukan nol maka dimasukkan nilainya dalam faktor
+                    double factor  = matrix[j][idxPivot];
+                    for (int k = idxPivot; k < m; k++){
                         matrix[j][k] -= factor * matrix[i][k];
                     }
                 }
             }
-        }
 
+            idxPivot ++;
+        }
+        
+        // Cek apakah ada baris nol dan augmented kolom juga nol (solusi banyak)
         for (int i = 0; i < n; i++) {
-            if (isRowZero(matrix[i]) && matrix[i][n] != 0) {
-                return "No solutions found."; 
+            if (isRowZero(matrix[i]) && Math.abs(matrix[i][n]) < 1e-9) {
+                hasFreeVariable = true;
+            }
+            // Cek apakah terdapat baris nol dan nilai di kolom augmented tidak nol (tidak ada solusi)
+            if (isRowZero(matrix[i]) && Math.abs(matrix[i][n]) > 1e-9) {
+                System.err.println("Tidak ditemukan solusi unik");
+                return null;
             }
         }
-
-        for (int i = 0; i < n; i++) {
-            if (isRowZero(matrix[i]) && matrix[i][n] == 0) {
-                return "Infinite solutions found."; 
-            }
+        BasicFunction.printMatrix(matrix);
+        if (hasFreeVariable){
+            System.err.println("Ditemukan solusi parametric");
+            return GaussElimination.parametricBackSubstitution(matrix);
+        }        
+        else{
+            return GaussElimination.normalBackSubstitution(matrix);
         }
-
-        return "Unique solution found."; 
     }
 
     // Memeriksa apakah sebuah baris adalah baris nol

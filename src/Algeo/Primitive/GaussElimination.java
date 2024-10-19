@@ -1,6 +1,59 @@
 package Algeo.Primitive;
 
-public class GaussElimination {
+public class GaussElimination {  
+    public static String gaussElimination(double[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        boolean hasFreeVariable = false;
+        int idxPivot = 0;
+        
+        for (int i = 0; i < n; i++) {
+            while (idxPivot < m - 1 && Math.abs(matrix[i][idxPivot]) < 1e-9) {
+                if (!switchRow(matrix, i)) {
+                    hasFreeVariable = true; // Jika terdapat solusi banyak maka penukaran pivot akan dilewati dan ditandai solusi parametrik
+                    idxPivot++;
+                    if (idxPivot == m - 2) break;
+                }
+            }
+            
+            if (idxPivot == m - 2) break; // Mencegah akses indekx kolumn di luar batasan 
+            
+            // Eliminasi Gauss
+            for (int j = i + 1; j < n; j++) {
+                if (Math.abs(matrix[j][idxPivot]) > 1e-9) {
+                    double factor = matrix[j][idxPivot] / matrix[i][idxPivot];
+                    for (int k = idxPivot; k < m; k++) {
+                        matrix[j][k] -= factor * matrix[i][k];
+                    } 
+                }
+
+            }
+            idxPivot ++;
+        }
+        
+        // Cek apakah ada baris nol dan augmented kolom juga nol (solusi banyak)
+        for (int i = 0; i < n; i++) {
+            if (isRowZero(matrix[i]) && Math.abs(matrix[i][n]) < 1e-9) {
+                hasFreeVariable = true;
+            }
+            // Cek apakah terdapat baris nol dan nilai di kolom augmented tidak nol (tidak ada solusi)
+            if (isRowZero(matrix[i]) && Math.abs(matrix[i][n]) > 1e-9) {
+                System.err.println("Tidak ditemukan solusi unik");
+                return null;
+            }
+        }
+        BasicFunction.printMatrix(matrix);
+        if (hasFreeVariable){
+            System.err.println("Ditemukan solusi parametric");
+            return parametricBackSubstitution(matrix);
+        }        
+        else{
+            return normalBackSubstitution(matrix);
+        }
+        // Lakukan back substitution dan kembalikan array hasil
+    }
+    
+    
     public static String readInput() throws Exception {
         StringBuilder inputBuilder = new StringBuilder();
         int character;
@@ -9,36 +62,7 @@ public class GaussElimination {
         }
         return inputBuilder.toString();
     }
-
-    public static String gaussElimination(double[][] matrix) {
-        int n = matrix.length;
-        for (int i = 0; i < n; i++) {
-            if (matrix[i][i] == 0) {
-                if (!switchRow(matrix, i)) {
-                    continue;
-                }
-            }
-
-            // Eliminasi Gauss
-            for (int j = i + 1; j < n; j++) {
-                if (matrix[j][i] != 0) {
-                    double factor = matrix[j][i] / matrix[i][i];
-                    for (int k = i; k < n + 1; k++) {
-                        matrix[j][k] -= factor * matrix[i][k];
-                    }
-                }
-                if (isRowZero(matrix[j]) && matrix[j][n] != 0) {
-                    return "No solutions found.";
-                }
-            }
-        }
-        for (int i = 0; i < n; i++) {
-            if (isRowZero(matrix[i]) && matrix[i][n] == 0) {
-                return "Infinite solutions found.";
-            }
-        }
-        return "Unique solution found.";
-    }
+    
     private static boolean isRowZero(double[] row) {
         for (int i = 0; i < row.length - 1; i++) {
             if (row[i] != 0) {
@@ -63,17 +87,126 @@ public class GaussElimination {
         return false;
     }
 
-    // Substitusi balik untuk mendapatkan solusi
-    public static double[] backSubstitution(double[][] matrix) {
-        double[] x = new double[matrix.length];
-        for (int i = matrix.length - 1; i >= 0; i--) {
-            x[i] = matrix[i][matrix.length];
-            for (int j = i + 1; j < matrix.length; j++) {
-                x[i] -= matrix[i][j] * x[j];
+    public static String normalBackSubstitution(double[][] matrix) {
+        int n = matrix.length;
+        double[] x = new double[n];
+        StringBuilder result = new StringBuilder();
+        
+        for (int i = n - 1; i >= 0; i--) {
+            if (Math.abs(matrix[i][i]) < 1e-9) {
+                // Mengecek apakah nilai matrix dan matrix augmented nol 
+                if (Math.abs(matrix[i][n]) < 1e-9) {
+                    // Jika constant nol maka terdapat solusi banyak
+                    result.append(String.format("x%d = free\n", i + 1));
+                    x[i] = 0; // Mark as free, or keep it as 0
+                } else {
+                    // Jika constant tidak nol namun matrix nol maka tidak dapat ditemukan solusi
+                    return "Tidak terdapat solusi";
+                }
+            } else {
+                x[i] = matrix[i][n];
+                for (int j = i + 1; j < n; j++) {
+                    x[i] -= matrix[i][j] * x[j];
+                }
+                x[i] /= matrix[i][i];
+                result.append(String.format("x%d = %.2f\n", i + 1, x[i]));
             }
-            x[i] /= matrix[i][i];
         }
-        return x;
+    
+        return result.toString();
     }
+    
+
+    // Substitusi balik untuk mendapatkan solusi
+    public static String parametricBackSubstitution(double[][] matrix) {
+        int n = matrix.length;         // Jumlah baris
+        int m = matrix[0].length - 1;  // Jumlah variabel 
+        StringBuilder[] expressions = new StringBuilder[m]; // Menampun ekspresi parametrik
+        boolean[] isFreeVariable = new boolean[m]; // Menampung free variable
+    
+        // Inisialisasi free variable
+        for (int i = 0; i < m; i++) {
+            isFreeVariable[i] = true;
+            expressions[i] = new StringBuilder(String.format("x%d", i + 1));
+        }
+    
+        // Mulai back substitution
+        for (int i = n - 1; i >= 0; i--) {
+            int pivotCol = -1;
+    
+            // Mencari pivot (element bukan nol) pada baris 
+            for (int j = 0; j < m; j++) {
+                if (Math.abs(matrix[i][j]) > 1e-9) {
+                    pivotCol = j;
+                    break;
+                }
+            }
+    
+            // Kalau tidak terdapat pivot maka baris akan diskip
+            if (pivotCol == -1) {
+                continue;
+            }
+    
+            // Kalau nilai pivot nol maka variable tersebut adalah parametrik
+            if (Math.abs(matrix[i][pivotCol]) < 1e-9) {
+                isFreeVariable[pivotCol] = true;
+                continue;
+            }
+    
+            // Membuat temporary ekspresi untuk menampung solusi 
+            StringBuilder expression = new StringBuilder();
+            double constantTerm = matrix[i][m];
+    
+            boolean hasParametric = false;
+            
+            // Mengoperasikan element setelah pivot 
+            for (int j = pivotCol + 1; j < m; j++) {
+                if (Math.abs(matrix[i][j]) > 1e-9) { // Hanya mengecek element yang lebih dari nol
+                    hasParametric = true; // 
+                    if (!isFreeVariable[j]) { // Jika bukan variabel bebas maka koefisien nya dihitung dengan value yang sudah ada sebelumnya
+                        double coefficient = -matrix[i][j] / matrix[i][pivotCol];
+                        String subExpression = expressions[j].toString();
+                        if (coefficient != 1.0) {
+                            subExpression = String.format("%.2f * (%s)", coefficient, subExpression);
+                        }
+                        expression.append(" + ").append(subExpression);
+                    } else { // Jika variabel bebas langsung ditambahkan 
+                        double coefficient = -matrix[i][j] / matrix[i][pivotCol];
+                        expression.append(String.format(" + %.2fx%d", coefficient, j + 1));
+                    }
+                }
+            }
+    
+            // Membagi constant dengan nilai pivot
+            constantTerm /= matrix[i][pivotCol];
+    
+            if (!hasParametric) {
+                // Jika tidak terdapat parametric maka nilai akan langsung dimasukkan
+                expressions[pivotCol] = new StringBuilder(String.format("%.2f", constantTerm));
+            } else {
+                // Jika terdapat parametrik maka constant akan di insert 
+                if (constantTerm != 0.0) {
+                    expression.insert(0, String.format("%.2f", constantTerm));
+                }
+                expressions[pivotCol] = expression;
+            }
+    
+            // Jika sudah dihandle maka bukan lagi free variable
+            isFreeVariable[pivotCol] = false;
+        }
+    
+        // Membangun hasil akhir
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < m; i++) {
+            if (isFreeVariable[i]) {
+                result.append(String.format("x%d = x%d\n", i + 1, i + 1)); 
+            } else {
+                result.append(String.format("x%d = %s\n", i + 1, expressions[i].toString().trim())); // Menggabungkan nilai jika bukan merupakan free variabel
+            }
+        }
+    
+        return result.toString();
+    }
+                       
 
 }
