@@ -141,4 +141,66 @@ public class BasicFunction {
             System.out.printf("x%d = %.4f\n", i + 1, solution[i]);
         }
     }
+
+    public static double[][] multiplication(double[][] m1, double[][] m2){
+        double[][] result = new double[m1.length][m2[0].length];
+        for (int i = 0; i < m1.length;i++){
+            for (int j = 0; j < m2[0].length; j++){
+                for (int k = 0; k < m1[0].length; k++){
+                    result[i][j] += m1[i][k] * m2[k][j];
+                }
+            }
+        }
+        return result;
+    }
+      public static void swapRow (double[][] matrix, int row1, int row2){
+        double[] tempArray;
+
+        tempArray = matrix[row1];
+        matrix[row1] = matrix[row2];
+        matrix[row2] = tempArray;
+    }
+
+    // Mencari nilai terbesar dari diagonal utama matrix dan melakukan penukaran baris
+    public static void partialPivot(double[][] matrix, int currRow){
+        int totalRow = matrix.length;
+
+        int maxRow = currRow;
+        double maxValue = matrix[currRow][currRow];
+        // Asumsikan row dengan elemen terbesar 
+        for(int i = currRow + 1; i < totalRow; i++){
+            if(matrix[i][currRow] > maxValue){
+                maxValue = matrix[i][currRow];
+                maxRow = i;
+            }
+        }
+        if(maxRow != currRow){
+            swapRow(matrix, maxRow, currRow);
+        }
+    }
+
+    public static void setColumnElement(double[][] matrix, int colIndex, double[] values) {
+        int row = matrix.length;
+        for (int i = 0; i < row; i++) {
+            matrix[i][colIndex] = values[i]; 
+        }
+    }
+    public static void setColumnOneElement(double[][] matrix, int colIndex, double values) {
+        int row = matrix.length;
+        for (int i = 0; i < row; i++) {
+            matrix[i][colIndex] = values; 
+        }
+    }
+
+    public static double[] stripMatrix(double[][] matrix, int colIndex){
+        int row = matrix.length;
+
+        double[] resultArray = new double[row];
+        for (int i = 0; i < row; i++){
+            resultArray[i] = matrix[i][colIndex];
+        }
+
+        return resultArray;
+    }
+
 }
