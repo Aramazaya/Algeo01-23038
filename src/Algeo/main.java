@@ -1,6 +1,12 @@
-import Algeo.Primitive;
-import Algeo.Regression;
-import Algeo.Interpolation;
+import Primitive.BasicFunction;
+import Primitive.GaussElimination;
+import Primitive.GaussJordanElimination;
+import Primitive.Cramer;
+import Primitive.Determinant;
+import Primitive.CofactorExpansion;
+import Primitive.Inverse;
+import Interpolance.PolinomialInterpolation;
+import Regression.MultipleLinearRegression;
 //import Algeo.BicubicSpline;
 import java.util.Scanner;
 
@@ -27,16 +33,14 @@ public class main {
                     int metode = scanner.nextInt();
                     switch(metode){
                         case 1:
-                            double matrix[][] = Primitive.BasicFunction.inputMatrix();
-                            String resultStr = Primitive.GaussElimination.gaussElimination(matrix);
-                            if (resultStr == "Unique solution found."){Primitive.BasicFuntion.printArray(Primitive.GaussElimination.backSubstitution(matrix));}
-                            else (System.out.println(resultStr));
+                            double matrix1[][] = Primitive.BasicFunction.inputMatrix();
+                            String resultStr = Primitive.GaussElimination.gaussElimination(matrix1);
+                            System.err.println(resultStr);
                             break;
                         case 2:
-                            double matrix[][] = Primitive.BasicFunction.inputMatrix();
-                            String resultStr = Primitive.GaussJordanElimination.gaussJordanElimination(matrix);
-                            if (resultStr == "Unique solution found."){Primitive.BasicFuntion.printArray(Primitive.GaussElimination.backSubstitution(matrix));}
-                            else (System.out.println(resultStr));
+                            double matrix2[][] = Primitive.BasicFunction.inputMatrix();
+                            String resultStr2 = Primitive.GaussJordanElimination.gaussJordanElimination(matrix2);
+                            System.err.println(resultStr2);
                             break;
                         case 3:
                             double matrix[][] = Primitive.BasicFunction.inputMatrix();
@@ -63,9 +67,9 @@ public class main {
                             System.out.println("Determinan: " + resultFloat);
                             break;
                         case 2:
-                            double matrix[][] = Primitive.BasicFunction.inputMatrix();
-                            double resultFloat = Primitive.CofactorExpansion.determinant(matrix);
-                            System.out.println("Determinan: " + resultFloat);
+                            double matrix2[][] = Primitive.BasicFunction.inputMatrix();
+                            double resultFloat2 = Primitive.CofactorExpansion.determinant(matrix2);
+                            System.out.println("Determinan: " + resultFloat2);
                             break;
                         case 3:
                             break;
@@ -87,9 +91,9 @@ public class main {
                             Primitive.BasicFunction.printMatrix(resultMatrix);
                             break;
                         case 2:
-                            double matrix[][] = Primitive.BasicFunction.inputMatrix();
-                            double resultMatrix[][] = Primitive.Inverse.InverseCofactor(matrix);
-                            Primitive.BasicFunction.printMatrix(resultMatrix);
+                            double matrix2[][] = Primitive.BasicFunction.inputMatrix();
+                            double resultMatrix2[][] = Primitive.Inverse.InverseCofactor(matrix2);
+                            Primitive.BasicFunction.printMatrix(resultMatrix2);
                             break;
                         case 3:
                             break;
@@ -100,8 +104,9 @@ public class main {
                     break;
                 case 4:
                     //Tolong tambahin inputan
-                    double resultFloat = Primitive.Interpolation.PolinomialInterpolation();
-                    System.out.println("Hasil interpolasi: " + result);
+                    double matrix[][] = Primitive.BasicFunction.inputMatrix();                    
+                    double resultFloat = Interpolance.PolinomialInterpolation.polinomialInterpolation(matrix);
+                    System.out.println("Hasil interpolasi: " + resultFloat);
                     break;
                 case 5:
                     String resultStr = Regression.MultipleLinearRegression.multipleLinearRegression();

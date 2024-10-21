@@ -1,4 +1,4 @@
-package Algeo.Primitive;
+package Primitive;
 public class Determinant {
     public static double rowReductionDeterminant(double[][] matrix)throws IllegalArgumentException{
         int i, j, k, row;

@@ -1,4 +1,4 @@
-package Algeo.BicubicSpline;
+package BicubicSpline;
 public class InterpolasiBicubicSpline {
     public static String matrixOutput (double[][] matriks){
         String output = "";

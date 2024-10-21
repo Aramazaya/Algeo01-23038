@@ -1,6 +1,6 @@
-package Algeo.Primitive;
-import Algeo.Interpolance.PolinomialInterpolation;
-import Algeo.Primitive.InputOutput;
+package Primitive;
+import Interpolance.PolinomialInterpolation;
+import Primitive.InputOutput;
 import java.io.FileNotFoundException;
 
 
@@ -12,7 +12,7 @@ public class testCaseDriver {
         // double[][] matrix = InputOutput.readMatrixFile("test/1c.txt");
         // double[][] matrix = InputOutput.readMatrixFile("test/1d1.txt");
         // double[][] matrix = InputOutput.readMatrixFile("test/1d2.txt");
-        // double[][] matrix = InputOutput.readMatrixFile("test/2a.txt");
+        double[][] matrix = InputOutput.readMatrixFile("test/2a.txt");
         // double[][] matrix = InputOutput.readMatrixFile("test/2b.txt");
         // double[][] matrix = InputOutput.readMatrixFile("test/3a.txt");
         // double[][] matrix = InputOutput.readMatrixFile("test/3b.txt");
@@ -47,18 +47,19 @@ public class testCaseDriver {
         // System.out.println("Cramer Solution : ");BasicFunction.printArray(Cramer.CramerSolver(matrix));
         
         // *** GAUSS ***
-        // System.out.println("Gauss Solution : ");
-        // BasicFunction.copyMatrix(matrix, matrix_n);
-        // System.out.println("Matriks Awal: ");
-        // BasicFunction.printMatrix(matrix_n);
+        double[][] matrix_n = new double[matrix.length][matrix[0].length];
+        System.out.println("Gauss Solution : ");
+        BasicFunction.copyMatrix(matrix, matrix_n);
+        System.out.println("Matriks Awal: ");
+        BasicFunction.printMatrix(matrix_n);
         
-        // System.out.println("Matrix Awal:");
-        // BasicFunction.copyMatrix(matrix, matrix_n);
-        // BasicFunction.printMatrix(matrix_n);
-        // String result = GaussElimination.gaussElimination(matrix_n);
-        // System.out.println("Matrix Akhir:");
-        // BasicFunction.printMatrix(matrix_n);
-        // System.out.println(result);
+        System.out.println("Matrix Awal:");
+        BasicFunction.copyMatrix(matrix, matrix_n);
+        BasicFunction.printMatrix(matrix_n);
+        String result = GaussElimination.gaussElimination(matrix_n);
+        System.out.println("Matrix Akhir:");
+        BasicFunction.printMatrix(matrix_n);
+        System.out.println(result);
         
         // System.out.println("Gauss-Jordan Solution: ");
         // BasicFunction.copyMatrix(matrix, matrix_n);
@@ -74,24 +75,24 @@ public class testCaseDriver {
         // double result = PolinomialInterpolation.polinomialInterpolation(matrix);
         // System.err.println("Polinomial Interpolation: " + result);
         // 5C Error handling??
-        int start = 0;
-        int end = 2;
-        int number = 5;
-        double h = (end - start)/number;
-        double[][] points = new double[number+2][2]; //Menampung (x, f(x))
+    //     int start = 0;
+    //     int end = 2;
+    //     int number = 5;
+    //     double h = (end - start)/number;
+    //     double[][] points = new double[number+2][2]; //Menampung (x, f(x))
 
-        for(int i = 0; i <= number; i++){
-            double x = start + i * h;
-            double y = f(x);
-            points[i][0] = x;
-            points[i][1] = y;
-        }
+    //     for(int i = 0; i <= number; i++){
+    //         double x = start + i * h;
+    //         double y = f(x);
+    //         points[i][0] = x;
+    //         points[i][1] = y;
+    //     }
 
-        double xEstimate = 0.2;
-        points[number+1][0] = xEstimate;
-        points[number+1][1] = 0;
-        double interpolatedValue = PolinomialInterpolation.polinomialInterpolation(points);
-        System.out.println("Interpolated value: " + interpolatedValue);
+    //     double xEstimate = 0.2;
+    //     points[number+1][0] = xEstimate;
+    //     points[number+1][1] = 0;
+    //     double interpolatedValue = PolinomialInterpolation.polinomialInterpolation(points);
+    //     System.out.println("Interpolated value: " + interpolatedValue);
     }
     
     public static double f(double x){

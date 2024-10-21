@@ -1,4 +1,4 @@
-package Algeo.Primitive;
+package Primitive;
 public class Inverse {
     public static double[][] InverseCofactor(double[][] Matrix) throws IllegalArgumentException{
         double det = CofactorExpansion.determinant(Matrix);

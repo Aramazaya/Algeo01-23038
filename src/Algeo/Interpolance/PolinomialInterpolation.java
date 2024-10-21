@@ -1,7 +1,7 @@
-package Algeo.Interpolance;
+package Interpolance;
 
-import Algeo.Primitive.BasicFunction;
-import Algeo.Primitive.Cramer;
+import Primitive.BasicFunction;
+import Primitive.Cramer;
 
 public class PolinomialInterpolation{
         public static double polinomialInterpolation(double[][] matrix) throws IllegalArgumentException{

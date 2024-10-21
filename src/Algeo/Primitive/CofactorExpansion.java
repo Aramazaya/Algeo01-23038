@@ -1,4 +1,4 @@
-package Algeo.Primitive;
+package Primitive;
 public class CofactorExpansion{
     public static double[][] takeCofactor(double[][] matrix, int row, int col){
         double[][] cofactor = new double[matrix.length-1][matrix.length-1];

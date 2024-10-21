@@ -1,8 +1,8 @@
-package Algeo.Regression;
-import Algeo.Primitive.BasicFunction;
-import Algeo.Primitive.GaussElimination;
-import Algeo.Primitive.Inverse;
-import Algeo.Primitive.CofactorExpansion;
+package Regression;
+import Primitive.BasicFunction;
+import Primitive.GaussElimination;
+import Primitive.Inverse;
+import Primitive.CofactorExpansion;
 class DoubleWrapper {
     public double[] value;
 
@@ -47,7 +47,7 @@ public class MultipleLinearRegression {
             return false;
         }
         else {
-            Coeff.value = GaussElimination.backSubstitution(EROMatrix);
+            Coeff.value = GaussElimination.normalBackSubstitution(EROMatrix);
             return true;
         }
     }

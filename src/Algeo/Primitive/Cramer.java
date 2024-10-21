@@ -1,4 +1,4 @@
-package Algeo.Primitive;
+package Primitive;
 
 public class Cramer {
     public static double[] CramerSolver (double[][] matrix) throws IllegalArgumentException{

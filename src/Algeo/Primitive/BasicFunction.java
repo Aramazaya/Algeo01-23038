@@ -1,4 +1,4 @@
-package Algeo.Primitive;
+package Primitive;
 
 public class BasicFunction {
 

@@ -1,4 +1,4 @@
-package Algeo.Primitive;
+package Primitive;
 
 
 public class GaussJordanElimination {
@@ -78,7 +78,7 @@ public class GaussJordanElimination {
             return GaussElimination.parametricBackSubstitution(matrix);
         }        
         else{
-            return GaussElimination.normalBackSubstitution(matrix);
+            return GaussElimination.printNormalBackSubstitution(GaussElimination.normalBackSubstitution(matrix));
         }
     }
 

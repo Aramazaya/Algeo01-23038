@@ -1,4 +1,4 @@
-package Algeo.Primitive;
+package Primitive;
 
 public class GaussElimination {  
     public static String gaussElimination(double[][] matrix) {
@@ -48,7 +48,7 @@ public class GaussElimination {
             return parametricBackSubstitution(matrix);
         }        
         else{
-            return normalBackSubstitution(matrix);
+            return printNormalBackSubstitution(normalBackSubstitution(matrix));
         }
         // Lakukan back substitution dan kembalikan array hasil
     }
@@ -87,12 +87,11 @@ public class GaussElimination {
         return false;
     }
 
-    public static String normalBackSubstitution(double[][] matrix) {
+    public static double[] normalBackSubstitution(double[][] matrix) {
         // Konidisi tidak ada solusi dan solusi banyak sudah dihandle di fungsi utama
         int n = matrix.length; //Jumlah baris
         int m = matrix[0].length; //Jumlah kolom
         double[] x = new double[n]; // Array solusi
-        StringBuilder result = new StringBuilder(); // Output untuk solusi
         
         int idxPivot = m-2; // Index dimulai dari
         for (int i = idxPivot; i >= 0; i--) {          
@@ -102,10 +101,19 @@ public class GaussElimination {
             }
 
             x[i] /= matrix[i][i];
-            result.append(String.format("x%d = %.2f\n",i + 1, x[i]));
         }
-    
+        return x;
+    }
+
+    public static String printNormalBackSubstitution(double[] resultArray){
+        StringBuilder result = new StringBuilder(); // Output untuk solusi
+        int m = resultArray.length;
+        for (int i = m-1; i >= 0; i--){
+            result.append(String.format("x%d = %.2f\n",i + 1, resultArray[i]));
+
+        }
         return result.toString();
+
     }
     
 

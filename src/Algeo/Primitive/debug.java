@@ -1,4 +1,4 @@
-package Algeo.Primitive;
+package Primitive;
 
 import java.io.FileNotFoundException;
 

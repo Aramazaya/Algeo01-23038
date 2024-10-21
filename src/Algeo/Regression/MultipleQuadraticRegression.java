@@ -1,4 +1,4 @@
-package Algeo.Regression;
+package Regression;
 
 public class MultipleQuadraticRegression {
     
