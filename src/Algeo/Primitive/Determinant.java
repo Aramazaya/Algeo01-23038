@@ -1,6 +1,6 @@
 package Algeo.Primitive;
 public class Determinant {
-    public static double rowReductionDeterminant(double[][] matrix){
+    public static double rowReductionDeterminant(double[][] matrix)throws IllegalArgumentException{
         int i, j, k, row;
         double det = 1;
         boolean swapped;
@@ -12,10 +12,10 @@ public class Determinant {
 
         // Mengecek kasus determinan nol
         for (i = 0; i<row; i++){
-            if (MatrixFunction.rowZero(matrix, i)){
+            if (BasicFunction.rowZero(matrix, i)){
                 return 0; // Ada baris nol maka determinan akan menjadi nol
             }
-            if (MatrixFunction.colZero(matrix, i)){
+            if (BasicFunction.colZero(matrix, i)){
                 return 0; // Ada kolom nol maka determinan akan menjadi nol
             }
         }
@@ -27,7 +27,7 @@ public class Determinant {
                 swapped = false;
                 for(j = i+1 ; j < row ; j++){
                     if (matrix[j][i] != 0){
-                        MatrixFunction.swapRow(matrix, j, i);
+                        BasicFunction.swapRow(matrix, j, i);
                         swapped = true;
                         det *= -1;
                         break;

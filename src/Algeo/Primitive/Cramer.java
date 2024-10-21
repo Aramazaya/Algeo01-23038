@@ -1,8 +1,12 @@
 package Algeo.Primitive;
 
 public class Cramer {
-    public static double[] CramerSolver (double[][] matrix){
-        // Prekondisi matriks harus n x n
+    public static double[] CramerSolver (double[][] matrix) throws IllegalArgumentException{
+        // Prekondisi matriks harus n x (n+1)
+
+        if (matrix == null || matrix.length == 0 || matrix.length + 1 != matrix[0].length){
+            throw new IllegalArgumentException("Matriks harus berukuran n x (n+1)");
+        }
 
         double[] tempDet = new double[matrix.length]; // Menampung determinan tiap variasi cramer
         int row = matrix.length; // Karena sudah pasti matriks n x n maka cukup memakai panjang dari row
@@ -17,7 +21,7 @@ public class Cramer {
         
         
         if (det == 0){
-            return null; // Tidak memiliki solusi
+            throw new IllegalStateException("Determinan bernilai nol sehingga tidak ada solusi"); // Tidak memiliki solusi
         }
         else{
             // Mencari determinan dari tiap variasi matriks
@@ -26,7 +30,7 @@ public class Cramer {
                 for (int r=0 ; r < row ; r++){
                     System.arraycopy(variableMatrix[r], 0, tempMatrix[r], 0, row);
                 }                
-                MatrixFunction.setColumnElement(tempMatrix, i, resultArray); // Mengubah 1 kolom dari tempMatrix menjadi array hasil 
+                BasicFunction.setColumnElement(tempMatrix, i, resultArray); // Mengubah 1 kolom dari tempMatrix menjadi array hasil 
                 tempDet[i] = Determinant.rowReductionDeterminant(tempMatrix); // Menampung determinan variasi tersebut
             }
 
@@ -40,20 +44,27 @@ public class Cramer {
     }
 
     // Mengekstrak matriks hasil atau matriks B pada persamaan Ax = B
-    private static double[] stripVectorB(double[][] matrix){
+    public static double[] stripVectorB(double[][] matrix){
+        if (matrix == null || matrix.length==0){
+            throw new IllegalArgumentException("Matrix tidak boleh null atau kosong");
+        }
+        
         int row = matrix.length;
         int col = matrix[0].length;
-
+        
         double[] resultArray = new double[row];
         for (int i = 0; i < row; i++){
             resultArray[i] = matrix[i][col-1];
         }
-
+        
         return resultArray;
     }
-
+    
     // Mengekstrak matriks variabel atau matriks A pada persamaan Ax = B
     private static double[][] stripVectorA(double[][] matrix){
+        if (matrix == null || matrix.length==0){
+            throw new IllegalArgumentException("Matrix tidak boleh null atau kosong");
+        }
         int row = matrix.length;
         int col = matrix[0].length-1;
 

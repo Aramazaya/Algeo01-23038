@@ -4,7 +4,20 @@ import Algeo.Primitive.BasicFunction;
 import Algeo.Primitive.Cramer;
 
 public class PolinomialInterpolation{
-        public static double polinomialInterpolation(double[][] matrix, int n, double x) throws IllegalArgumentException{
+        public static double polinomialInterpolation(double[][] matrix) throws IllegalArgumentException{
+        int nInitial = matrix.length;
+        int mInitial = matrix[0].length;
+        
+        // Mengekstrak titik persamaan yang diketahui
+        double[][] tempMatrix = new double[nInitial][mInitial];
+        BasicFunction.copyMatrix(matrix, tempMatrix);
+        double[][] matrixPoint = BasicFunction.stripMatrixPolinomial(tempMatrix); 
+        int n = matrixPoint.length;
+
+        // Mengesktrak titik yang akan diestimasi
+        double x = matrix[nInitial-1][0];
+
+
         if (n < 1) {
             throw new IllegalArgumentException("Jumlah titik harus lebih besar dari 0.");
         }

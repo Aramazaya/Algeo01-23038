@@ -203,4 +203,19 @@ public class BasicFunction {
         return resultArray;
     }
 
+    public static double[][] stripMatrixPolinomial(double[][] matrix){
+        int row = matrix.length - 1;
+
+        double[][] resultMatrix = new double[row][2];
+        for (int i = 0; i < row; i++){
+            for(int j = 0; j < 2; j++){
+                resultMatrix[i][j] = matrix[i][j];
+
+            }
+        }
+
+        return resultMatrix;
+    }
+
+
 }
