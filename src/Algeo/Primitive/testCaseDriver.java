@@ -73,5 +73,28 @@ public class testCaseDriver {
         // BasicFunction.copyMatrix(matrix, matrix_n);
         // double result = PolinomialInterpolation.polinomialInterpolation(matrix);
         // System.err.println("Polinomial Interpolation: " + result);
+        // 5C Error handling??
+        int start = 0;
+        int end = 2;
+        int number = 5;
+        double h = (end - start)/number;
+        double[][] points = new double[number+2][2]; //Menampung (x, f(x))
+
+        for(int i = 0; i <= number; i++){
+            double x = start + i * h;
+            double y = f(x);
+            points[i][0] = x;
+            points[i][1] = y;
+        }
+
+        double xEstimate = 0.2;
+        points[number+1][0] = xEstimate;
+        points[number+1][1] = 0;
+        double interpolatedValue = PolinomialInterpolation.polinomialInterpolation(points);
+        System.out.println("Interpolated value: " + interpolatedValue);
+    }
+    
+    public static double f(double x){
+        return ((Math.pow(x, 2) + Math.sqrt(x)) / (Math.exp(x) + x));
     }
 }
