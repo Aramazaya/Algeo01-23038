@@ -33,11 +33,11 @@ public class GaussElimination {
         
         // Cek apakah ada baris nol dan augmented kolom juga nol (solusi banyak)
         for (int i = 0; i < n; i++) {
-            if (isRowZero(matrix[i]) && Math.abs(matrix[i][n]) < 1e-9) {
+            if (isRowZero(matrix[i]) && Math.abs(matrix[i][m-1]) < 1e-9) {
                 hasFreeVariable = true;
             }
             // Cek apakah terdapat baris nol dan nilai di kolom augmented tidak nol (tidak ada solusi)
-            if (isRowZero(matrix[i]) && Math.abs(matrix[i][n]) > 1e-9) {
+            if (isRowZero(matrix[i]) && Math.abs(matrix[i][m-1]) > 1e-9) {
                 System.err.println("Tidak ditemukan solusi unik");
                 return null;
             }
@@ -88,29 +88,21 @@ public class GaussElimination {
     }
 
     public static String normalBackSubstitution(double[][] matrix) {
-        int n = matrix.length;
-        double[] x = new double[n];
-        StringBuilder result = new StringBuilder();
+        // Konidisi tidak ada solusi dan solusi banyak sudah dihandle di fungsi utama
+        int n = matrix.length; //Jumlah baris
+        int m = matrix[0].length; //Jumlah kolom
+        double[] x = new double[n]; // Array solusi
+        StringBuilder result = new StringBuilder(); // Output untuk solusi
         
-        for (int i = n - 1; i >= 0; i--) {
-            if (Math.abs(matrix[i][i]) < 1e-9) {
-                // Mengecek apakah nilai matrix dan matrix augmented nol 
-                if (Math.abs(matrix[i][n]) < 1e-9) {
-                    // Jika constant nol maka terdapat solusi banyak
-                    result.append(String.format("x%d = free\n", i + 1));
-                    x[i] = 0; // Mark as free, or keep it as 0
-                } else {
-                    // Jika constant tidak nol namun matrix nol maka tidak dapat ditemukan solusi
-                    return "Tidak terdapat solusi";
-                }
-            } else {
-                x[i] = matrix[i][n];
-                for (int j = i + 1; j < n; j++) {
-                    x[i] -= matrix[i][j] * x[j];
-                }
-                x[i] /= matrix[i][i];
-                result.append(String.format("x%d = %.2f\n", i + 1, x[i]));
+        int idxPivot = m-2; // Index dimulai dari
+        for (int i = idxPivot; i >= 0; i--) {          
+            x[i] = matrix[i][m-1]; // Array constant
+            for (int j = i + 1; j < m-1; j++) {
+                x[i] -= matrix[i][j] * x[j]; // s
             }
+
+            x[i] /= matrix[i][i];
+            result.append(String.format("x%d = %.2f\n",i + 1, x[i]));
         }
     
         return result.toString();

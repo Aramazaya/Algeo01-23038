@@ -63,11 +63,11 @@ public class GaussJordanElimination {
         
         // Cek apakah ada baris nol dan augmented kolom juga nol (solusi banyak)
         for (int i = 0; i < n; i++) {
-            if (isRowZero(matrix[i]) && Math.abs(matrix[i][n]) < 1e-9) {
+            if (isRowZero(matrix[i]) && Math.abs(matrix[i][m-1]) < 1e-9) {
                 hasFreeVariable = true;
             }
             // Cek apakah terdapat baris nol dan nilai di kolom augmented tidak nol (tidak ada solusi)
-            if (isRowZero(matrix[i]) && Math.abs(matrix[i][n]) > 1e-9) {
+            if (isRowZero(matrix[i]) && Math.abs(matrix[i][m-1]) > 1e-9) {
                 System.err.println("Tidak ditemukan solusi unik");
                 return null;
             }
