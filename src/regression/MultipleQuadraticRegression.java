@@ -105,7 +105,7 @@ public class MultipleQuadraticRegression {
             return true;
         }
     }
-    public static String multipleQuadRegression() {
+    public static double multipleQuadRegression() {
         System.out.println("Insert Independent Variables as such:");
         System.out.println("x1i x2i x3i...xni yi");
         System.out.println("x1j x2j x3j...xnj yj");
@@ -124,7 +124,7 @@ public class MultipleQuadraticRegression {
         boolean result = getCoefficient(IndependentVariable, DependentVariable, coef);
         BasicFunction.printArray(coef.value);
         if (result == false) {
-            return "fail";
+            return 0;
         }
         System.out.println("The Model is loaded!!\nPlease insert the value of the independent variables to predict the dependent variable:");
         double[] Predictor = new double[IndependentVariable[0].length];
@@ -136,8 +136,8 @@ public class MultipleQuadraticRegression {
             System.out.println("An Error Occured. Please Try Again.");
         }}
         double results = 0;
-        double[] Predictors = new double[numOfVar(IndependentVariable)+1];
-        int colIndex = 1;
+        double[] Predictors = new double[numOfVar(IndependentVariable)];
+        int colIndex = 0;
         for (int i = 0; i<IndependentVariable[0].length; i++){
             Predictors[colIndex] = Predictor[i];
             colIndex++;
@@ -153,10 +153,10 @@ public class MultipleQuadraticRegression {
             colIndex++;
         }
         for (int i = 1; i<IndependentVariable[0].length; i++){
-            results += coef.value[i]*Predictor[i];
+            results += coef.value[i]*Predictor[i-1];
         }
         results += coef.value[0];
         System.out.println("The predicted value of the dependent variable is: " + results);
-        return "Success";
+        return results;
     }
 }
