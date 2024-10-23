@@ -43,10 +43,7 @@ public class main {
                         double matrix1[][] = BasicFunction.inputMatrix();
                         try {
                             String resultStr = GaussElimination.gaussElimination(matrix1);
-                            System.out.println(resultStr);    
-                            if(isSolutionValid){
-                                writeStringFile(resultStr);
-                            }
+                            System.err.println(resultStr);
                             break;
                         } catch (Exception e) {
                             System.err.println("Error: " + e);
@@ -70,8 +67,19 @@ public class main {
                         // *** CRAMER ***
                         case 3:
                             double matrix[][] = BasicFunction.inputMatrix();
+                            double[] CramerSolution = Cramer.CramerSolver(matrix);
+                            if (CramerSolution != null){
+                                BasicFunction.printArray(CramerSolution);
+                            }
+                            System.err.println("Save Hasil ke file?(Y/n)");
+                            while (true){
+                                char save = scanner.next().charAt(0);
+                                if (save == 'Y'){
+                                    System.err.println("Masukkan nama file: ");
+                                    String filename = scanner.next();
+                                    try{writeArrayFile(CramerSolution);}
+                                    catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
                             try {
-                                double[] CramerSolution = Cramer.CramerSolver(matrix);
                                 if (CramerSolution != null) {
                                     BasicFunction.printArray(CramerSolution);
                                 }
@@ -86,7 +94,8 @@ public class main {
                                 isSolutionValid = false;
                                 System.err.println("Determinan bernilai nol sehingga tidak ada solusi");
                             }
-                            
+                        }
+                    }
                         default:
                             System.out.println("Input tidak valid");
                             break;
@@ -156,7 +165,30 @@ public class main {
                     System.out.println("Hasil interpolasi: " + resultFloat);
                     break;
                 case 5:
-                    String resultStr = MultipleLinearRegression.multipleLinearRegression();
+                    System.out.println("1. Kuadratik Berganda");
+                    System.out.println("2. Linear Berganda");
+                    System.out.println("3. Kembali");
+                    System.out.print("Pilih Metode: ");
+                    int metodeRegresi = scanner.nextInt();
+                    switch(metodeRegresi){
+                        case 1:
+                        double resultStr = MultipleLinearRegression.multipleLinearRegression();
+
+                        if (resultStr != 0.2567){
+                            System.out.println("Save Hasil ke file?(Y/n)");
+                            while (true){
+                                char save = scanner.next().charAt(0);
+                                if (save == 'Y'){
+                                    System.err.println("Masukkan nama file: ");
+                                    String filename = scanner.next();
+                                    try{InputOutput.writeDoubleToFile(resultStr, filename);}
+                                    catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
+                                    break;
+                                }
+                            }
+                        }
+                        case 2:
+                    }
                     break;
                 case 6:
                     System.out.println("test");

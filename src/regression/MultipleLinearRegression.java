@@ -8,7 +8,10 @@ class DoubleWrapper {
         this.value = value;
     }
 }
+
+
 public class MultipleLinearRegression {
+    public static final String Coeff = null;
     private static boolean getCoefficient(double[][] IndependentVar, double[][] DependentVar, DoubleWrapper Coeff){
         double[][] EROMatrix = new double[IndependentVar[0].length+1][IndependentVar[0].length+2];
         int n = IndependentVar.length; //Jumlah Sampel
@@ -48,7 +51,7 @@ public class MultipleLinearRegression {
             return true;
         }
     }
-    public static String multipleLinearRegression() {
+    public static double multipleLinearRegression() {
         System.out.println("Insert Independent Variables as such:");
         System.out.println("x1i x2i x3i...xni yi");
         System.out.println("x1j x2j x3j...xnj yj");
@@ -67,7 +70,7 @@ public class MultipleLinearRegression {
         boolean result = getCoefficient(IndependentVariable, DependentVariable, coef);
         BasicFunction.printArray(coef.value);
         if (result == false) {
-            return "fail";
+            return 0.2567;
         }
         System.out.println("The Model is loaded!!\nPlease insert the value of the independent variables to predict the dependent variable:");
         double[] Predictor = new double[IndependentVariable[0].length];
@@ -84,6 +87,6 @@ public class MultipleLinearRegression {
         }
         results += coef.value[0];
         System.out.println("The predicted value of the dependent variable is: " + results);
-        return "Success";
+        return results;
     }
 }

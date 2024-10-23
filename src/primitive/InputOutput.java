@@ -92,6 +92,17 @@ public class InputOutput {
         // Close the PrintWriter to free up resources
         printWriter.close();
     }
+    public static void writeDoubleToFile(double content, String outputPath) throws IOException {
+        // FileWriter to write the string to the specified output path
+        FileWriter fileWriter = new FileWriter(outputPath);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        
+        // Write the content string to the file
+        printWriter.print(content);
+        
+        // Close the PrintWriter to free up resources
+        printWriter.close();
+    }
     // Function to check if file path exist
     public static boolean checkFilePath(String outputPath) throws IOException{
         File file = new File(outputPath);
