@@ -67,7 +67,7 @@ public class ImageResizer {
                 input[i][j] = pixelGrid[i][j];
             }
         }
-        matrixSingular(input);y
+        matrixSingular(input);
         double sum = 0;
         int index = 0;
         for (int l = 0; l < 16; l++) {
