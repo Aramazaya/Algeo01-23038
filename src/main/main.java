@@ -1,14 +1,8 @@
 package main;
-import primitive.BasicFunction;
-import primitive.GaussElimination;
-import primitive.GaussJordanElimination;
-import primitive.Cramer;
-import primitive.Determinant;
-import primitive.CofactorExpansion;
-import primitive.Inverse;
-import primitive.InputOutput;
-import interpolation.PolinomialInterpolation;
-import regression.MultipleLinearRegression;
+import primitive.*;
+import regression.*;
+import interpolation.*;
+import bicubicspline.*;
 //import Algeo.BicubicSpline;
 import java.util.Scanner;
 
@@ -37,12 +31,12 @@ public class main {
                         case 1:
                             double matrix1[][] = BasicFunction.inputMatrix();
                             String resultStr = GaussElimination.gaussElimination(matrix1);
-                            System.err.println(resultStr);
+                            System.out.println(resultStr);
                             break;
                         case 2:
                             double matrix2[][] = BasicFunction.inputMatrix();
                             String resultStr2 = GaussJordanElimination.gaussJordanElimination(matrix2);
-                            System.err.println(resultStr2);
+                            System.out.println(resultStr2);
                             break;
                         case 3:
                             double matrix[][] = BasicFunction.inputMatrix();
@@ -56,7 +50,8 @@ public class main {
                                 if (save == 'Y'){
                                     System.err.println("Masukkan nama file: ");
                                     String filename = scanner.next();
-                                    InputOutput.writeArrayFile(CramerSolution, resultStr2);
+                                    try{InputOutput.writeArrayFile(CramerSolution, filename);}
+                                    catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
                                     break;
                                 }
                             }
@@ -121,7 +116,29 @@ public class main {
                     System.out.println("Hasil interpolasi: " + resultFloat);
                     break;
                 case 5:
-                    String resultStr = MultipleLinearRegression.multipleLinearRegression();
+                    System.out.println("1. Kuadratik Berganda");
+                    System.out.println("2. Linear Berganda");
+                    System.out.println("3. Kembali");
+                    System.out.print("Pilih Metode: ");
+                    int metodeRegresi = scanner.nextInt();
+                    switch(metodeRegresi){
+                        case 1:
+                        String resultStr = MultipleLinearRegression.multipleLinearRegression();
+                        if (resultStr == "Success"){
+                            System.out.println("Save Hasil ke file?(Y/n)");
+                            while (true){
+                                char save = scanner.next().charAt(0);
+                                if (save == 'Y'){
+                                    System.err.println("Masukkan nama file: ");
+                                    String filename = scanner.next();
+                                    try{InputOutput.writeArrayFile(MultipleLinearRegression.Coeff.value, filename);}
+                                    catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
+                                    break;
+                                }
+                            }
+                        }
+                        case 2:
+                    }
                     break;
                 case 6:
                     System.out.println("test");

@@ -1,6 +1,6 @@
 package bicubicspline;
 
-import primitive.CofactorExpansion;
+import primitive.Inverse;
 public class InterpolasiBicubicSpline {
     public static String matrixOutput (double[][] matriks){
         String output = "";
@@ -12,7 +12,8 @@ public class InterpolasiBicubicSpline {
         }
         return output;
     }
-    
+    double[][] x = new double[3][3];
+    Inverse.InverseERO(x)
     static double[][] matriksInput = new double[16][1];
     static double[][] matriksX = new double[16][16];
     static double[][] matriksXInversed = new double[16][16];
