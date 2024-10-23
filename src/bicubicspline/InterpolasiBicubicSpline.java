@@ -49,7 +49,7 @@ public class InterpolasiBicubicSpline {
     }
 
     public static void matrixCoefficient(){
-        matriksInverse = Inverse.getInverse(matriksInverse);
+        matriksInverse = Inverse.getInverseMatriksIdentity(matriksInverse);
         matriksCoefficient = BasicFunction.multiplication(matriksInverse, matriksInput);
     }
     
