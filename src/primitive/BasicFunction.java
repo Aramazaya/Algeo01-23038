@@ -13,11 +13,11 @@ public class BasicFunction {
                 n=Integer.parseInt(input);
                 if (n>0) {
                     validInput = true;
-                } else {System.out.println("Yang Bener Kontol");}
+                } else {System.out.println("Baris harus lebih dari nol.");}
             } catch (NumberFormatException e){
-                System.out.println("Angka Goblog");
+                System.out.println("Masukan hanya menerima angka.");
             }} catch (Exception e){
-                System.out.println("An Error Occured. Please Try Again.");
+                System.out.println("Error, silahkan coba lagi.");
         }}
         validInput = false;
         while (!validInput){
@@ -28,11 +28,11 @@ public class BasicFunction {
                 m=Integer.parseInt(input);
                 if (m>0) {
                     validInput = true;
-                } else {System.out.println("Yang Bener Kontol");}
+                } else {System.out.println("Kolom harus lebih dari nol");}
             } catch (NumberFormatException e){
-                System.out.println("Angka Goblog");
+                System.out.println("Masukkan hanya menerima angka");
             }} catch (Exception e){
-                System.out.println("An Error Occured. Please Try Again.");
+                System.out.println("Error, silahkan coba lagi.");
             }
         }
         double[][] matrix = new double[n][m];
@@ -43,19 +43,19 @@ public class BasicFunction {
                 try{
                     String[] elements = readInput().trim().split("\\s+");
                     if (elements.length != m){
-                        System.out.println("Yang bener aja la kontol, Row nya kurang.");
+                        System.out.println("Baris masukan kurang.");
                         validInput = false;
                     }
                     for (int j = 0; j < m; j++) {
                         try {
                             matrix[i][j] = Double.parseDouble(elements[j]);
                         } catch (NumberFormatException e) {
-                            System.out.println("Woi Goblok. Yang lu masukin bukan angka tolol.");
+                            System.out.println("Masukan hanya menerima angka.");
                             validInput = false;
                         }
                     }
                 } catch (Exception e){
-                    System.out.println("Yang bener aja la kontol, Row nya kurang.");
+                    System.out.println("Baris masukan kurang.");
                     validInput = false;
                 }
                 if (validInput) {break;}

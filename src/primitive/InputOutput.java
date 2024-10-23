@@ -124,4 +124,193 @@ public class InputOutput {
             System.out.println("File not found: " + e.getMessage());
         }
     }
+
+    public static void writeMatrixFile(double[][] matrix) throws IOException{
+        Scanner scanner = new Scanner(System.in);
+        String outputPath;
+        while (true) {
+            System.out.println("Save Hasil ke file?(Y/n)");
+            char save = scanner.next().charAt(0);
+            if (save == 'Y' || save == 'y') {
+                System.out.println("Masukkan nama file: ");
+                String filename = scanner.next();
+                outputPath = String.format("data/%s", filename + ".txt");
+                
+                boolean isFileExists = InputOutput.checkFilePath(outputPath);
+                if (isFileExists){
+                    System.out.println("Terdapat file dengan nama yang sama apakah anda ingin overwrite? (y/N)");
+                    char overwrite = scanner.next().charAt(0);
+                    if (overwrite == 'Y' || overwrite == 'y'){
+                        InputOutput.writeMatrixToFile(matrix, outputPath);
+                        System.out.println("File berhasil di simpan pada" + outputPath);
+                        break;
+                    }
+                    else if (overwrite == 'n' || overwrite == 'N') {
+                        System.out.println("File tidak disimpan\n");
+                        break;
+                    } else {
+                        System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
+                        break;
+                    }
+                }
+                else{
+                    InputOutput.writeMatrixToFile(matrix, outputPath);
+                    System.out.println("File berhasil di simpan pada " + outputPath);
+                }
+
+                break;
+            }
+
+            else if (save == 'n' || save == 'N') {
+                System.out.println("File tidak disimpan.\n");
+                break; // Exit the loop without saving
+            } else {
+                System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
+                break;
+            }
+        }
+    }
+
+    public static void writeArrayFile(double[] array) throws IOException{
+        Scanner scanner = new Scanner(System.in);
+        String outputPath;
+        
+        while (true) {
+            System.out.println("Save Hasil ke file?(Y/n)");
+            char save = scanner.next().charAt(0);
+            if (save == 'Y' || save == 'y') {
+                System.out.println("Masukkan nama file: ");
+                String filename = scanner.next();
+                outputPath = String.format("data/%s", filename + ".txt");
+                
+                boolean isFileExists = InputOutput.checkFilePath(outputPath);
+                if (isFileExists){
+                    System.out.println("Terdapat file dengan nama yang sama apakah anda ingin overwrite? (y/N)");
+                    
+                    char overwrite = scanner.next().charAt(0);
+                    if (overwrite == 'Y' || overwrite == 'y'){
+                        InputOutput.writeArrayToFile(array, outputPath);
+                        System.out.println("File berhasil di simpan pada " + outputPath);
+                        break;
+                    }
+                    else if (overwrite == 'n' || overwrite == 'N') {
+                        System.out.println("File tidak disimpan\n");
+                        break;
+                    } else {
+                        System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
+                        break;
+                    }
+                }
+                else{
+                    InputOutput.writeArrayToFile(array, outputPath);
+                    System.out.println("File berhasil di simpan pada" + outputPath);
+                }
+                
+                break;
+            }
+            
+            else if (save == 'n' || save == 'N') {
+                System.out.println("File tidak disimpan.\n");
+                break; // Exit the loop without saving
+            } else {
+                System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
+                break;
+            }
+        }
+    }
+
+    public static void writeStringFile(String string) throws IOException{
+        Scanner scanner = new Scanner(System.in);
+        String outputPath;
+        
+        while (true) {
+            System.out.println("Save Hasil ke file?(Y/n)");
+            char save = scanner.next().charAt(0);
+            if (save == 'Y' || save == 'y') {
+                System.out.println("Masukkan nama file: ");
+                String filename = scanner.next();
+                outputPath = String.format("data/%s", filename + ".txt");
+                
+                boolean isFileExists = InputOutput.checkFilePath(outputPath);
+                if (isFileExists){
+                    System.out.println("Terdapat file dengan nama yang sama apakah anda ingin overwrite? (y/N)");
+                    char overwrite = scanner.next().charAt(0);
+                    if (overwrite == 'Y' || overwrite == 'y'){
+                        InputOutput.writeStringToFile(string, outputPath);
+                        System.out.println("File berhasil di simpan pada " + outputPath);
+                        break;
+                    }
+                    else if (overwrite == 'n' || overwrite == 'N') {
+                        System.out.println("File tidak disimpan\n");
+                        break;
+                    } else {
+                        System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
+                        break;
+                    }
+                }
+                else{
+                    InputOutput.writeStringToFile(string, outputPath);
+                    System.out.println("File berhasil di simpan pada" + outputPath);
+                    }
+                
+                break;
+            }
+            
+            else if (save == 'n' || save == 'N') {
+                System.out.println("File tidak disimpan.\n");
+                break; // Exit the loop without saving
+            } else {
+                System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
+                break;
+            }
+        }
+    }
+
+
+    public static void writeDoubleFile(Double x) throws IOException{
+        Scanner scanner = new Scanner(System.in);
+        String outputPath;
+        
+        while (true) {
+            System.out.println("Save Hasil ke file?(Y/n)");
+            char save = scanner.next().charAt(0);
+            if (save == 'Y' || save == 'y') {
+                System.out.println("Masukkan nama file: ");
+                String filename = scanner.next();
+                outputPath = String.format("data/%s", filename + ".txt");
+                
+                boolean isFileExists = InputOutput.checkFilePath(outputPath);
+                if (isFileExists){
+                    System.out.println("Terdapat file dengan nama yang sama apakah anda ingin overwrite? (y/N)");
+                    char overwrite = scanner.next().charAt(0);
+                    if (overwrite == 'Y' || overwrite == 'y'){
+                        InputOutput.writeDoubleToFile(x, outputPath);
+                        System.out.println("File berhasil di simpan pada " + outputPath);
+                        break;
+                    }
+                    else if (overwrite == 'n' || overwrite == 'N') {
+                        System.out.println("File tidak disimpan\n");
+                        break;
+                    } else {
+                        System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
+                        break;
+                    }
+                }
+                else{
+                    InputOutput.writeDoubleToFile(x, outputPath);
+                    System.out.println("File berhasil di simpan pada" + outputPath);
+                    }
+                
+                break;
+            }
+            
+            else if (save == 'n' || save == 'N') {
+                System.out.println("File tidak disimpan.\n");
+                break; // Exit the loop without saving
+            } else {
+                System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
+                break;
+            }
+        }
+    }
 }

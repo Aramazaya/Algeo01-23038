@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class main {
     public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
+        try (Scanner scanner = new Scanner(System.in)) {
         while (true) {
             System.out.println("\nMENU");
             System.out.println("1. Sistem Persamaan Linier");
@@ -44,6 +44,9 @@ public class main {
                         try {
                             String resultStr = GaussElimination.gaussElimination(matrix1);
                             System.err.println(resultStr);
+                            if(isSolutionValid){
+                                InputOutput.writeStringFile(resultStr);
+                            }
                             break;
                         } catch (Exception e) {
                             System.err.println("Error: " + e);
@@ -57,7 +60,7 @@ public class main {
                                 String resultStr2 = GaussJordanElimination.gaussJordanElimination(matrix2);
                                 System.out.println(resultStr2);
                                 if(isSolutionValid){
-                                    writeStringFile(resultStr2);
+                                    InputOutput.writeStringFile(resultStr2);
                                 }
                             } catch (Exception e) {
                                 System.err.println("Error: " + e);
@@ -70,32 +73,22 @@ public class main {
                             double[] CramerSolution = Cramer.CramerSolver(matrix);
                             if (CramerSolution != null){
                                 BasicFunction.printArray(CramerSolution);
-                            }
-                            System.err.println("Save Hasil ke file?(Y/n)");
+                            }                            
                             while (true){
-                                char save = scanner.next().charAt(0);
-                                if (save == 'Y'){
-                                    System.err.println("Masukkan nama file: ");
-                                    String filename = scanner.next();
-                                    try{writeArrayFile(CramerSolution);}
-                                    catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
-                            try {
-                                if (CramerSolution != null) {
-                                    BasicFunction.printArray(CramerSolution);
+                                try {
+                                    if(isSolutionValid){
+                                        InputOutput.writeArrayFile(CramerSolution);
+                                        break;
+                                    }
+                                } catch (IllegalArgumentException e) {
+                                    isSolutionValid = false;
+                                    System.err.println("Error : " + e);
+                                } catch( IllegalStateException e){
+                                    isSolutionValid = false;
+                                    System.err.println("Determinan bernilai nol sehingga tidak ada solusi");
                                 }
-                                if(isSolutionValid){
-                                    writeArrayFile(CramerSolution);
-                                    break;
-                                }
-                            } catch (IllegalArgumentException e) {
-                                isSolutionValid = false;
-                                System.err.println("Error : " + e);
-                            } catch( IllegalStateException e){
-                                isSolutionValid = false;
-                                System.err.println("Determinan bernilai nol sehingga tidak ada solusi");
                             }
-                        }
-                    }
+                            break;
                         default:
                             System.out.println("Input tidak valid");
                             break;
@@ -116,53 +109,78 @@ public class main {
                                 double matrix[][] = BasicFunction.inputMatrix();
                                 double resultFloat = Determinant.rowReductionDeterminant(matrix);
                                 System.out.println("Determinan: " + resultFloat);
+                                if(isSolutionValid){
+                                    InputOutput.writeDoubleFile(resultFloat);
+                                }
+                                
                                 break;
-                            case 2:
+                                case 2:
                                 double matrix2[][] = BasicFunction.inputMatrix();
                                 double resultFloat2 = CofactorExpansion.determinant(matrix2);
                                 System.out.println("Determinan: " + resultFloat2);
+                                if(isSolutionValid){
+                                    InputOutput.writeDoubleFile(resultFloat2);
+                                }
                                 break;
-                            case 3:
+                                case 3:
                                 break;
-                            default:
+                                default:
                                 System.out.println("Input tidak valid");
                                 break;
+                            }
+                        }catch(IllegalArgumentException e){
+                            System.err.println("Error: " + e);
+                        }catch(Exception e){
+                            System.err.println("Error: " + e);
                         }
-                }catch(IllegalArgumentException e){
-                    System.err.println("Error: " + e);
-                }catch(Exception e){
-                    System.err.println("Error: " + e);
-                }
-                    break;
+                        break;
 
-                case 3:
-                    System.out.println("1. Metode OBE");
-                    System.out.println("2. Metode Adjoin");
-                    System.out.println("3. Kembali");
-                    
-                    int metodeInverse = InputOutput.getValidIntegerInput(scanner, "Pilih Metode: ");
-                    switch (metodeInverse) {
-                        case 1:
-                            double matrix[][] = BasicFunction.inputMatrix();
-                            double resultMatrix[][] = Inverse.InverseERO(matrix);
-                            BasicFunction.printMatrix(resultMatrix);
-                            break;
-                        case 2:
-                            double matrix2[][] = BasicFunction.inputMatrix();
-                            double resultMatrix2[][] = Inverse.InverseCofactor(matrix2);
-                            BasicFunction.printMatrix(resultMatrix2);
-                            break;
+                        
+                        // *** Invers ***
                         case 3:
-                            break;
-                        default:
-                            System.out.println("Input tidak valid");
-                            break;
+                        System.out.println("1. Metode OBE");
+                        System.out.println("2. Metode Adjoin");
+                        System.out.println("3. Kembali");
+                        
+                        try{
+                            int metodeInverse = InputOutput.getValidIntegerInput(scanner, "Pilih Metode: ");
+                            switch (metodeInverse) {
+                                case 1:
+                                double matrix[][] = BasicFunction.inputMatrix();
+                                double resultMatrix[][] = Inverse.InverseERO(matrix);
+                                System.out.println("Hasil Matrix:");
+                                BasicFunction.printMatrix(resultMatrix);
+                                if(isSolutionValid){
+                                    InputOutput.writeMatrixFile(resultMatrix);
+                                }
+                                
+                                break;
+                                case 2:
+                                double matrix2[][] = BasicFunction.inputMatrix();
+                                double resultMatrix2[][] = Inverse.InverseCofactor(matrix2);
+                                System.out.println("Hasil Matrix:");
+                                BasicFunction.printMatrix(resultMatrix2);
+                                if(isSolutionValid){
+                                    InputOutput.writeMatrixFile(resultMatrix2);
+                                }
+                                break;
+                                case 3:
+                                break;
+                                default:
+                                System.out.println("Input tidak valid");
+                                break;
+                            }
+                    }catch(Exception e3 ){
+                        System.err.println("Error : " + e3);
                     }
                     break;
-                case 4:
+                    case 4:
                     double matrix[][] = BasicFunction.inputMatrix();
                     double resultFloat = PolinomialInterpolation.polinomialInterpolation(matrix);
                     System.out.println("Hasil interpolasi: " + resultFloat);
+                    if(isSolutionValid){
+                        InputOutput.writeDoubleFile(resultFloat);
+                    }
                     break;
                 case 5:
                     System.out.println("1. Kuadratik Berganda");
@@ -201,134 +219,7 @@ public class main {
                     break;
             }
         }
+        }
     }
     
-
-    public static void writeMatrixFile(double[][] matrix) throws IOException{
-        Scanner scanner = new Scanner(System.in);
-        String outputPath;
-        while (true) {
-            System.out.println("Save Hasil ke file?(Y/n)");
-            char save = scanner.next().charAt(0);
-            if (save == 'Y' || save == 'y') {
-                System.out.println("Masukkan nama file: ");
-                String filename = scanner.next();
-                outputPath = String.format("data/%s", filename + ".txt");
-                
-                boolean isFileExists = InputOutput.checkFilePath(outputPath);
-                if (isFileExists){
-                    System.out.println("Terdapat file dengan nama yang sama apakah anda ingin overwrite? (y/N)");
-                    char overwrite = scanner.next().charAt(0);
-                    if (overwrite == 'Y' || overwrite == 'y'){
-                        InputOutput.writeMatrixToFile(matrix, outputPath);
-                        System.out.println("File berhasil di simpan pada" + outputPath);
-                    }
-                    else if (save == 'n' || save == 'N') {
-                        System.out.println("File tidak disimpan\n");
-                    } else {
-                        System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
-                    }
-                }
-                else{
-                    InputOutput.writeMatrixToFile(matrix, outputPath);
-                    System.out.println("File berhasil di simpan pada " + outputPath);
-                }
-
-                break;
-            }
-
-            else if (save == 'n' || save == 'N') {
-                System.out.println("File tidak disimpan.\n");
-                break; // Exit the loop without saving
-            } else {
-                System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
-            }
-        }
-    }
-
-    public static void writeArrayFile(double[] array) throws IOException{
-        Scanner scanner = new Scanner(System.in);
-        String outputPath;
-        
-        while (true) {
-            System.out.println("Save Hasil ke file?(Y/n)");
-            char save = scanner.next().charAt(0);
-            if (save == 'Y' || save == 'y') {
-                System.out.println("Masukkan nama file: ");
-                String filename = scanner.next();
-                outputPath = String.format("data/%s", filename + ".txt");
-                
-                boolean isFileExists = InputOutput.checkFilePath(outputPath);
-                if (isFileExists){
-                    System.out.println("Terdapat file dengan nama yang sama apakah anda ingin overwrite? (y/N)");
-                    char overwrite = scanner.next().charAt(0);
-                    if (overwrite == 'Y' || overwrite == 'y'){
-                        InputOutput.writeArrayToFile(array, outputPath);
-                        System.out.println("File berhasil di simpan pada " + outputPath);
-                    }
-                    else if (save == 'n' || save == 'N') {
-                        System.out.println("File tidak disimpan\n");
-                    } else {
-                        System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
-                    }
-                }
-                else{
-                    InputOutput.writeArrayToFile(array, outputPath);
-                    System.out.println("File berhasil di simpan pada" + outputPath);
-                }
-                
-                break;
-            }
-            
-            else if (save == 'n' || save == 'N') {
-                System.out.println("File tidak disimpan.\n");
-                break; // Exit the loop without saving
-            } else {
-                System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
-            }
-        }
-    }
-
-    public static void writeStringFile(String string) throws IOException{
-        Scanner scanner = new Scanner(System.in);
-        String outputPath;
-        
-        while (true) {
-            System.out.println("Save Hasil ke file?(Y/n)");
-            char save = scanner.next().charAt(0);
-            if (save == 'Y' || save == 'y') {
-                System.out.println("Masukkan nama file: ");
-                String filename = scanner.next();
-                outputPath = String.format("data/%s", filename + ".txt");
-                
-                boolean isFileExists = InputOutput.checkFilePath(outputPath);
-                if (isFileExists){
-                    System.out.println("Terdapat file dengan nama yang sama apakah anda ingin overwrite? (y/N)");
-                    char overwrite = scanner.next().charAt(0);
-                    if (overwrite == 'Y' || overwrite == 'y'){
-                        InputOutput.writeStringToFile(string, outputPath);
-                        System.out.println("File berhasil di simpan pada " + outputPath);
-                    }
-                    else if (save == 'n' || save == 'N') {
-                        System.out.println("File tidak disimpan\n");
-                    } else {
-                        System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
-                    }
-                }
-                else{
-                    InputOutput.writeStringToFile(string, outputPath);
-                    System.out.println("File berhasil di simpan pada" + outputPath);
-                }
-                
-                break;
-            }
-            
-            else if (save == 'n' || save == 'N') {
-                System.out.println("File tidak disimpan.\n");
-                break; // Exit the loop without saving
-            } else {
-                System.out.println("Masukkan 'Y' untuk ya atau 'n' untuk tidak\n");
-            }
-        }
-    }
 }
