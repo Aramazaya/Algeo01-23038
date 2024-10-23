@@ -5,9 +5,21 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 
 public class InputOutput {
+    public static int getValidIntegerInput(Scanner scanner, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                return scanner.nextInt();  // Return the input if it's valid
+            } catch (InputMismatchException e) {
+                System.out.println("Input harus berupa angka.");
+                scanner.next();  // Clear the invalid input
+            }
+        }
+    }
     public static double[][] readMatrixFile(String filePath) throws FileNotFoundException{
         File file = new File(filePath);
         Scanner scanner = new Scanner(file);
@@ -43,7 +55,7 @@ public class InputOutput {
         return matrix;
     }
 
-    public static void writeMatrixFile(double[][] matrix, String outputPath) throws IOException {
+    public static void writeMatrixToFile(double[][] matrix, String outputPath) throws IOException {
         // Will overwrite if there's any file with the same name, implement with file path checking
         FileWriter fileWriter = new FileWriter(outputPath);
         PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -58,7 +70,7 @@ public class InputOutput {
         printWriter.close(); 
     }
 
-    public static void writeArrayFile(double[] matrix, String outputPath) throws IOException {
+    public static void writeArrayToFile(double[] matrix, String outputPath) throws IOException {
         // Will overwrite if there's any file with the same name, implement with file path checking
         FileWriter fileWriter = new FileWriter(outputPath);
         PrintWriter printWriter = new PrintWriter(fileWriter);
@@ -68,7 +80,18 @@ public class InputOutput {
         }
         printWriter.close(); 
     }
-
+    
+    public static void writeStringToFile(String content, String outputPath) throws IOException {
+        // FileWriter to write the string to the specified output path
+        FileWriter fileWriter = new FileWriter(outputPath);
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        
+        // Write the content string to the file
+        printWriter.print(content);
+        
+        // Close the PrintWriter to free up resources
+        printWriter.close();
+    }
     // Function to check if file path exist
     public static boolean checkFilePath(String outputPath) throws IOException{
         File file = new File(outputPath);
@@ -83,7 +106,7 @@ public class InputOutput {
 
             double[] result = Cramer.CramerSolver(matrix);
             BasicFunction.printArray(result);
-            writeArrayFile(result,"test/test.txt");
+            // writeArrayFile(result,"test/test.txt");
             // writeMatrixFile(matrix,"test/test.txt");
 
         } catch (FileNotFoundException e) {

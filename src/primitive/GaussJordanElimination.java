@@ -72,6 +72,7 @@ public class GaussJordanElimination {
                 return null;
             }
         }
+        System.out.println("\nMatrix akhir:");
         BasicFunction.printMatrix(matrix);
         if (hasFreeVariable){
             System.err.println("Ditemukan solusi parametric");
