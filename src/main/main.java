@@ -9,6 +9,7 @@ import primitive.Inverse;
 import primitive.InputOutput;
 import interpolation.PolinomialInterpolation;
 import regression.MultipleLinearRegression;
+import bicubicspline.*;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -24,7 +25,8 @@ public class main {
             System.out.println("4. Interpolasi Polinom");
             System.out.println("5. Regresi Linear dan Kuadratik Berganda");
             System.out.println("6. Interpolasi Bicubic Spline");
-            System.out.println("7. Keluar");
+            System.out.println("7. Interpolasi Gambar");
+            System.out.println("8. Keluar");
             
             int menu = InputOutput.getValidIntegerInput(scanner, "Pilih Menu: ");
             boolean isSolutionValid = true;
@@ -72,6 +74,7 @@ public class main {
                             double matrix[][] = BasicFunction.inputMatrix();
                             double[] CramerSolution = Cramer.CramerSolver(matrix);
                             if (CramerSolution != null){
+                                System.out.println();
                                 BasicFunction.printArray(CramerSolution);
                             }                            
                             while (true){
@@ -175,7 +178,9 @@ public class main {
                     }
                     break;
                     case 4:
-                    double matrix[][] = BasicFunction.inputMatrix();
+                    System.out.println("Masukkan titik (x,y) dengan format \"x<spasi>y\" ");
+                    System.out.println("Masukkan titik yang ingin ditaksir pada baris terakhir diikuti dengan nol \"x 0\"");
+                    double matrix[][] = BasicFunction.inputPolinomial();
                     double resultFloat = PolinomialInterpolation.polinomialInterpolation(matrix);
                     System.out.println("Hasil interpolasi: " + resultFloat);
                     if(isSolutionValid){
@@ -209,11 +214,21 @@ public class main {
                     }
                     break;
                 case 6:
-                    System.out.println("test");
+                    InterpolasiBicubicSpline.bicubicSpline();
                     break;
                 case 7:
+                    try{
+                        ImageResizer.resizeImage();
+                    }
+                    catch(Exception e){
+                        System.err.println("Error: " + e);
+                    }
+                    break;
+                    
+                case 8:
                     System.exit(0);
                     break;
+
                 default:
                     System.out.println("Input tidak valid");
                     break;

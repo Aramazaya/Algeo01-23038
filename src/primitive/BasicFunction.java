@@ -43,7 +43,7 @@ public class BasicFunction {
                 try{
                     String[] elements = readInput().trim().split("\\s+");
                     if (elements.length != m){
-                        System.out.println("Baris masukan kurang.");
+                        System.out.println("Jumlah kolom tidak sesuai.");
                         validInput = false;
                     }
                     for (int j = 0; j < m; j++) {
@@ -55,7 +55,7 @@ public class BasicFunction {
                         }
                     }
                 } catch (Exception e){
-                    System.out.println("Baris masukan kurang.");
+                    System.out.println("Error, silahkan coba lagi.");
                     validInput = false;
                 }
                 if (validInput) {break;}
@@ -63,6 +63,56 @@ public class BasicFunction {
         }
         return matrix;
     }
+    public static double[][] inputPolinomial(){
+        int n,m;
+        n = m = 0;
+        boolean validInput = false;
+        while (!validInput){
+            System.out.print("Masukan Jumlah Titik : ");
+            try{String input = readInput().trim();
+            try {
+                n=Integer.parseInt(input);
+                if (n>0) {
+                    validInput = true;
+                } else {System.out.println("Jumlah titik harus lebih dari nol.");}
+            } catch (NumberFormatException e){
+                System.out.println("Masukan hanya menerima angka.");
+            }} catch (Exception e){
+                System.out.println("Error, silahkan coba lagi.");
+        }}
+        
+        m = 2; //2 Kolom
+        
+        double[][] matrix = new double[n+1][m];
+        System.out.println("Masukan Matrix sesuai format");
+        for (int i = 0; i < n+1; i++){
+            while (true) {
+                validInput = true;
+                try{
+                    String[] elements = readInput().trim().split("\\s+");
+                    if (elements.length != m){
+                        System.out.println("Jumlah kolom tidak sesuai.");
+                        validInput = false;
+                    }
+                    for (int j = 0; j < m; j++) {
+                        try {
+                            matrix[i][j] = Double.parseDouble(elements[j]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Masukan hanya menerima angka.");
+                            validInput = false;
+                        }
+                    }
+                } catch (Exception e){
+                    System.out.println("Error, silahkan coba lagi.");
+                    validInput = false;
+                }
+                if (validInput) {break;}
+            }   
+        }
+        return matrix;
+    }
+
+
     public static void copyMatrix(double[][] matrix, double[][] matrix_out){
         for (int i = 0; i < matrix.length; i++){
             matrix_out[i] = matrix[i].clone();
