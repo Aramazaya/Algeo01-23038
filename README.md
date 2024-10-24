@@ -4,6 +4,7 @@
 Terdiri dari program mengenai Sistem Persamaan Linear (SPL), Determinan, Interpolasi Polinomial, Regresi Linier Berganda, dan Bicubic Spline INterpolation. Terdiri juga beberapa fungsi untuk menyelesaikan SPL, yaitu metode Eliminiasi Gauss, Gauss-Jordan, Matriks Balikan, dan Kadiah Cramer
 
 ## Kelompok 23 : Chaewon Noona
+![Foto Kelompok](https://github.com/Aramazaya/Algeo01-23038/blob/NoAlgeoPackage/tes.jpeg)
 | NIM | Nama |
 |----------|----------|
 | 13523038 | Abrar Abhirama Widyadhana  |
