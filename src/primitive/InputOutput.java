@@ -109,22 +109,6 @@ public class InputOutput {
         return file.exists();
     }
 
-    public static void main(String[] args) throws IOException { // tester
-        try {
-            double[][] matrix = readMatrixFile("test/3a.txt");
-
-            BasicFunction.printMatrix(matrix);
-
-            double[] result = Cramer.CramerSolver(matrix);
-            BasicFunction.printArray(result);
-            // writeArrayFile(result,"test/test.txt");
-            // writeMatrixFile(matrix,"test/test.txt");
-
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + e.getMessage());
-        }
-    }
-
     public static void writeMatrixFile(double[][] matrix) throws IOException{
         Scanner scanner = new Scanner(System.in);
         String outputPath;

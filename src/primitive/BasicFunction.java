@@ -255,7 +255,7 @@ public class BasicFunction {
 
     public static double[][] stripMatrixPolinomial(double[][] matrix){
         int row = matrix.length - 1;
-
+        
         double[][] resultMatrix = new double[row][2];
         for (int i = 0; i < row; i++){
             for(int j = 0; j < 2; j++){
@@ -266,6 +266,21 @@ public class BasicFunction {
 
         return resultMatrix;
     }
+    
+    public static double[][] stripMatrixEquation(double[][] matrix){
+        int row = matrix.length-1;
+        int col = matrix[0].length;
+        
+        double[][] resultMatrix = new double[row][2];
+        for (int i = 0; i < row; i++){
+            for(int j = 0; j < col; j++){
+                resultMatrix[i][j] = matrix[i][j];
+            }
+        }
+
+        return resultMatrix;
+    }
+    
     public static int factorial(int n){
         if (n == 0){
             return 1;

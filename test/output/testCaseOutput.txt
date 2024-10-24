@@ -1,0 +1,23 @@
+1a
+1a java.lang.IllegalStateException: Determinan bernilai nol sehingga tidak ada solusi1b
+1b java.lang.IllegalArgumentException: Matriks harus berukuran n x (n+1)1c
+1c java.lang.IllegalArgumentException: Matriks harus berukuran n x (n+1)1d1
+[D@52cc8049
+1d2
+[D@5b6f7412
+2a
+2a java.lang.IllegalStateException: Determinan bernilai nol sehingga tidak ada solusi2b
+2b java.lang.IllegalArgumentException: Matriks harus berukuran n x (n+1)3a
+[D@27973e9b
+3b
+3b java.lang.IllegalArgumentException: Matriks harus berukuran n x (n+1)4
+[D@312b1dae
+5a1 = 0.03296093749997216
+5a2 = 0.1711186523436975
+5a3 = 0.33723583984367567
+5a4 = 0.6775418374998929
+5b1 = -1.446960465138086E10
+5b2 = -1.6109838893917969E10
+5b3 = -1.8099609721203125E10
+5b4 = -2.451841697434375E10
+5c = 0.4188842301412414
