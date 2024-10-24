@@ -11,11 +11,10 @@ import interpolation.PolinomialInterpolation;
 import regression.MultipleLinearRegression;
 import bicubicspline.*;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         try (Scanner scanner = new Scanner(System.in)) {
         while (true) {
             System.out.println("\nMENU");
@@ -180,7 +179,6 @@ public class main {
                     break;
                     case 4:
                     double result = PolinomialInterpolation.polinomialInterpolationSolver();
-                    InputOutput.writeDoubleFile(result);
                     break;
                 case 5:
                     System.out.println("1. Kuadratik Berganda");
