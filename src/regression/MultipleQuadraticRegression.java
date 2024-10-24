@@ -2,6 +2,7 @@ package regression;
 
 import primitive.BasicFunction;
 import primitive.GaussElimination;
+import primitive.InputOutput;
 
 public class MultipleQuadraticRegression {
     private static int numOfVar(double[][] IndependentVar){
@@ -106,10 +107,40 @@ public class MultipleQuadraticRegression {
         }
     }
     public static double multipleQuadRegression() {
-        System.out.println("Insert Independent Variables as such:");
-        System.out.println("x1i x2i x3i...xni yi");
-        System.out.println("x1j x2j x3j...xnj yj");
-        double[][] Variables = BasicFunction.inputMatrix();
+        System.out.println("Masukan jumlah sampel dan variabel dalam satu baris dengan spasi: ");
+        int n = 0;
+        int m = 0;
+        while (true) {
+            try {
+                String[] elements = BasicFunction.readInput().trim().split("\\s+");
+                n = Integer.parseInt(elements[0]);
+                m = Integer.parseInt(elements[1]);
+                break;
+            } catch (Exception e) {
+                System.out.println("Error, silahkan coba lagi.");
+            }
+        }
+        double[][] Variables = new double[n][m];
+        double[] Predictors = new double[m-1];
+        while (true){
+            System.out.print("Ambil variabel dari file?(Y/n) : ");
+            try{char choice = BasicFunction.readInput().charAt(0);
+            if (choice == 'Y' || choice == 'y'){
+                System.out.print("Masukan path ke file (D:/Documents/regresi.txt): ");
+                String filename = BasicFunction.readInput();
+                InputOutput.readInputRegression(filename, Variables, Predictors, m, n);
+                break;
+            } else if (choice == 'N' || choice == 'n'){
+                Variables = MultipleLinearRegression.inputMatrixReg(n, m);
+                Predictors = MultipleLinearRegression.inputArrayReg(m);
+                break;
+            } else {
+                System.out.println("Masukan tidak valid.");
+            }
+            } catch (Exception e){
+                System.out.println("Error, silahkan coba lagi.");
+            }
+        }
         double[][] IndependentVariable = new double[Variables.length][Variables[0].length-1];
         for (int i=0; i<Variables.length; i++) {
             for (int j=0; j<Variables[0].length-1; j++) {
@@ -122,41 +153,31 @@ public class MultipleQuadraticRegression {
         }
         DoubleWrapper coef = new DoubleWrapper(new double[IndependentVariable[0].length+1]);
         boolean result = getCoefficient(IndependentVariable, DependentVariable, coef);
-        BasicFunction.printArray(coef.value);
         if (result == false) {
             return 0;
         }
-        System.out.println("The Model is loaded!!\nPlease insert the value of the independent variables to predict the dependent variable:");
-        double[] Predictor = new double[IndependentVariable[0].length];
-        while (true){try{String[] elements = BasicFunction.readInput().trim().split("\\s+");
-        for (int i=0; i<IndependentVariable[0].length; i++) {
-            Predictor[i] = Double.parseDouble(elements[i]);
-        }break;}
-        catch (Exception e){
-            System.out.println("An Error Occured. Please Try Again.");
-        }}
         double results = 0;
-        double[] Predictors = new double[numOfVar(IndependentVariable)];
+        double[] Predictor = new double[numOfVar(IndependentVariable)];
         int colIndex = 0;
         for (int i = 0; i<IndependentVariable[0].length; i++){
-            Predictors[colIndex] = Predictor[i];
+            Predictor[colIndex] = Predictors[i];
             colIndex++;
         }
         for (int i = 0; i<IndependentVariable[0].length; i++){
             for (int j = i; j<IndependentVariable[0].length; j++){
-                Predictors[colIndex] = Predictor[i]*Predictor[j];
+                Predictor[colIndex] = Predictors[i]*Predictors[j];
                 colIndex++;
             }
         }
         for (int i = 0; i<IndependentVariable[0].length; i++){
-            Predictors[colIndex] = Predictor[i]*Predictor[i];
+            Predictor[colIndex] = Predictors[i]*Predictors[i];
             colIndex++;
         }
         for (int i = 1; i<IndependentVariable[0].length; i++){
             results += coef.value[i]*Predictor[i-1];
         }
         results += coef.value[0];
-        System.out.println("The predicted value of the dependent variable is: " + results);
+        System.out.println("Hasil Prediksi Model : " + results);
         return results;
     }
 }

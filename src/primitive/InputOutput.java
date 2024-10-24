@@ -20,6 +20,27 @@ public class InputOutput {
             }
         }
     }
+    public static void readInputRegression(String filepath, double[][] matrix, double[] predictors, int m, int n) throws IOException{
+        File file = new File(filepath);
+        Scanner scanner = new Scanner(file);
+        matrix = new double[m][n];
+        predictors = new double[m-1];
+        if (scanner.hasNextLine()){
+            for (int i = 0; i < n; i++) {
+                String[] tokens = scanner.nextLine().split(" ");
+                for (int j = 0; j < m; j++) {
+                    matrix[i][j] = Double.parseDouble(tokens[j]);
+                }
+            }
+            if (scanner.hasNextLine()){
+                String[] predTokens = scanner.nextLine().split(" ");
+                for (int i = 0; i < predTokens.length; i++){
+                    predictors[i] = Double.parseDouble(predTokens[i]);
+                }
+            }
+        }
+        scanner.close();
+    }
     public static double[][] readMatrixFile(String filePath) throws FileNotFoundException{
         File file = new File(filePath);
         Scanner scanner = new Scanner(file);
