@@ -95,7 +95,7 @@ public class PolinomialInterpolation{
                 InputOutput.readInputPolinomialInterpolation(filename, matrix, n, x);
                 double result = PolinomialInterpolation.polinomialInterpolation(matrix, n, x);
                 System.out.println(result);
-                InputOutput.writeDoubleFile(result);
+                
                 return result;
     
             } else if (readFile == 'n' || readFile == 'N') {
@@ -124,7 +124,6 @@ public class PolinomialInterpolation{
                 System.out.println();
                 double result = PolinomialInterpolation.polinomialInterpolation(matrix, n, x);
                 System.out.println(result);
-                InputOutput.writeDoubleFile(result);
                 return result;
     
             } else if (readFile == 'c' || readFile == 'C') {
