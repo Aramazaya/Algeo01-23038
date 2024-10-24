@@ -41,7 +41,28 @@ public class InputOutput {
         }
         scanner.close();
     }
-    
+    public static void readInputBicubic(String filepath,double[][] matrix, double[] predictors, int x, int y ) throws IOException{
+        File file = new File(filepath);
+        Scanner scanner = new Scanner(file);
+        matrix = new double[4][4];
+        predictors = new double[2];
+        if (scanner.hasNextLine()){
+            for (int i = 0; i < 4; i++){
+                String[] tokens = scanner.nextLine().split(" ");
+                for (int j = 0; j < 4; j++) {
+                    matrix[i][j] = Double.parseDouble(tokens[j]);
+                }
+            }
+        }
+
+        if (scanner.hasNextLine()){
+            String[] predTokens = scanner.nextLine().split(" ");
+            for (int i = 0; i < predTokens.length; i++){
+                predictors[i] = Double.parseDouble(predTokens[i]);
+            }
+        }
+        scanner.close();
+    }
     public static double[][] readMatrixFile(String filePath) throws FileNotFoundException{
         File file = new File(filePath);
         Scanner scanner = new Scanner(file);
