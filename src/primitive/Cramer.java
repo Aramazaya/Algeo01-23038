@@ -26,10 +26,14 @@ public class Cramer {
                 System.out.println("Error, silahkan coba lagi.");
             }
         }
-        double[] result = CramerSolver(matrix);
-        System.out.println("Solusi dari persamaan adalah : ");
-        BasicFunction.printArray(result);
-        return result;
+        try{double[] result = CramerSolver(matrix);
+            System.out.println("Solusi dari persamaan adalah : ");
+            BasicFunction.printArray(result);
+            return result;}
+        catch (Exception e){
+            System.out.println(e.getMessage());
+            return new double[] {0.267};
+        }
     }
     public static double[] CramerSolver (double[][] matrix) throws IllegalArgumentException{
         // Prekondisi matriks harus n x (n+1)
