@@ -179,15 +179,8 @@ public class main {
                     }
                     break;
                     case 4:
-                    System.out.println("Masukkan titik (x,y) dengan format \"x<spasi>y\" ");
-                    System.out.println("Masukkan titik yang ingin ditaksir pada baris terakhir diikuti dengan nol \"x 0\"");
-                    double matrix[][] = BasicFunction.inputPolinomial();
-                    
-                    double resultFloat = PolinomialInterpolation.polinomialInterpolation(matrix);
-                    System.out.println(resultFloat);
-                    if(isSolutionValid){
-                        InputOutput.writeDoubleFile(resultFloat);
-                    }
+                    double result = PolinomialInterpolation.polinomialInterpolationSolver();
+                    InputOutput.writeDoubleFile(result);
                     break;
                 case 5:
                     System.out.println("1. Kuadratik Berganda");
