@@ -1,5 +1,4 @@
 package main;
-import primitive.BasicFunction;
 import primitive.GaussElimination;
 import primitive.GaussJordanElimination;
 import primitive.Cramer;
@@ -31,7 +30,6 @@ public class main {
             System.out.println("8. Keluar");
             
             int menu = InputOutput.getValidIntegerInput(scanner, "Pilih Menu: ");
-            boolean isSolutionValid = true;
 
             switch (menu) {
                 // *** Sistem Persamaan Linier ***
@@ -48,7 +46,14 @@ public class main {
                         resultString = GaussElimination.driverGaussElimination();
                         System.out.println(resultString);
                         if (resultString != "0.267"){
-                            InputOutput.writeStringFile(resultString);
+                            while(true){
+                                try {
+                                    InputOutput.writeStringFile(resultString);
+                                    break;   
+                                } catch (Exception e) {
+                                    System.err.println(e);
+                                }
+                            }
                         }
                         break;
                         // *** GAUSS JORDAN ***
@@ -56,15 +61,35 @@ public class main {
                         resultString = GaussJordanElimination.driverGaussJordanElimination();
                         System.out.println(resultString);
                         if (resultString != "0.267"){
-                            InputOutput.writeStringFile(resultString);
+                            while(true){
+                                try {
+                                    InputOutput.writeStringFile(resultString);
+                                    break;
+                                } catch (Exception e) {
+                                    System.err.println(e);
+                                }
+                            }
                         }
                         break;
                     
                         // *** CRAMER ***
                         case 3:
-                            double[] resultCramer = Cramer.driverCramerSolver();
-                            if (resultCramer[0] != 0.267){
-                                InputOutput.writeArrayFile(resultCramer);
+                            try {
+                                double[] resultCramer = Cramer.driverCramerSolver();
+                                if (resultCramer[0] != 0.267){
+                                    while(true){
+                                        try {
+                                            InputOutput.writeArrayFile(resultCramer);
+                                            break;
+                                        } catch (Exception e) {
+                                            System.err.println(e);
+                                        }
+
+                                    }
+                                }
+                                
+                            } catch (Exception e) {
+                                System.err.println(e);
                             }
                             break;
                         case 4:break;
@@ -87,13 +112,29 @@ public class main {
                             case 1:
                                 resultFloat = Determinant.driverRowReductionDet();
                                 if (resultFloat != 0.267){
-                                    InputOutput.writeDoubleFile(resultFloat);
+                                    while(true){
+                                        try {
+                                            InputOutput.writeDoubleFile(resultFloat);                                            
+                                            break;
+                                        } catch (Exception e) {
+                                            System.err.println(e);
+                                        }
+
+                                    }
                                 }
                                 break;
                                 case 2:
                                 resultFloat = CofactorExpansion.driverCofactorDet();
                                 if (resultFloat != 0.267){
-                                    InputOutput.writeDoubleFile(resultFloat);
+                                    while(true){
+                                        try {
+                                            InputOutput.writeDoubleFile(resultFloat);
+                                            break;
+                                        } catch (Exception e) {
+                                            System.err.println(e);
+                                        }
+
+                                    }
                                 }
                                 break;
                                 case 3:
@@ -122,13 +163,28 @@ public class main {
                                 case 1:
                                 double[][] inverseERO = Inverse.driverInverseERO();
                                 if (inverseERO!=null){
-                                    InputOutput.writeMatrixFile(inverseERO);
+                                    while(true){
+                                        try {
+                                            InputOutput.writeMatrixFile(inverseERO);
+                                            break;
+                                        } catch (Exception e) {
+                                            System.err.println(e);
+                                        }
+                                        
+                                    }
                                 }
                                 break;
                                 case 2:
                                 double[][] inverseCofac = Inverse.driverInverseCofactor();
                                 if (inverseCofac!=null){
-                                    InputOutput.writeMatrixFile(inverseCofac);
+                                    while (true) {
+                                        try {
+                                            InputOutput.writeMatrixFile(inverseCofac);
+                                            break;
+                                        } catch (Exception e) {
+                                            System.err.println(e);
+                                        }
+                                    }
                                 }
                                 break;
                                 case 3:
@@ -142,7 +198,20 @@ public class main {
                     }
                     break;
                     case 4:
-                    double result = PolinomialInterpolation.polinomialInterpolationSolver();
+                    try {
+                        double result = PolinomialInterpolation.polinomialInterpolationSolver();
+                        while (true) {
+                            try {
+                                InputOutput.writeDoubleFile(result);
+                                break;
+                            } catch (Exception e) {
+                                System.err.println(e);
+                            }
+                            
+                        }
+                    } catch (Exception e) {
+                        System.err.println(e);
+                    }
                     break;
                 case 5:
                     System.out.println("1. Kuadratik Berganda");
@@ -154,13 +223,27 @@ public class main {
                         case 1:
                         resultFloat = MultipleLinearRegression.multipleLinearRegression();
                         if (resultFloat != 0.267){
-                            InputOutput.writeDoubleFile(resultFloat);
+                            while (true) {
+                                try {
+                                    InputOutput.writeDoubleFile(resultFloat);
+                                    break;
+                                } catch (Exception e) {
+                                    System.err.println(e);
+                                }
+                            }
                         }
                         break;
                         case 2:
                         resultFloat = MultipleQuadraticRegression.multipleQuadRegression();
                         if (resultFloat != 0.267){
-                            InputOutput.writeDoubleFile(resultFloat);
+                            while (true) {
+                                try {
+                                    InputOutput.writeDoubleFile(resultFloat);
+                                    break;
+                                } catch (Exception e) {
+                                    System.err.println(e);
+                                }
+                            }
                         }
                         break;
                         default:
@@ -170,7 +253,15 @@ public class main {
                     break;
                 case 6:
                     resultString = InterpolasiBicubicSpline.driverBicubicSpline();
-                    InputOutput.writeStringFile(resultString);
+                    while (true) {
+                        try {
+                            InputOutput.writeStringFile(resultString);
+                            break;
+                        } catch (Exception e) {
+                            System.err.println(e);
+                        }
+                        
+                    }
                     break;
                 case 7:
                     try{
@@ -190,6 +281,7 @@ public class main {
                     break;
             }
         }
+
         }
     }
 

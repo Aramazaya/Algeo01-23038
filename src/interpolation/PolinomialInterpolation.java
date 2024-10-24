@@ -49,11 +49,16 @@ public class PolinomialInterpolation{
             
             String formattedCoefficient = String.format("%.4f", arrayResult[i]);
             if (i==0){
-                output.append(formattedCoefficient);
+                if(arrayResult[0] != 0){
+                    output.append(formattedCoefficient);
+                }
             }
             else{
-                if(arrayResult[i] >= 0 ){
+                if(arrayResult[i] > 0 ){
                     output.append(" + ").append(formattedCoefficient).append("x^").append(i);
+                }
+                else if(arrayResult[i] == 0){
+
                 }
                 else{
                     output.append(" ").append(formattedCoefficient).append("x^").append(i);
@@ -68,28 +73,29 @@ public class PolinomialInterpolation{
     }
     
     public static double polinomialInterpolationSolver() throws Exception {
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         boolean isInputValid = false;
-        char readFile = ' ';
     
         while (!isInputValid) {
             System.out.println("Apakah anda ingin membaca dari file (y/N/c): ");
-            readFile = scanner.next().charAt(0);
+            try{char readFile = BasicFunction.readInput().charAt(0);
     
             if (readFile == 'y' || readFile == 'Y') {
                 isInputValid = true; // Valid input, exit loop
                 double x = 0;
                 System.out.println("Masukkan jumlah titik: ");
                 int n = scanner.nextInt();
+                scanner.nextLine();
                 double[][] matrix = new double[n][2];
 
                 System.out.print("Masukan path ke file (D:/Documents/regresi.txt): ");
-                String filename = scanner.next();
+                String filename = scanner.nextLine();
                 
                 InputOutput.readInputPolinomialInterpolation(filename, matrix, n, x);
                 double result = PolinomialInterpolation.polinomialInterpolation(matrix, n, x);
                 System.out.println(result);
-                InputOutput.writeDoubleFile(result);
+                
                 return result;
     
             } else if (readFile == 'n' || readFile == 'N') {
@@ -118,15 +124,15 @@ public class PolinomialInterpolation{
                 System.out.println();
                 double result = PolinomialInterpolation.polinomialInterpolation(matrix, n, x);
                 System.out.println(result);
-                InputOutput.writeDoubleFile(result);
                 return result;
     
             } else if (readFile == 'c' || readFile == 'C') {
                 isInputValid = true;
                 return 0.267; 
     
-            } else {
-                System.out.println("Input tidak valid. Silakan masukkan 'y', 'n', atau 'c'.");
+            } }catch(Exception e){
+                System.out.println("Error, silahkan coba lagi.");
+                System.out.println(e);
             }
         }
     

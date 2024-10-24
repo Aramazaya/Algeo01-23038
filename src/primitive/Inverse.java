@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Inverse {
     public static double[][] inverse;
     public static double[][] driverInverseCofactor(){
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         double[][] matrix = new double[0][0];
         while (true){
@@ -39,6 +40,7 @@ public class Inverse {
         }
     }
     public static double[][] driverInverseERO(){
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         double[][] matrix = new double[0][0];
         while (true){

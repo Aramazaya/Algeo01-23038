@@ -6,6 +6,7 @@ import primitive.InputOutput;
 import primitive.Inverse;
 public class InterpolasiBicubicSpline {
 	 public static String driverBicubicSpline() {
+            @SuppressWarnings("resource")
             Scanner scanner = new Scanner(System.in);
             double[][] input = new double[0][0];
             double[] predictor = new double[2];

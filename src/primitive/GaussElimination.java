@@ -4,6 +4,7 @@ public class GaussElimination {
     public static String driverGaussElimination(){
         System.out.println("Metode eliminasi Gauss");
         double[][] matrix = new double[0][0];
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         while (true){
             System.out.print("Ambil variabel dari file?(Y/n/C) : ");
