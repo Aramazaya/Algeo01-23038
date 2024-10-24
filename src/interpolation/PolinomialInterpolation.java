@@ -83,7 +83,7 @@ public class PolinomialInterpolation{
     
             if (readFile == 'y' || readFile == 'Y') {
                 isInputValid = true; // Valid input, exit loop
-                double x = 0;
+                double[] x = new double[1];
                 System.out.println("Masukkan jumlah titik: ");
                 int n = scanner.nextInt();
                 scanner.nextLine();
@@ -93,7 +93,8 @@ public class PolinomialInterpolation{
                 String filename = scanner.nextLine();
                 
                 InputOutput.readInputPolinomialInterpolation(filename, matrix, n, x);
-                double result = PolinomialInterpolation.polinomialInterpolation(matrix, n, x);
+                double xEstimate = x[0];
+                double result = PolinomialInterpolation.polinomialInterpolation(matrix, n, xEstimate);
                 System.out.println(result);
                 
                 return result;

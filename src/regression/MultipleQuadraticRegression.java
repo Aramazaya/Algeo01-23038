@@ -93,14 +93,15 @@ public class MultipleQuadraticRegression {
                 sumDependentVar += DependentVar[i][0]*IndependentVar[i][row-1];
             }
         }
-        String result = GaussElimination.gaussElimination(EROMatrix);
+        String[] type = {""};
+        String result = GaussElimination.gaussElimination(EROMatrix, type);
         BasicFunction.printMatrix(EROMatrix);
-        if (result=="No solutions found."){
-            System.out.println("The Equation has no solution. The model cannot be loaded.");
+        if (result==null){
+            System.out.println("SPL Tidak memiliki solusi.");
             return false;
         }
-        else if (result=="Infinite solutions found."){
-            System.out.println("The Equation has infinite solutions. The model cannot be loaded.");
+        else if (type[0]=="parametric"){
+            System.out.println("SPL memiliki solusi tak hingga.");
             return false;
         }
         else {
@@ -132,12 +133,14 @@ public class MultipleQuadraticRegression {
             if (choice == 'Y' || choice == 'y'){
                 System.out.print("Masukan path ke file (D:/Documents/regresi.txt): ");
                 String filename = scanner.nextLine();
-                InputOutput.readInputRegression(filename, Variables, Predictors, m, n);
+                InputOutput.readInputRegression(filename, Variables, Predictors, n, m);
                 break;
             } else if (choice == 'N' || choice == 'n'){
                 Variables = MultipleLinearRegression.inputMatrixReg(n, m);
                 Predictors = MultipleLinearRegression.inputArrayReg(m);
                 break;
+            } else if (choice == 'C' || choice == 'c'){
+                return 0.267;
             } else {
                 System.out.println("Masukan tidak valid.");
             }

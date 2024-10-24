@@ -8,7 +8,7 @@ public class InterpolasiBicubicSpline {
 	 public static String driverBicubicSpline() {
             @SuppressWarnings("resource")
             Scanner scanner = new Scanner(System.in);
-            double[][] input = new double[0][0];
+            double[][] input = new double[4][4];
             double[] predictor = new double[2];
             while (true){
             System.out.print("Ambil variabel dari file?(Y/n/C) : ");
@@ -17,6 +17,8 @@ public class InterpolasiBicubicSpline {
                 System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
                 String filename = scanner.nextLine();
                 InputOutput.readInputBicubic(filename, input, predictor, 4, 4);
+                BasicFunction.printMatrix(input);
+                BasicFunction.printArray(predictor);
                 break;
             } else if (choice == 'N' || choice == 'n'){
                 input = BasicFunction.inputMatrix();

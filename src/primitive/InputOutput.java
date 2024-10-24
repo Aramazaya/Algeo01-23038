@@ -41,12 +41,10 @@ public class InputOutput {
             }
         }
     }
-    public static void readInputPolinomialInterpolation(String filepath, double[][] matrix, int n, double xEstimate) throws IOException {
+    public static void readInputPolinomialInterpolation(String filepath, double[][] matrix, int n, double[] xEstimate) throws IOException {
         File file = new File(filepath);
         @SuppressWarnings("resource")
         Scanner scanner = new Scanner(file);
-        
-        double[] x = new double[1];
 
         for (int i = 0; i < n; i++) {
             if (scanner.hasNextLine()) {
@@ -58,17 +56,14 @@ public class InputOutput {
         
         if (scanner.hasNextLine()) {
             String tempX = scanner.nextLine();
-            x[0] = Double.parseDouble(tempX.trim()); 
+            xEstimate[0] = Double.parseDouble(tempX.trim()); 
         }
-        xEstimate = x[0];
         
     }
     
     public static void readInputBicubic(String filepath,double[][] matrix, double[] predictors, int x, int y ) throws IOException{
         File file = new File(filepath);
         Scanner scanner = new Scanner(file);
-        matrix = new double[4][4];
-        predictors = new double[2];
         if (scanner.hasNextLine()){
             for (int i = 0; i < 4; i++){
                 String[] tokens = scanner.nextLine().split(" ");
@@ -84,7 +79,6 @@ public class InputOutput {
                 predictors[i] = Double.parseDouble(predTokens[i]);
             }
         }
-        scanner.close();
     }
     public static double[][] readMatrixFile(String filePath) throws FileNotFoundException{
         File file = new File(filePath);

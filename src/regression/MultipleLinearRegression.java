@@ -24,29 +24,25 @@ public class MultipleLinearRegression {
                 for (int l=0; l<n; l++){
                     if (i==0){EROMatrix[i][j+1] += IndependentVar[l][j];}
                     else {EROMatrix[i][j+1] += IndependentVar[l][i-1]*IndependentVar[l][j];}
-                    System.out.println(EROMatrix[i][j]);
-                    System.out.println("(" + i + ", " + j + ")");
                 }
             }
         }
-                BasicFunction.printMatrix(EROMatrix);
         for (int i=0; i<EROMatrix.length; i++){
             for (int j=0;j<EROMatrix.length;j++){
-                System.out.println("(" + i + ", " + j + ")");
                 if (i==0){EROMatrix[i][k+1] += DependentVar[j][0];}
                 else {EROMatrix[i][k+1] += IndependentVar[j][i-1]*DependentVar[j][0];}
             }
         }
         EROMatrix[0][0] = n;
         for (int i=1; i<EROMatrix.length; i++){EROMatrix[i][0] = EROMatrix[0][i];}
-        String result = GaussElimination.gaussElimination(EROMatrix);
-        BasicFunction.printMatrix(EROMatrix);
-        if (result=="No solutions found."){
-            System.out.println("The Equation has no solution. The model cannot be loaded.");
+        String[] type = {""};
+        String result = GaussElimination.gaussElimination(EROMatrix, type);
+        if (result==null){
+            System.out.println("SPL Tidak memiliki solusi.");
             return false;
         }
-        else if (result=="Infinite solutions found."){
-            System.out.println("The Equation has infinite solutions. The model cannot be loaded.");
+        else if (type[0]=="parametric"){
+            System.out.println("SPL memiliki hasil tak hingga.");
             return false;
         }
         else {
@@ -57,31 +53,25 @@ public class MultipleLinearRegression {
     public static double[] inputArrayReg(int m){
         boolean validInput = false;
         double[] matrix = new double[m-1];
-        System.out.println("Masukan Array sesuai format");
+        System.out.println("Masukan Array prediktor sesuai format");
         System.out.println("x1i x2i x3i...xni");
-        for (int i = 0; i < m-1; i++){
             while (true) {
-                validInput = true;
                 try{
                     String[] elements = BasicFunction.readInput().trim().split("\\s+");
-                    if (elements.length != m){
+                    if (elements.length != m-1){
                         System.out.println("Jumlah kolom tidak sesuai.");
-                        validInput = false;
                     }
                         try {
-                            matrix[i] = Double.parseDouble(elements[0]);
+                            for (int i = 0; i < matrix.length; i++){matrix[i] = Double.parseDouble(elements[i]);}
+                            break;
                         } catch (NumberFormatException e) {
                             System.out.println("Masukan hanya menerima angka.");
-                            validInput = false;
                         }
                     }
                 catch (Exception e){
                     System.out.println("Error, silahkan coba lagi.");
-                    validInput = false;
                 }
-                if (validInput) {break;}
             }   
-        }
         return matrix;
     }
     public static double[][] inputMatrixReg(int n, int m){
@@ -140,7 +130,7 @@ public class MultipleLinearRegression {
             if (choice == 'Y' || choice == 'y'){
                 System.out.print("Masukan path ke file (D:/Documents/regresi.txt): ");
                 String filename = scanner.nextLine();
-                InputOutput.readInputRegression(filename, Variables, Predictors, m, n);
+                InputOutput.readInputRegression(filename, Variables, Predictors, n, m);
                 break;
             } else if (choice == 'N' || choice == 'n'){
                 Variables = inputMatrixReg(n, m);
@@ -154,6 +144,7 @@ public class MultipleLinearRegression {
             }
             } catch (Exception e){
                 System.out.println("Error, silahkan coba lagi.");
+                System.out.println(e);
             }
         }
         double[][] IndependentVariable = new double[Variables.length][Variables[0].length-1];
@@ -175,9 +166,9 @@ public class MultipleLinearRegression {
         }
         double results = 0;
         for (int i = 1; i<IndependentVariable[0].length; i++){
-            results += coef.value[i]*Predictors[i];
+            results += coef.value[IndependentVariable[0].length-i-1]*Predictors[i];
         }
-        results += coef.value[0];
+        results += coef.value[IndependentVariable[0].length-1];
         System.out.println("Hasil Prediksi Model : " + results);
         return results;
     }

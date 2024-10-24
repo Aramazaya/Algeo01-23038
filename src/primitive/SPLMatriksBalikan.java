@@ -46,7 +46,12 @@ public class SPLMatriksBalikan {
                 A[i][j] = matrix[i][j];
             }
         }
-        try{double[][] AInverse = Inverse.InverseCofactor(A);
+        if (m != n){
+            System.out.println("Matriks tidak memiliki invers");
+            return null;
+        }
+        try{
+            double[][] AInverse = Inverse.InverseCofactor(A);
         if (AInverse == null){
             System.out.println("Matriks tidak memiliki invers");
             return null;
@@ -63,7 +68,8 @@ public class SPLMatriksBalikan {
             hasil += ("x" + i + " = " + X[i] + "\n");
         }
         System.out.println(hasil);
-        return hasil;}
+        return hasil;
+        }
         catch (Exception e){
             System.out.println(e.getMessage());
             return null;

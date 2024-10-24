@@ -228,8 +228,8 @@ public class main {
                     }
                     break;
                 case 5:
-                    System.out.println("1. Kuadratik Berganda");
-                    System.out.println("2. Linear Berganda");
+                    System.out.println("1. Linear Berganda");
+                    System.out.println("2. Kuadratik Berganda");
                     System.out.println("3. Kembali");
                     System.out.print("Pilih Metode: ");
                     int metodeRegresi = scanner.nextInt();

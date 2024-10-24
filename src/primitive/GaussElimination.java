@@ -28,11 +28,12 @@ public class GaussElimination {
                 System.out.println(e);
             }
         }
-        String hasil = gaussElimination(matrix);
+        String[] type = {"gauss"};
+        String hasil = gaussElimination(matrix, type);
         if (hasil == null){return "0.267";}
         else {return hasil;}
     }
-    public static String gaussElimination(double[][] matrix) {
+    public static String gaussElimination(double[][] matrix, String[] type) {
         int n = matrix.length;
         int m = matrix[0].length;
         boolean hasFreeVariable = false;
@@ -76,6 +77,7 @@ public class GaussElimination {
         BasicFunction.printMatrix(matrix);
         if (hasFreeVariable){
             System.err.println("Ditemukan solusi parametric");
+            type[0] = "parametric";
             return parametricBackSubstitution(matrix);
         }        
         else{
