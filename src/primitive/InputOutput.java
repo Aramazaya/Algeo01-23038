@@ -39,8 +39,29 @@ public class InputOutput {
                 }
             }
         }
-        scanner.close();
     }
+    public static void readInputPolinomialInterpolation(String filepath, double[][] matrix, int n, double xEstimate) throws IOException {
+        File file = new File(filepath);
+        Scanner scanner = new Scanner(file);
+        
+        double[] x = new double[1];
+
+        for (int i = 0; i < n; i++) {
+            if (scanner.hasNextLine()) {
+                String[] tokens = scanner.nextLine().trim().split("\\s+"); 
+                matrix[i][0] = Double.parseDouble(tokens[0]); // x value
+                matrix[i][1] = Double.parseDouble(tokens[1]); // y value
+            }
+        }
+        
+        if (scanner.hasNextLine()) {
+            String tempX = scanner.nextLine();
+            x[0] = Double.parseDouble(tempX.trim()); 
+        }
+        xEstimate = x[0];
+        
+    }
+    
     public static void readInputBicubic(String filepath,double[][] matrix, double[] predictors, int x, int y ) throws IOException{
         File file = new File(filepath);
         Scanner scanner = new Scanner(file);

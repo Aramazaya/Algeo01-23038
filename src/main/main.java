@@ -7,18 +7,17 @@ import primitive.Determinant;
 import primitive.CofactorExpansion;
 import primitive.Inverse;
 import primitive.InputOutput;
-//import interpolation.PolinomialInterpolation;
+import interpolation.PolinomialInterpolation;
 import regression.MultipleLinearRegression;
 import regression.MultipleQuadraticRegression;
 import bicubicspline.*;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class main {
     public static String resultString;
     public static double resultFloat;
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception{
         try (Scanner scanner = new Scanner(System.in)) {
         while (true) {
             System.out.println("\nMENU");
@@ -143,8 +142,7 @@ public class main {
                     }
                     break;
                     case 4:
-                    //double result = PolinomialInterpolation.polinomialInterpolationSolver();
-                    //InputOutput.writeDoubleFile(result);
+                    double result = PolinomialInterpolation.polinomialInterpolationSolver();
                     break;
                 case 5:
                     System.out.println("1. Kuadratik Berganda");

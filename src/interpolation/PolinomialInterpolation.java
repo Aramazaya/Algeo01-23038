@@ -4,14 +4,12 @@ import primitive.BasicFunction;
 import primitive.Cramer;
 import primitive.InputOutput;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class PolinomialInterpolation{
         public static double polinomialInterpolation(double[][] matrix, int jumlahTitik, double xEstimate) throws IllegalArgumentException{
         // Mengekstrak titik persamaan yang diketahui
-        int n = matrix.length;
-        // Mengesktrak titik yang akan diestimasi
+        int n = jumlahTitik;
 
         for (int i = 0; i < n - 1; i++) {
             for (int j = i + 1; j < n; j++) {
@@ -24,6 +22,11 @@ public class PolinomialInterpolation{
         // Matriks akan berukuran n x 2 karena akan mengandung titik (x,y)
         // Harus ditambahkan nilai 1 pada kolom pertama agar a0 terpenuhi persamaan a0 + a1x0 + ... = y0 
         double[][] matrixEquation = new double[n][n+1]; // n + 1 karena akan menampung vektor hasil di akhir kolom
+        for(int i = 0; i<n; i++){
+            for(int j = 0 ; j< n+1 ; j ++){
+                matrixEquation[i][j] = 0;
+            }
+        }
         BasicFunction.setColumnOneElement(matrixEquation, 0, 1); // Memasukkan nilai 1 pada awal kolom
         int col = matrixEquation[0].length;
 
@@ -49,7 +52,7 @@ public class PolinomialInterpolation{
                 output.append(formattedCoefficient);
             }
             else{
-                if(arrayResult[i] > 0 ){
+                if(arrayResult[i] >= 0 ){
                     output.append(" + ").append(formattedCoefficient).append("x^").append(i);
                 }
                 else{
@@ -64,39 +67,72 @@ public class PolinomialInterpolation{
         return result;
     }
     
-    public static double polinomialInterpolationSolver() throws IOException{
+    public static double polinomialInterpolationSolver() throws Exception {
         Scanner scanner = new Scanner(System.in);
         boolean isInputValid = false;
+        char readFile = ' ';
+    
+        while (!isInputValid) {
+            System.out.println("Apakah anda ingin membaca dari file (y/N/c): ");
+            readFile = scanner.next().charAt(0);
+    
+            if (readFile == 'y' || readFile == 'Y') {
+                isInputValid = true; // Valid input, exit loop
+                double x = 0;
+                System.out.println("Masukkan jumlah titik: ");
+                int n = scanner.nextInt();
+                double[][] matrix = new double[n][2];
 
-        int n = 0; 
-        while(!isInputValid){
-            System.out.println("Masukkan jumlah titik");
-            n = scanner.nextInt();
-            if(n>0){
+                System.out.print("Masukan path ke file (D:/Documents/regresi.txt): ");
+                String filename = scanner.next();
+                
+                InputOutput.readInputPolinomialInterpolation(filename, matrix, n, x);
+                double result = PolinomialInterpolation.polinomialInterpolation(matrix, n, x);
+                System.out.println(result);
+                InputOutput.writeDoubleFile(result);
+                return result;
+    
+            } else if (readFile == 'n' || readFile == 'N') {
+                boolean isNValid = false; // Valid input, exit loop
+                int n = 0;
+                while (!isNValid) {
+                    System.out.println("Masukkan jumlah titik:");
+                    n = scanner.nextInt();
+                    if (n > 0) {
+                        isNValid = true;
+                    } else {
+                        System.out.println("Jumlah titik harus lebih dari nol.");
+                    }
+                }
+    
+                double[][] matrix = new double[n][2];
+                System.out.println("Masukkan nilai titik-titik tanpa kurung:");
+                for (int i = 0; i < n; i++) {
+                    System.out.print("Titik " + (i + 1) + " (x, y): ");
+                    matrix[i][0] = scanner.nextDouble(); // Input untuk x
+                    matrix[i][1] = scanner.nextDouble(); // Input untuk y
+                }
+    
+                System.out.println("Masukkan nilai x yang akan diestimasi:");
+                double x = scanner.nextDouble();
+                System.out.println();
+                double result = PolinomialInterpolation.polinomialInterpolation(matrix, n, x);
+                System.out.println(result);
+                InputOutput.writeDoubleFile(result);
+                return result;
+    
+            } else if (readFile == 'c' || readFile == 'C') {
                 isInputValid = true;
-            }
-            else{
-                System.out.println("Jumlah titik harus lebih dari nol.");
+                return 0.267; 
+    
+            } else {
+                System.out.println("Input tidak valid. Silakan masukkan 'y', 'n', atau 'c'.");
             }
         }
-
-        double[][] matrix =  new double[n][2]; 
-        System.out.println("Masukkan nilai titik-titik tanpa kurung:");
-        for (int i = 0; i < n; i++) {
-            System.out.print("Titik " + (i + 1) + " (x, y): ");
-            matrix[i][0] = scanner.nextDouble(); // Input untuk x
-            matrix[i][1] = scanner.nextDouble(); // Input untuk y
-        }   
-
-        System.out.println("Masukkan nilai x yang akan diestimasi:");
-        double x = scanner.nextDouble();
-        System.out.println();
-
-        double result = PolinomialInterpolation.polinomialInterpolation(matrix, n, x);
-        System.out.println(result);
-
-        return result;
+    
+        return 0; // Default return in case nothing else works
     }
+    
 
     public static double[][] inputMatrixReg(int n, int m){
         boolean validInput = false;
