@@ -13,10 +13,17 @@ public class PolinomialInterpolation{
         BasicFunction.copyMatrix(matrix, tempMatrix);
         double[][] matrixPoint = BasicFunction.stripMatrixPolinomial(tempMatrix); 
         int n = matrixPoint.length;
-
         // Mengesktrak titik yang akan diestimasi
         double x = matrix[nInitial-1][0];
 
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                 if (matrixPoint[i][0] == matrixPoint[j][0]) {
+                    throw new IllegalArgumentException("Terdapat nilai duplikat, interpolasi tidak dapat dilakukan.");
+                }
+            }
+        }
+        
 
         if (n < 1) {
             throw new IllegalArgumentException("Jumlah titik harus lebih besar dari 0.");
@@ -39,10 +46,29 @@ public class PolinomialInterpolation{
             double[] arrayResult = new double[n];
             arrayResult = Cramer.CramerSolver(matrixEquation);
             double result = 0;
-            
+
+            StringBuilder output = new StringBuilder();
+            output.append("f(x) = ");
             for(int i=0 ; i<n ; i++){
                 result += arrayResult[i] * Math.pow(x,i) ;
+               
+                String formattedCoefficient = String.format("%.4f", arrayResult[i]);
+                if (i==0){
+                    output.append(formattedCoefficient);
+                }
+                else{
+                    if(arrayResult[i] > 0 ){
+                        output.append(" + ").append(formattedCoefficient).append("x^").append(i);
+                    }
+                    else{
+                        output.append(" ").append(formattedCoefficient).append("x^").append(i);
+
+                    }
+                }
             }
+            System.out.println(output.toString());
+            System.out.printf("f(%.4f) = ", x);
+            ;
             return result;
 
         }

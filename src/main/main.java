@@ -73,6 +73,7 @@ public class main {
                         case 3:
                             double matrix[][] = BasicFunction.inputMatrix();
                             double[] CramerSolution = Cramer.CramerSolver(matrix);
+                            
                             if (CramerSolution != null){
                                 System.out.println();
                                 BasicFunction.printArray(CramerSolution);
@@ -181,8 +182,9 @@ public class main {
                     System.out.println("Masukkan titik (x,y) dengan format \"x<spasi>y\" ");
                     System.out.println("Masukkan titik yang ingin ditaksir pada baris terakhir diikuti dengan nol \"x 0\"");
                     double matrix[][] = BasicFunction.inputPolinomial();
+                    
                     double resultFloat = PolinomialInterpolation.polinomialInterpolation(matrix);
-                    System.out.println("Hasil interpolasi: " + resultFloat);
+                    System.out.println(resultFloat);
                     if(isSolutionValid){
                         InputOutput.writeDoubleFile(resultFloat);
                     }
