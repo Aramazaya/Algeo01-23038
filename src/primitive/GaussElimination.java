@@ -33,7 +33,6 @@ public class GaussElimination {
         else {return hasil;}
     }
     public static String gaussElimination(double[][] matrix) {
-        BasicFunction.printMatrix(matrix);
         int n = matrix.length;
         int m = matrix[0].length;
         boolean hasFreeVariable = false;
@@ -62,8 +61,6 @@ public class GaussElimination {
             }
             idxPivot ++;
         }
-        System.out.println("\nMatrix akhir:");
-        BasicFunction.printMatrix(matrix);
         // Cek apakah ada baris nol dan augmented kolom juga nol (solusi banyak)
         for (int i = 0; i < n; i++) {
             if (isRowZero(matrix[i]) && Math.abs(matrix[i][m-1]) < 1e-9) {
@@ -75,6 +72,8 @@ public class GaussElimination {
                 return null;
             }
         }
+        System.out.println("\nMatrix akhir:");
+        BasicFunction.printMatrix(matrix);
         if (hasFreeVariable){
             System.err.println("Ditemukan solusi parametric");
             return parametricBackSubstitution(matrix);

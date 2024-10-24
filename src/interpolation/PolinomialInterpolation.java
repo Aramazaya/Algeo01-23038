@@ -137,39 +137,5 @@ public class PolinomialInterpolation{
         }
     
         return 0; // Default return in case nothing else works
-    }
-    
-
-    public static double[][] inputMatrixReg(int n, int m){
-        boolean validInput = false;
-        double[][] matrix = new double[n][m];
-        System.out.println("Masukan Matrix sesuai format");
-        System.out.println("x1i x2i x3i...xni yi");
-        System.out.println("x1j x2j x3j...xnj yj");
-        for (int i = 0; i < n; i++){
-            while (true) {
-                validInput = true;
-                try{
-                    String[] elements = BasicFunction.readInput().trim().split("\\s+");
-                    if (elements.length != m){
-                        System.out.println("Jumlah kolom tidak sesuai.");
-                        validInput = false;     
-                    }
-                    for (int j = 0; j < m; j++) {
-                        try {
-                            matrix[i][j] = Double.parseDouble(elements[j]);
-                        } catch (NumberFormatException e) {
-                            System.out.println("Masukan hanya menerima angka.");
-                            validInput = false;
-                        }
-                    }
-                } catch (Exception e){
-                    System.out.println("Error, silahkan coba lagi.");
-                    validInput = false;
-                }
-                if (validInput) {break;}
-            }   
-        }
-        return matrix;
-    }   
+    } 
 }

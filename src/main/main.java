@@ -5,6 +5,7 @@ import primitive.Cramer;
 import primitive.Determinant;
 import primitive.CofactorExpansion;
 import primitive.Inverse;
+import primitive.SPLMatriksBalikan;
 import primitive.InputOutput;
 import interpolation.PolinomialInterpolation;
 import regression.MultipleLinearRegression;
@@ -37,14 +38,14 @@ public class main {
                     System.out.println("1. Metode eliminasi Gauss");
                     System.out.println("2. Metode eliminasi Gauss-Jordan");
                     System.out.println("3. Kaidah Cramer");
-                    System.out.println("4. Kembali");
+                    System.out.println("4. Metode matriks balikan");
+                    System.out.println("5. Kembali");
                     
                     int metode = InputOutput.getValidIntegerInput(scanner, "Pilih Metode: ");
                     switch (metode) {
                         // *** GAUSS ***
                         case 1:
                         resultString = GaussElimination.driverGaussElimination();
-                        System.out.println(resultString);
                         if (resultString != "0.267"){
                             while(true){
                                 try {
@@ -92,7 +93,20 @@ public class main {
                                 System.err.println(e);
                             }
                             break;
-                        case 4:break;
+                        case 4:
+                        resultString = SPLMatriksBalikan.driverSPLInverse();
+                        if (resultString != "0.267"){
+                            while(true){
+                                try {
+                                    InputOutput.writeStringFile(resultString);
+                                    break;
+                                } catch (Exception e) {
+                                    System.err.println(e);
+                                }
+                            }
+                        }
+                        break;
+                        case 5 : break;
                         default:
                             System.out.println("Input tidak valid");
                             break;
