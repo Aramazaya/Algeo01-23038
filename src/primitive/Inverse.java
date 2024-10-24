@@ -13,7 +13,7 @@ public class Inverse {
             if (choice == 'Y' || choice == 'y'){
                 System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
                 String filename = scanner.nextLine();
-                InputOutput.readMatrixFile(filename);
+                matrix = InputOutput.readMatrixFile(filename);
                 break;
             } else if (choice == 'N' || choice == 'n'){
                 matrix = BasicFunction.inputMatrixn();
@@ -47,7 +47,7 @@ public class Inverse {
             if (choice == 'Y' || choice == 'y'){
                 System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
                 String filename = scanner.nextLine();
-                InputOutput.readMatrixFile(filename);
+                matrix = InputOutput.readMatrixFile(filename);
                 break;
             } else if (choice == 'N' || choice == 'n'){
                 matrix = BasicFunction.inputMatrixn();
