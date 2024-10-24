@@ -1,13 +1,17 @@
 package primitive;
+
+import java.util.Scanner;
+
 public class Determinant {
     public static double driverRowReductionDet(){
         double[][] matrix = new double[0][0];
+        Scanner scanner = new Scanner(System.in);
         while (true){
             System.out.print("Ambil variabel dari file?(Y/n/C) : ");
             try{char choice = BasicFunction.readInput().charAt(0);
             if (choice == 'Y' || choice == 'y'){
                 System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
-                String filename = BasicFunction.readInput();
+                String filename = scanner.nextLine();
                 InputOutput.readMatrixFile(filename);
                 break;
             } else if (choice == 'N' || choice == 'n'){

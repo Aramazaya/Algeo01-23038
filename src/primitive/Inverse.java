@@ -1,5 +1,77 @@
 package primitive;
+
+import java.util.Scanner;
+
 public class Inverse {
+    public static double[][] inverse;
+    public static double[][] driverInverseCofactor(){
+        Scanner scanner = new Scanner(System.in);
+        double[][] matrix = new double[0][0];
+        while (true){
+            System.out.print("Ambil variabel dari file?(Y/n/C) : ");
+            try{char choice = BasicFunction.readInput().charAt(0);
+            if (choice == 'Y' || choice == 'y'){
+                System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
+                String filename = scanner.nextLine();
+                InputOutput.readMatrixFile(filename);
+                break;
+            } else if (choice == 'N' || choice == 'n'){
+                matrix = BasicFunction.inputMatrixn();
+                break;
+            } else if (choice == 'C' || choice == 'c'){
+                return null;
+            } else {
+                System.out.println("Masukan tidak valid.");
+            }
+            } catch (Exception e){
+                System.out.println("Error, silahkan coba lagi.");
+            }
+        }
+        try{
+            inverse = InverseCofactor(matrix);
+            System.out.println("Inverse Matriks : ");
+            BasicFunction.printMatrix(inverse);
+            return inverse;
+        }
+        catch (Exception e){
+            System.out.println("Matrix is singular.");
+            return null;
+        }
+    }
+    public static double[][] driverInverseERO(){
+        Scanner scanner = new Scanner(System.in);
+        double[][] matrix = new double[0][0];
+        while (true){
+            System.out.print("Ambil variabel dari file?(Y/n/C) : ");
+            try{char choice = BasicFunction.readInput().charAt(0);
+            if (choice == 'Y' || choice == 'y'){
+                System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
+                String filename = scanner.nextLine();
+                InputOutput.readMatrixFile(filename);
+                break;
+            } else if (choice == 'N' || choice == 'n'){
+                matrix = BasicFunction.inputMatrixn();
+                break;
+            } else if (choice == 'C' || choice == 'c'){
+                return null;
+            } else {
+                System.out.println("Masukan tidak valid.");
+            }
+            } catch (Exception e){
+                System.out.println("Error, silahkan coba lagi.");
+            }
+        }
+        try{
+            inverse = InverseERO(matrix);
+            System.out.println("Inverse Matriks : ");
+            BasicFunction.printMatrix(inverse);
+            return inverse;
+        }
+        catch (Exception e){
+            System.out.println("Matrix is singular.");
+            return null;
+        }
+    }
     public static double[][] InverseCofactor(double[][] Matrix) throws IllegalArgumentException{
         double det = CofactorExpansion.determinant(Matrix);
         if(det == 0){

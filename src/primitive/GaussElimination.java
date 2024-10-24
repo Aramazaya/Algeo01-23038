@@ -1,15 +1,18 @@
 package primitive;
-
+import java.util.Scanner;
 public class GaussElimination {  
     public static String driverGaussElimination(){
+        System.out.println("Metode eliminasi Gauss");
         double[][] matrix = new double[0][0];
+        Scanner scanner = new Scanner(System.in);
         while (true){
             System.out.print("Ambil variabel dari file?(Y/n/C) : ");
             try{char choice = BasicFunction.readInput().charAt(0);
             if (choice == 'Y' || choice == 'y'){
                 System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
-                String filename = BasicFunction.readInput();
-                InputOutput.readMatrixFile(filename);
+                String filename = scanner.nextLine();
+                System.out.println("filename: " + filename);
+                matrix = InputOutput.readMatrixFile(filename);
                 break;
             } else if (choice == 'N' || choice == 'n'){
                 matrix = BasicFunction.inputMatrix();
@@ -21,6 +24,7 @@ public class GaussElimination {
             }
             } catch (Exception e){
                 System.out.println("Error, silahkan coba lagi.");
+                System.out.println(e);
             }
         }
         String hasil = gaussElimination(matrix);
@@ -28,6 +32,7 @@ public class GaussElimination {
         else {return hasil;}
     }
     public static String gaussElimination(double[][] matrix) {
+        BasicFunction.printMatrix(matrix);
         int n = matrix.length;
         int m = matrix[0].length;
         boolean hasFreeVariable = false;
@@ -56,7 +61,8 @@ public class GaussElimination {
             }
             idxPivot ++;
         }
-        
+        System.out.println("\nMatrix akhir:");
+        BasicFunction.printMatrix(matrix);
         // Cek apakah ada baris nol dan augmented kolom juga nol (solusi banyak)
         for (int i = 0; i < n; i++) {
             if (isRowZero(matrix[i]) && Math.abs(matrix[i][m-1]) < 1e-9) {
@@ -68,8 +74,6 @@ public class GaussElimination {
                 return null;
             }
         }
-        System.out.println("\nMatrix akhir:");
-        BasicFunction.printMatrix(matrix);
         if (hasFreeVariable){
             System.err.println("Ditemukan solusi parametric");
             return parametricBackSubstitution(matrix);

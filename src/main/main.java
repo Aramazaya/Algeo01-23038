@@ -7,14 +7,17 @@ import primitive.Determinant;
 import primitive.CofactorExpansion;
 import primitive.Inverse;
 import primitive.InputOutput;
-import interpolation.PolinomialInterpolation;
+//import interpolation.PolinomialInterpolation;
 import regression.MultipleLinearRegression;
+import regression.MultipleQuadraticRegression;
 import bicubicspline.*;
 
 import java.io.IOException;
 import java.util.Scanner;
 
 public class main {
+    public static String resultString;
+    public static double resultFloat;
     public static void main(String[] args) throws IOException {
         try (Scanner scanner = new Scanner(System.in)) {
         while (true) {
@@ -43,53 +46,26 @@ public class main {
                     switch (metode) {
                         // *** GAUSS ***
                         case 1:
-                        String resultString = GaussElimination.driverGaussElimination();
+                        resultString = GaussElimination.driverGaussElimination();
                         System.out.println(resultString);
                         if (resultString != "0.267"){
-                            while (true){
-                                System.out.println("Masukan Hasil ke file?(Y/n)");
-                                char save = scanner.next().charAt(0);
-                                if (save == 'Y' || save == 'y'){
-                                    System.out.println("Masukkan path ke file e.g (D:/Documents/out.txt): ");
-                                    String filename = scanner.next();
-                                    try{InputOutput.writeStringToFile(resultString, filename);}
-                                    catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
-                                    break;
-                                }
-                                else if (save == 'N' || save == 'n'){
-                                    break;
-                                } else{
-                                    System.out.println("Masukan tidak valid.");
-                                }
-                            }
+                            InputOutput.writeStringFile(resultString);
                         }
                         break;
                         // *** GAUSS JORDAN ***
                         case 2:
-                        
+                        resultString = GaussJordanElimination.driverGaussJordanElimination();
+                        System.out.println(resultString);
+                        if (resultString != "0.267"){
+                            InputOutput.writeStringFile(resultString);
+                        }
                         break;
                     
                         // *** CRAMER ***
                         case 3:
-                            double matrix[][] = BasicFunction.inputMatrix();
-                            double[] CramerSolution = Cramer.CramerSolver(matrix);
-                            if (CramerSolution != null){
-                                System.out.println();
-                                BasicFunction.printArray(CramerSolution);
-                            }                            
-                            while (true){
-                                try {
-                                    if(isSolutionValid){
-                                        InputOutput.writeArrayFile(CramerSolution);
-                                        break;
-                                    }
-                                } catch (IllegalArgumentException e) {
-                                    isSolutionValid = false;
-                                    System.err.println("Error : " + e);
-                                } catch( IllegalStateException e){
-                                    isSolutionValid = false;
-                                    System.err.println("Determinan bernilai nol sehingga tidak ada solusi");
-                                }
+                            double[] resultCramer = Cramer.driverCramerSolver();
+                            if (resultCramer[0] != 0.267){
+                                InputOutput.writeArrayFile(resultCramer);
                             }
                             break;
                         case 4:break;
@@ -110,46 +86,17 @@ public class main {
                         int metodeDeterminan = InputOutput.getValidIntegerInput(scanner, "Pilih Metode: ");
                         switch (metodeDeterminan) {
                             case 1:
-                                double resultFloat = Determinant.driverRowReductionDet();
+                                resultFloat = Determinant.driverRowReductionDet();
                                 if (resultFloat != 0.267){
-                                    while (true){
-                                        System.out.println("Masukan Hasil ke file?(Y/n)");
-                                        char save = scanner.next().charAt(0);
-                                        if (save == 'Y' || save == 'y'){
-                                            System.out.println("Masukkan path ke file e.g (D:/Documents/out.txt): ");
-                                            String filename = scanner.next();
-                                            try{InputOutput.writeDoubleToFile(resultFloat, filename);}
-                                            catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
-                                            break;
-                                        }
-                                        else if (save == 'N' || save == 'n'){
-                                            break;
-                                        } else{
-                                            System.out.println("Masukan tidak valid.");
-                                        }
-                                    }
+                                    InputOutput.writeDoubleFile(resultFloat);
                                 }
                                 break;
                                 case 2:
-                                double resultFloat2 = CofactorExpansion.driverCofactorDet();
-                                if (resultFloat2 != 0.267){System.out.println("Masukan hasil ke file?(Y/n)");
-                                while (true){
-                                    char save = scanner.next().charAt(0);
-                                    if (save == 'Y' || save == 'y'){
-                                        System.out.println("Masukkan path ke file e.g (D:/Documents/out.txt): ");
-                                        String filename = scanner.next();
-                                        try{InputOutput.writeDoubleToFile(resultFloat2, filename);}
-                                        catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
-                                        break;
-                                    }
-                                    else if (save == 'N' || save == 'n'){
-                                        break;
-                                    } else {
-                                        System.out.println("Masukan tidak valid.");
-                                    }
+                                resultFloat = CofactorExpansion.driverCofactorDet();
+                                if (resultFloat != 0.267){
+                                    InputOutput.writeDoubleFile(resultFloat);
                                 }
-                                break;}
-                                else{break;}
+                                break;
                                 case 3:
                                 break;
                                 default:
@@ -174,22 +121,15 @@ public class main {
                             int metodeInverse = InputOutput.getValidIntegerInput(scanner, "Pilih Metode: ");
                             switch (metodeInverse) {
                                 case 1:
-                                double matrix[][] = BasicFunction.inputMatrix();
-                                double resultMatrix[][] = Inverse.InverseERO(matrix);
-                                System.out.println("Hasil Matrix:");
-                                BasicFunction.printMatrix(resultMatrix);
-                                if(isSolutionValid){
-                                    InputOutput.writeMatrixFile(resultMatrix);
+                                double[][] inverseERO = Inverse.driverInverseERO();
+                                if (inverseERO!=null){
+                                    InputOutput.writeMatrixFile(inverseERO);
                                 }
-                                
                                 break;
                                 case 2:
-                                double matrix2[][] = BasicFunction.inputMatrix();
-                                double resultMatrix2[][] = Inverse.InverseCofactor(matrix2);
-                                System.out.println("Hasil Matrix:");
-                                BasicFunction.printMatrix(resultMatrix2);
-                                if(isSolutionValid){
-                                    InputOutput.writeMatrixFile(resultMatrix2);
+                                double[][] inverseCofac = Inverse.driverInverseCofactor();
+                                if (inverseCofac!=null){
+                                    InputOutput.writeMatrixFile(inverseCofac);
                                 }
                                 break;
                                 case 3:
@@ -203,14 +143,8 @@ public class main {
                     }
                     break;
                     case 4:
-                    System.out.println("Masukkan titik (x,y) dengan format \"x<spasi>y\" ");
-                    System.out.println("Masukkan titik yang ingin ditaksir pada baris terakhir diikuti dengan nol \"x 0\"");
-                    double matrix[][] = BasicFunction.inputPolinomial();
-                    double resultFloat = PolinomialInterpolation.polinomialInterpolation(matrix);
-                    System.out.println("Hasil interpolasi: " + resultFloat);
-                    if(isSolutionValid){
-                        InputOutput.writeDoubleFile(resultFloat);
-                    }
+                    //double result = PolinomialInterpolation.polinomialInterpolationSolver();
+                    //InputOutput.writeDoubleFile(result);
                     break;
                 case 5:
                     System.out.println("1. Kuadratik Berganda");
@@ -220,26 +154,25 @@ public class main {
                     int metodeRegresi = scanner.nextInt();
                     switch(metodeRegresi){
                         case 1:
-                        double resultStr = MultipleLinearRegression.multipleLinearRegression();
-
-                        if (resultStr != 0.2567){
-                            System.out.println("Save Hasil ke file?(Y/n)");
-                            while (true){
-                                char save = scanner.next().charAt(0);
-                                if (save == 'Y'){
-                                    System.err.println("Masukkan nama file: ");
-                                    String filename = scanner.next();
-                                    try{InputOutput.writeDoubleToFile(resultStr, filename);}
-                                    catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
-                                    break;
-                                }
-                            }
+                        resultFloat = MultipleLinearRegression.multipleLinearRegression();
+                        if (resultFloat != 0.267){
+                            InputOutput.writeDoubleFile(resultFloat);
                         }
+                        break;
                         case 2:
+                        resultFloat = MultipleQuadraticRegression.multipleQuadRegression();
+                        if (resultFloat != 0.267){
+                            InputOutput.writeDoubleFile(resultFloat);
+                        }
+                        break;
+                        default:
+                        System.out.println("Input tidak valid");
+                        break;
                     }
                     break;
                 case 6:
-                    InterpolasiBicubicSpline.bicubicSpline();
+                    resultString = InterpolasiBicubicSpline.driverBicubicSpline();
+                    InputOutput.writeStringFile(resultString);
                     break;
                 case 7:
                     try{

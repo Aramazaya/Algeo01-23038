@@ -41,23 +41,24 @@ public class InputOutput {
         }
         scanner.close();
     }
-    public static void readInputInterpolation(String filepath, double[][] matrix, double[] predictors, int n) throws Exception{
+    public static void readInputBicubic(String filepath,double[][] matrix, double[] predictors, int x, int y ) throws IOException{
         File file = new File(filepath);
         Scanner scanner = new Scanner(file);
-        matrix = new double[n][2];
+        matrix = new double[4][4];
         predictors = new double[2];
         if (scanner.hasNextLine()){
-            for (int i = 0; i < n; i++) {
+            for (int i = 0; i < 4; i++){
                 String[] tokens = scanner.nextLine().split(" ");
-                for (int j = 0; j < 2; j++) {
+                for (int j = 0; j < 4; j++) {
                     matrix[i][j] = Double.parseDouble(tokens[j]);
                 }
             }
-            if (scanner.hasNextLine()){
-                String[] predTokens = scanner.nextLine().split(" ");
-                for (int i = 0; i < predTokens.length; i++){
-                    predictors[i] = Double.parseDouble(predTokens[i]);
-                }
+        }
+
+        if (scanner.hasNextLine()){
+            String[] predTokens = scanner.nextLine().split(" ");
+            for (int i = 0; i < predTokens.length; i++){
+                predictors[i] = Double.parseDouble(predTokens[i]);
             }
         }
         scanner.close();
@@ -156,12 +157,12 @@ public class InputOutput {
         String outputPath;
         while (true) {
             System.out.println("Save Hasil ke file?(Y/n)");
-            char save = scanner.next().charAt(0);
+            char save = scanner.nextLine().charAt(0);
             if (save == 'Y' || save == 'y') {
-                System.out.println("Masukkan nama file: ");
-                String filename = scanner.next();
-                outputPath = String.format("data/%s", filename + ".txt");
-                
+                System.out.println("Masukkan path ke file e.g (D:/Documents/out.txt): ");
+                String filename = scanner.nextLine();
+                outputPath = filename;
+                 
                 boolean isFileExists = InputOutput.checkFilePath(outputPath);
                 if (isFileExists){
                     System.out.println("Terdapat file dengan nama yang sama apakah anda ingin overwrite? (y/N)");
@@ -203,12 +204,12 @@ public class InputOutput {
         
         while (true) {
             System.out.println("Save Hasil ke file?(Y/n)");
-            char save = scanner.next().charAt(0);
+            char save = scanner.nextLine().charAt(0);
             if (save == 'Y' || save == 'y') {
-                System.out.println("Masukkan nama file: ");
-                String filename = scanner.next();
-                outputPath = String.format("data/%s", filename + ".txt");
-                
+                System.out.println("Masukkan path ke file e.g (D:/Documents/out.txt): ");
+                String filename = scanner.nextLine();
+                outputPath = filename;
+                 
                 boolean isFileExists = InputOutput.checkFilePath(outputPath);
                 if (isFileExists){
                     System.out.println("Terdapat file dengan nama yang sama apakah anda ingin overwrite? (y/N)");
@@ -251,11 +252,11 @@ public class InputOutput {
         
         while (true) {
             System.out.println("Save Hasil ke file?(Y/n)");
-            char save = scanner.next().charAt(0);
+            char save = scanner.nextLine().charAt(0);
             if (save == 'Y' || save == 'y') {
-                System.out.println("Masukkan nama file: ");
-                String filename = scanner.next();
-                outputPath = String.format("data/%s", filename + ".txt");
+                System.out.println("Masukkan path ke file e.g (D:/Documents/out.txt): ");
+                String filename = scanner.nextLine();
+                outputPath = filename;
                 
                 boolean isFileExists = InputOutput.checkFilePath(outputPath);
                 if (isFileExists){
@@ -296,14 +297,13 @@ public class InputOutput {
     public static void writeDoubleFile(Double x) throws IOException{
         Scanner scanner = new Scanner(System.in);
         String outputPath;
-        
         while (true) {
             System.out.println("Save Hasil ke file?(Y/n)");
-            char save = scanner.next().charAt(0);
+            char save = scanner.nextLine().charAt(0);
             if (save == 'Y' || save == 'y') {
-                System.out.println("Masukkan nama file: ");
-                String filename = scanner.next();
-                outputPath = String.format("data/%s", filename + ".txt");
+                System.out.println("Masukkan path ke file e.g (D:/Documents/out.txt): ");
+                String filename = scanner.nextLine();
+                outputPath = filename;
                 
                 boolean isFileExists = InputOutput.checkFilePath(outputPath);
                 if (isFileExists){

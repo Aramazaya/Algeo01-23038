@@ -1,6 +1,36 @@
 package primitive;
 
+import java.util.Scanner;
+
 public class Cramer {
+    public static double[] driverCramerSolver(){
+        Scanner scanner = new Scanner(System.in);
+        double[][] matrix = new double[0][0];
+        while (true){
+            System.out.print("Ambil variabel dari file?(Y/n/C) : ");
+            try{char choice = BasicFunction.readInput().charAt(0);
+            if (choice == 'Y' || choice == 'y'){
+                System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
+                String filename = scanner.nextLine();
+                InputOutput.readMatrixFile(filename);
+                break;
+            } else if (choice == 'N' || choice == 'n'){
+                matrix = BasicFunction.inputMatrix();
+                break;
+            } else if (choice == 'C' || choice == 'c'){
+                return new double[] {0.267};
+            } else {
+                System.out.println("Masukan tidak valid.");
+            }
+            } catch (Exception e){
+                System.out.println("Error, silahkan coba lagi.");
+            }
+        }
+        double[] result = CramerSolver(matrix);
+        System.out.println("Solusi dari persamaan adalah : ");
+        BasicFunction.printArray(result);
+        return result;
+    }
     public static double[] CramerSolver (double[][] matrix) throws IllegalArgumentException{
         // Prekondisi matriks harus n x (n+1)
 

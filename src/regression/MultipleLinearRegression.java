@@ -1,4 +1,6 @@
 package regression;
+import java.util.Scanner;
+
 import primitive.BasicFunction;
 import primitive.GaussElimination;
 import primitive.InputOutput;
@@ -117,6 +119,7 @@ public class MultipleLinearRegression {
     public static double multipleLinearRegression() {
         System.out.println("Masukan jumlah sampel dan variabel dalam satu baris dengan spasi: ");
         int n = 0;
+        Scanner scanner = new Scanner(System.in);
         int m = 0;
         while (true) {
             try {
@@ -131,18 +134,21 @@ public class MultipleLinearRegression {
         double[][] Variables = new double[n][m];
         double[] Predictors = new double[m-1];
         while (true){
-            System.out.print("Ambil variabel dari file?(Y/n) : ");
+            System.out.print("Ambil variabel dari file?(Y/n/C) : ");
             try{char choice = BasicFunction.readInput().charAt(0);
             if (choice == 'Y' || choice == 'y'){
                 System.out.print("Masukan path ke file (D:/Documents/regresi.txt): ");
-                String filename = BasicFunction.readInput();
+                String filename = scanner.nextLine();
                 InputOutput.readInputRegression(filename, Variables, Predictors, m, n);
                 break;
             } else if (choice == 'N' || choice == 'n'){
                 Variables = inputMatrixReg(n, m);
                 Predictors = inputArrayReg(m);
                 break;
-            } else {
+            } else if (choice == 'C' || choice == 'c'){
+                return 0.267;
+            }
+            else {
                 System.out.println("Masukan tidak valid.");
             }
             } catch (Exception e){

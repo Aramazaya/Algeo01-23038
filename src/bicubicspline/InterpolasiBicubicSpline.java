@@ -2,28 +2,111 @@ package bicubicspline;
 
 import java.util.Scanner;
 import primitive.BasicFunction;
+import primitive.InputOutput;
 import primitive.Inverse;
 public class InterpolasiBicubicSpline {
-	 public static double bicubicSpline() {
-	        double[][] input = BasicFunction.inputMatrix();
-	        
+	 public static String driverBicubicSpline() {
+            Scanner scanner = new Scanner(System.in);
+            double[][] input = new double[0][0];
+            double[] predictor = new double[2];
+            while (true){
+            System.out.print("Ambil variabel dari file?(Y/n/C) : ");
+            try{char choice = BasicFunction.readInput().charAt(0);
+            if (choice == 'Y' || choice == 'y'){
+                System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
+                String filename = scanner.nextLine();
+                InputOutput.readInputBicubic(filename, input, predictor, 4, 4);
+                break;
+            } else if (choice == 'N' || choice == 'n'){
+                input = BasicFunction.inputMatrix();
+                while (true){
+                    try{
+                    String[] elements = BasicFunction.readInput().split(" ");
+                    if(elements.length != 2){
+                        System.out.println("Jumlah Kolom tidak sesuai");
+                    }else {
+                        try {
+                            for (int i = 0; i < 2; i ++ ){
+                                predictor[i] = Double.parseDouble(elements[i]);}
+                        } catch (NumberFormatException e) {
+                            System.out.println("Masukan hanya menerima angka");
+                        }
+                    }
+
+                } catch (Exception e){System.out.println("Error Occured");}
+                break;}
+                break;
+            } else if (choice == 'C' || choice == 'c'){
+                return "0.267";
+            } else {
+                System.out.println("Masukan tidak valid.");
+            }
+            } catch (Exception e){
+                System.out.println("Error, silahkan coba lagi.");
+            }
+        }
 	        matrixSingular(input);
-	        Scanner scanner = new Scanner(System.in);
-	        System.out.print("Masukkan nilai x: ");
-	        double x = scanner.nextDouble();
-	        System.out.print("Masukkan nilai y: ");
-	        double y = scanner.nextDouble();
+	        double x = predictor[0];
+	        double y = predictor[1];
 	        String hasilInterpolasi = bicubiInterpolation(x, y);
-	        System.out.println("Hasil Interpolasi:");
-	        System.out.println(hasilInterpolasi); 
-            double hasil = Double.parseDouble(hasilInterpolasi);
-	        scanner.close(); 
-            return hasil;
+	        System.out.println(hasilInterpolasi);   
+            return hasilInterpolasi;
 	    }
-    
+	
     static double[][] matriksInput = new double[16][1];
     static double[][] matriksInverse = new double[16][16];
     static double[][] matriksCoefficient = new double[16][1];
+
+    public static String bicubiInterpolation(double x, double y) {
+        StringBuilder result = new StringBuilder();
+        double total = 0;
+        int index = 0; 
+    
+        for (int i = 0; i < 16; i++) {
+            int row = i / 4; 
+            int col = i % 4; 
+            double xFactor = Math.pow(x, col);
+            double yFactor = Math.pow(y, row);
+            total += matriksCoefficient[index][0] * xFactor * yFactor;
+            index++;
+        }
+    System.out.println("Hasil Interpolasi:");
+    result.append(String.format("(%.2f, %.2f) is %f", x, y, total));
+    return result.toString();
+    }
+
+    public static void matrixCoefficient(){
+        matriksInverse = Inverse.getInverseMatriks(matriksInverse);
+        matriksCoefficient = BasicFunction.multiplication(matriksInverse, matriksInput);
+    }
+    
+    public static void konstanta(int i) {
+        int loop = i % 4;
+        if (loop == 0) derivative(0, 0, i);
+        else if (loop == 1) derivative(1, 0, i);
+        else if (loop == 2) derivative( 0, 1, i);
+        else derivative(1, 1, i);
+    }
+
+    public static void derivative(int x, int y, int derivativeType){
+        double computedValue;
+        int matrixIndex = 0;
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                if (derivativeType < 4) {
+                    computedValue = Math.pow(x, col) * Math.pow(y, row);
+                } else if (derivativeType < 8) {
+                    computedValue = col * Math.pow(x, col - 1) * Math.pow(y, row);
+                } else if (derivativeType < 12) {
+                    computedValue = row * Math.pow(x, col) * Math.pow(y, row - 1);
+                } else {
+                    computedValue = col * row * Math.pow(x, col - 1) * Math.pow(y, row - 1);
+                }
+                matriksInverse[derivativeType][matrixIndex] = (int) computedValue;
+                matrixIndex++;
+            }
+        }
+    }
     
     public static void matrixSingular(double[][] input) {
         int index = 0;
@@ -43,54 +126,5 @@ public class InterpolasiBicubicSpline {
             count++;
         }
         matrixCoefficient();
-    }
-
-    public static void matrixCoefficient(){
-        matriksInverse = Inverse.getInverseMatriks(matriksInverse);
-        matriksCoefficient = BasicFunction.multiplication(matriksInverse, matriksInput);
-    }
-    
-    public static void konstanta(int i) {
-        int loop = i % 4;
-        if (loop == 0) derivative(0, 0, i);
-        else if (loop == 1) derivative(1, 0, i);
-        else if (loop == 2) derivative( 0, 1, i);
-        else derivative(1, 1, i);
-    }
-
-    public static void derivative(int x, int y, int i){
-        double value;
-        int idx = 0;
-        for(int k=0; k<4; k++){
-            for(int l=0; l<4; l++){
-                if (i < 4) {
-                    value = (Math.pow(x,l) * Math.pow(y,k));
-                } else if (i < 8) {
-                    value = l * (Math.pow(x,l-1) * Math.pow(y,k));
-                } else if (i < 12) {
-                    value = k * (Math.pow(x,l) * Math.pow(y,k-1));
-                } else {
-                    value = k*l*(Math.pow(x,l-1) * Math.pow(y,k-1));
-                }
-                matriksInverse[i][idx] = (int) value;
-                idx++;
-            }
-        }
-    }
-    
-    public static String bicubiInterpolation(double x, double y) {
-        StringBuilder sout = new StringBuilder();
-        double sum = 0;
-        int index = 0; 
-            for (int l = 0; l < 16; l++) {
-            int k = l / 4; 
-            int j = l % 4; 
-            double xTerm = Math.pow(x, j);
-            double yTerm = Math.pow(y, k);
-            sum += matriksCoefficient[index][0] * xTerm * yTerm;
-            index++;
-        }
-        sout.append(String.format("f(%.2f,%.2f) = %f", x, y, sum));
-        return sout.toString();
     }
 }

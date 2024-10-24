@@ -1,5 +1,7 @@
 package regression;
 
+import java.util.Scanner;
+
 import primitive.BasicFunction;
 import primitive.GaussElimination;
 import primitive.InputOutput;
@@ -109,6 +111,7 @@ public class MultipleQuadraticRegression {
     public static double multipleQuadRegression() {
         System.out.println("Masukan jumlah sampel dan variabel dalam satu baris dengan spasi: ");
         int n = 0;
+        Scanner scanner = new Scanner(System.in);
         int m = 0;
         while (true) {
             try {
@@ -127,7 +130,7 @@ public class MultipleQuadraticRegression {
             try{char choice = BasicFunction.readInput().charAt(0);
             if (choice == 'Y' || choice == 'y'){
                 System.out.print("Masukan path ke file (D:/Documents/regresi.txt): ");
-                String filename = BasicFunction.readInput();
+                String filename = scanner.nextLine();
                 InputOutput.readInputRegression(filename, Variables, Predictors, m, n);
                 break;
             } else if (choice == 'N' || choice == 'n'){

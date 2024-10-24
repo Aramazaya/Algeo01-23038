@@ -1,4 +1,7 @@
 package primitive;
+
+import java.util.Scanner;
+
 public class CofactorExpansion{
     public static double[][] takeCofactor(double[][] matrix, int row, int col){
         double[][] cofactor = new double[matrix.length-1][matrix.length-1];
@@ -32,13 +35,14 @@ public class CofactorExpansion{
         return det;
     }
     public static double driverCofactorDet(){
+        Scanner scanner = new Scanner(System.in);
         double[][] matrix = new double[0][0];
         while (true){
             System.out.print("Ambil variabel dari file?(Y/n/C) : ");
             try{char choice = BasicFunction.readInput().charAt(0);
             if (choice == 'Y' || choice == 'y'){
                 System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
-                String filename = BasicFunction.readInput();
+                String filename = scanner.nextLine();
                 InputOutput.readMatrixFile(filename);
                 break;
             } else if (choice == 'N' || choice == 'n'){
