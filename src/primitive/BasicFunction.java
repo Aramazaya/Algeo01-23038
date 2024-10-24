@@ -1,7 +1,55 @@
 package primitive;
 
 public class BasicFunction {
-
+    public static double[][] inputMatrixn(){
+        int n, m;
+        n = m = 0;
+        boolean validInput = false;
+        validInput = false;
+        while (!validInput){
+            System.out.print("Masukan Jumlah Kolom : ");
+            try{
+                String input = readInput().trim();
+            try {
+                m=Integer.parseInt(input);
+                n = Integer.parseInt(input);
+                if (m>0) {
+                    validInput = true;
+                } else {System.out.println("Kolom harus lebih dari nol");}
+            } catch (NumberFormatException e){
+                System.out.println("Masukkan hanya menerima angka");
+            }} catch (Exception e){
+                System.out.println("Error, silahkan coba lagi.");
+            }
+        }
+        double[][] matrix = new double[n][m];
+        System.out.println("Masukan Matrix sesuai format");
+        for (int i = 0; i < n; i++){
+            while (true) {
+                validInput = true;
+                try{
+                    String[] elements = readInput().trim().split("\\s+");
+                    if (elements.length != m){
+                        System.out.println("Jumlah kolom tidak sesuai.");
+                        validInput = false;
+                    }
+                    for (int j = 0; j < m; j++) {
+                        try {
+                            matrix[i][j] = Double.parseDouble(elements[j]);
+                        } catch (NumberFormatException e) {
+                            System.out.println("Masukan hanya menerima angka.");
+                            validInput = false;
+                        }
+                    }
+                } catch (Exception e){
+                    System.out.println("Error, silahkan coba lagi.");
+                    validInput = false;
+                }
+                if (validInput) {break;}
+            }   
+        }
+        return matrix;
+    }
     public static double[][] inputMatrix(){
         int n,m;
         n = m = 0;

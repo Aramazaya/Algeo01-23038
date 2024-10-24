@@ -20,15 +20,36 @@ public class InputOutput {
             }
         }
     }
-    public static void readInputRegression(String filepath, double[][] matrix, double[] predictors, int m, int n) throws IOException{
+    public static void readInputRegression(String filepath, double[][] matrix, double[] predictors, int n, int m) throws IOException{
         File file = new File(filepath);
         Scanner scanner = new Scanner(file);
-        matrix = new double[m][n];
+        matrix = new double[n][m];
         predictors = new double[m-1];
         if (scanner.hasNextLine()){
             for (int i = 0; i < n; i++) {
                 String[] tokens = scanner.nextLine().split(" ");
                 for (int j = 0; j < m; j++) {
+                    matrix[i][j] = Double.parseDouble(tokens[j]);
+                }
+            }
+            if (scanner.hasNextLine()){
+                String[] predTokens = scanner.nextLine().split(" ");
+                for (int i = 0; i < predTokens.length; i++){
+                    predictors[i] = Double.parseDouble(predTokens[i]);
+                }
+            }
+        }
+        scanner.close();
+    }
+    public static void readInputInterpolation(String filepath, double[][] matrix, double[] predictors, int n) throws Exception{
+        File file = new File(filepath);
+        Scanner scanner = new Scanner(file);
+        matrix = new double[n][2];
+        predictors = new double[2];
+        if (scanner.hasNextLine()){
+            for (int i = 0; i < n; i++) {
+                String[] tokens = scanner.nextLine().split(" ");
+                for (int j = 0; j < 2; j++) {
                     matrix[i][j] = Double.parseDouble(tokens[j]);
                 }
             }

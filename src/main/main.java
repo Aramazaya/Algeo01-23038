@@ -37,38 +37,38 @@ public class main {
                     System.out.println("1. Metode eliminasi Gauss");
                     System.out.println("2. Metode eliminasi Gauss-Jordan");
                     System.out.println("3. Kaidah Cramer");
+                    System.out.println("4. Kembali");
                     
                     int metode = InputOutput.getValidIntegerInput(scanner, "Pilih Metode: ");
                     switch (metode) {
                         // *** GAUSS ***
                         case 1:
-                        double matrix1[][] = BasicFunction.inputMatrix();
-                        try {
-                            String resultStr = GaussElimination.gaussElimination(matrix1);
-                            System.err.println(resultStr);
-                            if(isSolutionValid){
-                                InputOutput.writeStringFile(resultStr);
-                            }
-                            break;
-                        } catch (Exception e) {
-                            System.err.println("Error: " + e);
-                        }
-                        
-                        
-                        // *** GAUSS JORDAN ***
-                            case 2:
-                            double matrix2[][] = BasicFunction.inputMatrix();
-                            try {
-                                String resultStr2 = GaussJordanElimination.gaussJordanElimination(matrix2);
-                                System.out.println(resultStr2);
-                                if(isSolutionValid){
-                                    InputOutput.writeStringFile(resultStr2);
+                        String resultString = GaussElimination.driverGaussElimination();
+                        System.out.println(resultString);
+                        if (resultString != "0.267"){
+                            while (true){
+                                System.out.println("Masukan Hasil ke file?(Y/n)");
+                                char save = scanner.next().charAt(0);
+                                if (save == 'Y' || save == 'y'){
+                                    System.out.println("Masukkan path ke file e.g (D:/Documents/out.txt): ");
+                                    String filename = scanner.next();
+                                    try{InputOutput.writeStringToFile(resultString, filename);}
+                                    catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
+                                    break;
                                 }
-                            } catch (Exception e) {
-                                System.err.println("Error: " + e);
+                                else if (save == 'N' || save == 'n'){
+                                    break;
+                                } else{
+                                    System.out.println("Masukan tidak valid.");
+                                }
                             }
-                            break;
+                        }
+                        break;
+                        // *** GAUSS JORDAN ***
+                        case 2:
                         
+                        break;
+                    
                         // *** CRAMER ***
                         case 3:
                             double matrix[][] = BasicFunction.inputMatrix();
@@ -92,6 +92,7 @@ public class main {
                                 }
                             }
                             break;
+                        case 4:break;
                         default:
                             System.out.println("Input tidak valid");
                             break;
@@ -109,22 +110,46 @@ public class main {
                         int metodeDeterminan = InputOutput.getValidIntegerInput(scanner, "Pilih Metode: ");
                         switch (metodeDeterminan) {
                             case 1:
-                                double matrix[][] = BasicFunction.inputMatrix();
-                                double resultFloat = Determinant.rowReductionDeterminant(matrix);
-                                System.out.println("Determinan: " + resultFloat);
-                                if(isSolutionValid){
-                                    InputOutput.writeDoubleFile(resultFloat);
+                                double resultFloat = Determinant.driverRowReductionDet();
+                                if (resultFloat != 0.267){
+                                    while (true){
+                                        System.out.println("Masukan Hasil ke file?(Y/n)");
+                                        char save = scanner.next().charAt(0);
+                                        if (save == 'Y' || save == 'y'){
+                                            System.out.println("Masukkan path ke file e.g (D:/Documents/out.txt): ");
+                                            String filename = scanner.next();
+                                            try{InputOutput.writeDoubleToFile(resultFloat, filename);}
+                                            catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
+                                            break;
+                                        }
+                                        else if (save == 'N' || save == 'n'){
+                                            break;
+                                        } else{
+                                            System.out.println("Masukan tidak valid.");
+                                        }
+                                    }
                                 }
-                                
                                 break;
                                 case 2:
-                                double matrix2[][] = BasicFunction.inputMatrix();
-                                double resultFloat2 = CofactorExpansion.determinant(matrix2);
-                                System.out.println("Determinan: " + resultFloat2);
-                                if(isSolutionValid){
-                                    InputOutput.writeDoubleFile(resultFloat2);
+                                double resultFloat2 = CofactorExpansion.driverCofactorDet();
+                                if (resultFloat2 != 0.267){System.out.println("Masukan hasil ke file?(Y/n)");
+                                while (true){
+                                    char save = scanner.next().charAt(0);
+                                    if (save == 'Y' || save == 'y'){
+                                        System.out.println("Masukkan path ke file e.g (D:/Documents/out.txt): ");
+                                        String filename = scanner.next();
+                                        try{InputOutput.writeDoubleToFile(resultFloat2, filename);}
+                                        catch (Exception e){System.out.println("an Error occured, file cannot be saved.");}
+                                        break;
+                                    }
+                                    else if (save == 'N' || save == 'n'){
+                                        break;
+                                    } else {
+                                        System.out.println("Masukan tidak valid.");
+                                    }
                                 }
-                                break;
+                                break;}
+                                else{break;}
                                 case 3:
                                 break;
                                 default:
@@ -236,5 +261,5 @@ public class main {
         }
         }
     }
-    
+
 }

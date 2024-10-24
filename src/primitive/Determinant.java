@@ -1,11 +1,36 @@
 package primitive;
 public class Determinant {
+    public static double driverRowReductionDet(){
+        double[][] matrix = new double[0][0];
+        while (true){
+            System.out.print("Ambil variabel dari file?(Y/n/C) : ");
+            try{char choice = BasicFunction.readInput().charAt(0);
+            if (choice == 'Y' || choice == 'y'){
+                System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
+                String filename = BasicFunction.readInput();
+                InputOutput.readMatrixFile(filename);
+                break;
+            } else if (choice == 'N' || choice == 'n'){
+                matrix = BasicFunction.inputMatrixn();
+                break;
+            } else if (choice == 'C' || choice == 'c'){
+                return 0.267;
+            } else {
+                System.out.println("Masukan tidak valid.");
+            }
+            } catch (Exception e){
+                System.out.println("Error, silahkan coba lagi.");
+            }
+        }
+        double det = rowReductionDeterminant(matrix);
+        System.out.println("Determinan Matriks : " + det);
+        return det;
+    }
     public static double rowReductionDeterminant(double[][] matrix)throws IllegalArgumentException{
         int i, j, k, row;
         double det = 1;
         boolean swapped;
         row = matrix.length;
-
         if (row == 0 || matrix[0].length != row) {
             throw new IllegalArgumentException("Matrix harus kotak (n x n).");
         }

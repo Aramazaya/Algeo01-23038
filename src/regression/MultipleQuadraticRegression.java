@@ -13,7 +13,7 @@ public class MultipleQuadraticRegression {
         double[][] EROMatrix = new double[IndependentVar[0].length+1][numOfVar(IndependentVar)+2];
         int n = IndependentVar.length; //Jumlah Sampel
         int k = IndependentVar[0].length; //Jumlah Variabel
-        //Row 1
+        //Row 1                                                       
         EROMatrix[0][0] = n;
         //Sum of Independent Var
         int colIndex = 1;
