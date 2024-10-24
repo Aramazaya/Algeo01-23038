@@ -41,6 +41,7 @@ public class InputOutput {
         }
         scanner.close();
     }
+    
     public static double[][] readMatrixFile(String filePath) throws FileNotFoundException{
         File file = new File(filePath);
         Scanner scanner = new Scanner(file);

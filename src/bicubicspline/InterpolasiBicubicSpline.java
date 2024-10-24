@@ -2,19 +2,54 @@ package bicubicspline;
 
 import java.util.Scanner;
 import primitive.BasicFunction;
+import primitive.InputOutput;
 import primitive.Inverse;
 public class InterpolasiBicubicSpline {
-	 public static void main(String[] args) {
-            double[][] input = BasicFunction.inputMatrix();
+	 public static String driverBicubicSpline() {
+            double[][] input = new double[0][0];
+            double[] predictor = new double[2];
+            while (true){
+            System.out.print("Ambil variabel dari file?(Y/n/C) : ");
+            try{char choice = BasicFunction.readInput().charAt(0);
+            if (choice == 'Y' || choice == 'y'){
+                System.out.print("Masukan path ke file (D:/Documents/var.txt): ");
+                String filename = BasicFunction.readInput();
+                InputOutput.readInputBicubic(filename, input, predictor, 4, 4);
+                break;
+            } else if (choice == 'N' || choice == 'n'){
+                input = BasicFunction.inputMatrix();
+                while (true){
+                    try{
+                    String[] elements = BasicFunction.readInput().split(" ");
+                    if(elements.length != 2){
+                        System.out.println("Jumlah Kolom tidak sesuai");
+                    }else {
+                        try {
+                            for (int i = 0; i < 2; i ++ ){
+                                predictor[i] = Double.parseDouble(elements[i]);}
+                        } catch (NumberFormatException e) {
+                            System.out.println("Masukan hanya menerima angka");
+                        }
+                    }
+
+                } catch (Exception e){System.out.println("Error Occured");}
+                break;}
+                break;
+            } else if (choice == 'C' || choice == 'c'){
+                return "0.267";
+            } else {
+                System.out.println("Masukan tidak valid.");
+            }
+            } catch (Exception e){
+                System.out.println("Error, silahkan coba lagi.");
+            }
+        }
 	        matrixSingular(input);
-	        Scanner scanner = new Scanner(System.in);
-	        System.out.print("Masukkan nilai x: ");
-	        double x = scanner.nextDouble();
-	        System.out.print("Masukkan nilai y: ");
-	        double y = scanner.nextDouble();
+	        double x = predictor[0];
+	        double y = predictor[1];
 	        String hasilInterpolasi = bicubiInterpolation(x, y);
 	        System.out.println(hasilInterpolasi);   
-	        scanner.close(); 
+            return hasilInterpolasi;
 	    }
 	
     static double[][] matriksInput = new double[16][1];
@@ -40,7 +75,7 @@ public class InterpolasiBicubicSpline {
     }
 
     public static void matrixCoefficient(){
-        matriksInverse = Inverse.get_Inverse_Matriks_fromIdentity(matriksInverse);
+        matriksInverse = Inverse.getInverseMatriks(matriksInverse);
         matriksCoefficient = BasicFunction.multiplication(matriksInverse, matriksInput);
     }
     

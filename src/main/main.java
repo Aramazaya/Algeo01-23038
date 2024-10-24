@@ -209,7 +209,8 @@ public class main {
                     }
                     break;
                 case 6:
-                    InterpolasiBicubicSpline.bicubicSpline();
+                    String resultString = InterpolasiBicubicSpline.driverBicubicSpline();
+                    InputOutput.writeStringFile(resultString);
                     break;
                 case 7:
                     try{
