@@ -1,5 +1,4 @@
 package main;
-import primitive.BasicFunction;
 import primitive.GaussElimination;
 import primitive.GaussJordanElimination;
 import primitive.Cramer;
@@ -31,7 +30,6 @@ public class main {
             System.out.println("8. Keluar");
             
             int menu = InputOutput.getValidIntegerInput(scanner, "Pilih Menu: ");
-            boolean isSolutionValid = true;
 
             switch (menu) {
                 // *** Sistem Persamaan Linier ***
@@ -142,7 +140,11 @@ public class main {
                     }
                     break;
                     case 4:
-                    double result = PolinomialInterpolation.polinomialInterpolationSolver();
+                    try {
+                        double result = PolinomialInterpolation.polinomialInterpolationSolver();
+                    } catch (Exception e) {
+                        System.err.println(e);
+                    }
                     break;
                 case 5:
                     System.out.println("1. Kuadratik Berganda");
@@ -190,6 +192,7 @@ public class main {
                     break;
             }
         }
+
         }
     }
 

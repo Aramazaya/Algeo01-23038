@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Cramer {
     public static double[] driverCramerSolver(){
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         double[][] matrix = new double[0][0];
         while (true){

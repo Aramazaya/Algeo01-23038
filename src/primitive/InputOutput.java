@@ -22,6 +22,7 @@ public class InputOutput {
     }
     public static void readInputRegression(String filepath, double[][] matrix, double[] predictors, int n, int m) throws IOException{
         File file = new File(filepath);
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(file);
         matrix = new double[n][m];
         predictors = new double[m-1];
@@ -42,6 +43,7 @@ public class InputOutput {
     }
     public static void readInputPolinomialInterpolation(String filepath, double[][] matrix, int n, double xEstimate) throws IOException {
         File file = new File(filepath);
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(file);
         
         double[] x = new double[1];
@@ -174,6 +176,7 @@ public class InputOutput {
     }
 
     public static void writeMatrixFile(double[][] matrix) throws IOException{
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         String outputPath;
         while (true) {
@@ -220,6 +223,7 @@ public class InputOutput {
     }
 
     public static void writeArrayFile(double[] array) throws IOException{
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         String outputPath;
         
@@ -268,6 +272,7 @@ public class InputOutput {
     }
 
     public static void writeStringFile(String string) throws IOException{
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         String outputPath;
         
@@ -316,6 +321,7 @@ public class InputOutput {
 
 
     public static void writeDoubleFile(Double x) throws IOException{
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         String outputPath;
         while (true) {

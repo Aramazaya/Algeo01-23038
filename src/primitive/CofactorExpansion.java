@@ -35,6 +35,7 @@ public class CofactorExpansion{
         return det;
     }
     public static double driverCofactorDet(){
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         double[][] matrix = new double[0][0];
         while (true){

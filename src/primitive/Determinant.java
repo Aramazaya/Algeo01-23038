@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Determinant {
     public static double driverRowReductionDet(){
         double[][] matrix = new double[0][0];
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         while (true){
             System.out.print("Ambil variabel dari file?(Y/n/C) : ");

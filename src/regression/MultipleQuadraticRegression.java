@@ -111,6 +111,7 @@ public class MultipleQuadraticRegression {
     public static double multipleQuadRegression() {
         System.out.println("Masukan jumlah sampel dan variabel dalam satu baris dengan spasi: ");
         int n = 0;
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         int m = 0;
         while (true) {
