@@ -3,16 +3,20 @@ package regression;
 import java.util.Scanner;
 
 import primitive.BasicFunction;
+import primitive.Cramer;
 import primitive.GaussElimination;
 import primitive.InputOutput;
 
 public class MultipleQuadraticRegression {
     private static int numOfVar(double[][] IndependentVar){
-        int fact = BasicFunction.factorial(IndependentVar[0].length)/BasicFunction.factorial(2)*BasicFunction.factorial(IndependentVar[0].length-2);
-        return IndependentVar[0].length*2+fact;
+        int ds = 0;
+        for (int i = 0; i<IndependentVar[0].length-1; i++){
+            ds += i+1;
+        }
+        return IndependentVar[0].length*2+ds;
     }
     private static boolean getCoefficient(double[][] IndependentVar, double[][] DependentVar, DoubleWrapper Coeff){
-        double[][] EROMatrix = new double[IndependentVar[0].length+1][numOfVar(IndependentVar)+2];
+        double[][] EROMatrix = new double[numOfVar(IndependentVar)+1][numOfVar(IndependentVar)+2];
         int n = IndependentVar.length; //Jumlah Sampel
         int k = IndependentVar[0].length; //Jumlah Variabel
         //Row 1                                                       
@@ -53,8 +57,10 @@ public class MultipleQuadraticRegression {
             sumDependentVar += DependentVar[i][0];
         }
         EROMatrix[0][colIndex] = sumDependentVar;
+        System.out.println(EROMatrix.length);
         //Remaining Rows
-        for (int row = 1; row < EROMatrix.length; row++){
+        //Independent Rows
+        for (int row = 1; row <= k; row++){
             //Column 1
             EROMatrix[row][0] = EROMatrix[0][row];
             //Sum of Independent Var*Independent
@@ -92,22 +98,101 @@ public class MultipleQuadraticRegression {
             for (int i = 0; i<n; i++){
                 sumDependentVar += DependentVar[i][0]*IndependentVar[i][row-1];
             }
+            EROMatrix[row][colIndex] = sumDependentVar;
         }
-        String[] type = {""};
-        String result = GaussElimination.gaussElimination(EROMatrix, type);
-        BasicFunction.printMatrix(EROMatrix);
-        if (result==null){
-            System.out.println("SPL Tidak memiliki solusi.");
-            return false;
+        //Pairwise Rows
+        int row = k+1;
+        for (int pair1 = 0; pair1 < k; pair1++){
+            for (int pair2 = pair1+1; pair2 < k; pair2++){
+                //Column 1
+                EROMatrix[row][0] = EROMatrix[0][row];
+                //Sum of Pair*Independent
+                colIndex = 1;
+                for (int i = 0;i < k;i++){
+                    double sumProduct = 0;
+                    for (int j = 0; j < n;j ++){
+                        sumProduct += IndependentVar[j][pair1]*IndependentVar[j][pair2]*IndependentVar[j][i];
+                    }
+                    EROMatrix[row][colIndex] = sumProduct;
+                    colIndex++;
+                }
+                //Sum of Pair*Pair
+                for (int i=0; i<k;i++){
+                    for (int j=i+1;j<k;j++){
+                        double sumPairwise = 0;
+                        for (int l=0; l<n; l++){
+                            sumPairwise += IndependentVar[l][i]*IndependentVar[l][j]*IndependentVar[l][pair1]*IndependentVar[l][pair2];
+                        }
+                        EROMatrix[row][colIndex] = sumPairwise;
+                        colIndex++;
+                    }
+                }
+                //Sum of Pair*Quads
+                for (int i = 0; i<k;i++){
+                    double sumQuads = 0;
+                    for (int j=0; j<n; j++){
+                        sumQuads += IndependentVar[j][i]*IndependentVar[j][i]*IndependentVar[j][pair1]*IndependentVar[j][pair2];
+                    }
+                    EROMatrix[row][colIndex] = sumQuads;
+                    colIndex++;
+                }
+                //Sum of Dependent Var*Pair
+                sumDependentVar = 0;
+                for (int i = 0; i<n; i++){
+                    sumDependentVar += DependentVar[i][0]*IndependentVar[i][pair1]*IndependentVar[i][pair2];
+                }
+                EROMatrix[row][colIndex] = sumDependentVar;
+                row++;
+                
+            }
         }
-        else if (type[0]=="parametric"){
-            System.out.println("SPL memiliki solusi tak hingga.");
-            return false;
+        //Quads Rows
+        for (int quad = 0; quad < k; quad++){
+            System.out.println("ROW: " + row);
+            //Column 1
+            EROMatrix[row][0] = EROMatrix[0][row];
+            //Sum of Quads*Independent
+            colIndex = 1;
+            for (int i = 0;i < k;i++){
+                double sumProduct = 0;
+                for (int j = 0; j < n;j ++){
+                    sumProduct += IndependentVar[j][quad]*IndependentVar[j][quad]*IndependentVar[j][i];
+                }
+                EROMatrix[row][colIndex] = sumProduct;
+                colIndex++;
+            }
+            //Sum of Quads*Pair
+            for (int i=0; i<k;i++){
+                for (int j=i+1;j<k;j++){
+                    double sumPairwise = 0;
+                    for (int l=0; l<n; l++){
+                        sumPairwise += IndependentVar[l][i]*IndependentVar[l][j]*IndependentVar[l][quad]*IndependentVar[l][quad];
+                    }
+                    EROMatrix[row][colIndex] = sumPairwise;
+                    colIndex++;
+                }
+            }
+            //Sum of Quads*Quads
+            for (int i = 0; i<k;i++){
+                double sumQuads = 0;
+                for (int j=0; j<n; j++){
+                    sumQuads += IndependentVar[j][i]*IndependentVar[j][i]*IndependentVar[j][quad]*IndependentVar[j][quad];
+                }
+                EROMatrix[row][colIndex] = sumQuads;
+                colIndex++;
+            }
+            //Sum of Dependent Var*Quads
+            sumDependentVar = 0;
+            for (int i = 0; i<n; i++){
+                sumDependentVar += DependentVar[i][0]*IndependentVar[i][quad]*IndependentVar[i][quad];
+            }
+            EROMatrix[row][colIndex] = sumDependentVar;
+            row++;
         }
-        else {
-            Coeff.value = GaussElimination.normalBackSubstitution(EROMatrix);
-            return true;
-        }
+        double[] result = Cramer.CramerSolver(EROMatrix);
+        BasicFunction.printArray(result);
+        Coeff.value = result;
+        return true;
     }
     public static double multipleQuadRegression() {
         System.out.println("Masukan jumlah sampel dan variabel dalam satu baris dengan spasi: ");
@@ -171,7 +256,7 @@ public class MultipleQuadraticRegression {
             colIndex++;
         }
         for (int i = 0; i<IndependentVariable[0].length; i++){
-            for (int j = i; j<IndependentVariable[0].length; j++){
+            for (int j = i+1; j<IndependentVariable[0].length; j++){
                 Predictor[colIndex] = Predictors[i]*Predictors[j];
                 colIndex++;
             }

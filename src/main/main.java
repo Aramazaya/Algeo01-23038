@@ -46,6 +46,7 @@ public class main {
                         // *** GAUSS ***
                         case 1:
                         resultString = GaussElimination.driverGaussElimination();
+                        System.out.println(resultString);
                         if (resultString != "0.267"){
                             while(true){
                                 try {

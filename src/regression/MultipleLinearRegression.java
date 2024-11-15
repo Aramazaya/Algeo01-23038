@@ -19,7 +19,7 @@ public class MultipleLinearRegression {
         double[][] EROMatrix = new double[IndependentVar[0].length+1][IndependentVar[0].length+2];
         int n = IndependentVar.length; //Jumlah Sampel
         int k = IndependentVar[0].length; //Jumlah Variabel
-        for (int i=0; i<EROMatrix.length; i++){
+        /*for (int i=0; i<k+1; i++){
             for (int j=0; j<k; j++){
                 for (int l=0; l<n; l++){
                     if (i==0){EROMatrix[i][j+1] += IndependentVar[l][j];}
@@ -32,9 +32,47 @@ public class MultipleLinearRegression {
                 if (i==0){EROMatrix[i][k+1] += DependentVar[j][0];}
                 else {EROMatrix[i][k+1] += IndependentVar[j][i-1]*DependentVar[j][0];}
             }
-        }
+        }*/
+        //Row 1
         EROMatrix[0][0] = n;
-        for (int i=1; i<EROMatrix.length; i++){EROMatrix[i][0] = EROMatrix[0][i];}
+        //Total xki
+        int colIndex = 1;
+        double[] sumIndependentVar = new double[k];
+        for (int i = 0; i < k; i++){
+            for (int j = 0; j<n; j++){
+                sumIndependentVar[i] += IndependentVar[j][i];
+            }
+            EROMatrix[0][colIndex] = sumIndependentVar[i];
+            colIndex++;
+        }
+        //Total yi
+        double sumDependentVar = 0;
+        for (int i = 0; i<n; i++){
+            sumDependentVar += DependentVar[i][0];
+        }
+        EROMatrix[0][colIndex] = sumDependentVar;
+        //Sisa Row
+        double sumProduct = 0;
+        for (int row = 1; row < EROMatrix.length; row++){
+            //Column 1
+            EROMatrix[row][0] = EROMatrix[0][row];
+            //xki * xkj
+            colIndex = 1;
+            for (int i = 0;i < k;i++){
+                sumProduct = 0;
+                for (int j = 0; j < n;j ++){
+                    sumProduct += IndependentVar[j][i]*IndependentVar[j][row-1];
+                }
+                EROMatrix[row][colIndex] = sumProduct;
+                colIndex++;
+            }
+            sumDependentVar = 0;
+            for (int i = 0; i<n; i++){
+                sumDependentVar += DependentVar[i][0]*IndependentVar[i][row-1];
+            }
+            EROMatrix[row][colIndex] = sumDependentVar;
+        }
+        BasicFunction.printMatrix(EROMatrix);
         String[] type = {""};
         String result = GaussElimination.gaussElimination(EROMatrix, type);
         if (result==null){
@@ -162,13 +200,18 @@ public class MultipleLinearRegression {
         BasicFunction.printArray(coef.value);
         if (result == false) {
             System.out.println("Sistem Persamaan tidak memiliki solusi.");
-            return 0.2567;
+            return 0.267;
         }
         double results = 0;
-        for (int i = 1; i<IndependentVariable[0].length; i++){
-            results += coef.value[IndependentVariable[0].length-i-1]*Predictors[i];
+        BasicFunction.printArray(coef.value);
+        int g = 0;
+        int h = 1;
+        for (int i = IndependentVariable[0].length-1; i>=0; i--){
+            results += coef.value[h]*Predictors[g];
+            g++;
+            h++;
         }
-        results += coef.value[IndependentVariable[0].length-1];
+        results += coef.value[0];
         System.out.println("Hasil Prediksi Model : " + results);
         return results;
     }

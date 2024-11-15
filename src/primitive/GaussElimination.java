@@ -46,6 +46,7 @@ public class GaussElimination {
                     idxPivot++;
                     if (idxPivot == m - 2) break;
                 }
+                System.out.println("Iter Pivot");
             }
             
             if (idxPivot == m - 2) break; // Mencegah akses indekx kolumn di luar batasan 
@@ -61,6 +62,7 @@ public class GaussElimination {
 
             }
             idxPivot ++;
+            System.out.println("\nMatrix setelah iterasi ke-" + i);
         }
         // Cek apakah ada baris nol dan augmented kolom juga nol (solusi banyak)
         for (int i = 0; i < n; i++) {
@@ -69,6 +71,7 @@ public class GaussElimination {
             }
             // Cek apakah terdapat baris nol dan nilai di kolom augmented tidak nol (tidak ada solusi)
             if (isRowZero(matrix[i]) && Math.abs(matrix[i][m-1]) > 1e-9) {
+                type[0] = "parametric";
                 System.err.println("Tidak ditemukan solusi unik");
                 return null;
             }
